@@ -1,0 +1,6 @@
+sum :: [num] l => num (
+	if(empty(l), 
+        0,
+        head(l) + sum(tail(l))
+    )
+)

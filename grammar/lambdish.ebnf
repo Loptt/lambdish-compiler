@@ -12,20 +12,28 @@ _false : 'f' 'a' 'l' 's' 'e';
 
 plusminus : '+' | '-';
 multdiv : '*' | '/' | '%';
-relop : '<' | '>' | '=' '=' | '<' '=' | '>' '=' | '!' '='; 
+// relop : '<' | '>' | '=' '=' | '<' '=' | '>' '=' | '!' '='; 
 
-num : _integer | _float;
-char : '@' (_alpha | _digit) '@';
+number : _integer | _float;
+charac : '@' (_alpha | _digit) '@';
 id : _id;
-bool : _true | _false;
+boolean : _true | _false;
 
-Program : { Function | FunctionCall } ;
+Program : 
+    List;
+
+List :
+    FunctionOrCall List | empty;
+
+FunctionOrCall : Function | FunctionCall;
 
 Function : 
-    id "::" [ Params ] "=>" "(" Statement ")";
+    id "::" Params "=>" "(" Statement ")";
 
 Params : 
-    Type id {"," Type id};
+    Type id "," Params 
+    | Type id
+    | empty;
 
 Type : 
     "num" 
@@ -53,20 +61,22 @@ Factor :
     | Statement;
 
 FunctionCall : 
-    id "(" [Args] ")";
+    id "(" Args ")";
 
 Lambda :
-    "(" "\" [Params] "=>" Statement ")";
+    "(" "\\" Params "=>" Statement ")";
 
 Args :
-    Value {"," Value};
+    Value "," Args
+    | Value
+    | empty;
 
 Value : 
     Constant 
     | Statement;
 
 Constant : 
-    bool 
-    | num 
-    | char 
-    | "[" {Statement} "]";
+    boolean 
+    | number 
+    | charac 
+    | "[" Args "]";
