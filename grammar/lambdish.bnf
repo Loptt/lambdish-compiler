@@ -1,0 +1,71 @@
+_digit : '1'-'9' ;
+_alpha : 'a'-'z' | 'A'-'Z';
+_id : _alpha {(_digit | _alpha)};
+_integer : _digit {_digit};
+_float : _digit {_digit} '.' _digit {_digit};
+_string : '"' {(_digit | _alpha | ' ')} '"';
+_true : 't' 'r' 'u' 'e';
+_false : 'f' 'a' 'l' 's' 'e';
+
+!ws : ' ' | '\t' | '\n' | '\r';
+
+plusminus : '+' | '-';
+multdiv : '*' | '/' | '%';
+relop : '<' | '>' | '=' '=' | '<' '=' | '>' '=' | '!' '='; 
+
+num : _integer | _float;
+char : '@' (_alpha | _digit) '@';
+id : _id;
+bool : _true | _false;
+
+Program : empty
+        | Program Function 
+        | Program FunctionCall;
+
+Function : id "::" [ Params ] "=>" "(" Statement ")";
+
+Params : Type id
+       | Type id "," Params;
+
+Type : 
+    "num" 
+    | "bool" 
+    | "char" 
+    | "[" Type "]";
+
+Statement : FunctionCall 
+          | Lambda 
+          | Expression 
+          | Constant 
+          | id;
+
+Expression : Expression plusminus Term 
+           | Term;
+
+Term : Term multdiv Factor 
+     | Factor;
+
+Factor : "(" Expression ")" 
+       | Statement;
+
+FunctionCall : id "("")"
+             | id "(" Args ")";
+
+Lambda : "(" "\" "=>" Statement ")"
+       | "(" "\" Params "=>" Statement ")";
+
+Args : Value 
+     | Value "," Args;
+
+Value : Constant 
+      | Statement;
+
+Constant : 
+    bool 
+    | num 
+    | char
+    | "[""]"
+    | "[" Statement "]";
+
+
+
