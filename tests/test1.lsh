@@ -1,0 +1,4 @@
+give1 :: num n => num (1)
+
+give2 :: [num] n => num (iddd)
+

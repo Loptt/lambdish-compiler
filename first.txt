@@ -1,0 +1,67 @@
+S': {
+	empty
+	id
+	operations
+}
+Program: {
+	empty
+	id
+	operations
+}
+List: {
+	empty
+	id
+	operations
+}
+FunctionOrCall: {
+	id
+	operations
+}
+Function: {
+	id
+}
+Params: {
+	[
+	bool
+	char
+	empty
+	num
+}
+Type: {
+	[
+	bool
+	char
+	num
+}
+Statement: {
+	(
+	[
+	boolean
+	charac
+	id
+	number
+	operations
+}
+FunctionCall: {
+	id
+	operations
+}
+Lambda: {
+	(
+}
+Args: {
+	(
+	[
+	boolean
+	charac
+	empty
+	id
+	number
+	operations
+}
+Constant: {
+	[
+	boolean
+	charac
+	number
+}

@@ -1,0 +1,151 @@
+21 LR-1 conflicts: 
+	S19
+		symbol: )
+			Reduce(28:Args : Statement	<<  >>)
+			Reduce(24:Factor : Statement	<<  >>)
+		symbol: ,
+			Shift(52)
+			Reduce(24:Factor : Statement	<<  >>)
+	S23
+		symbol: plusminus
+			Shift(67)
+			Reduce(17:Statement : Expression	<<  >>)
+	S24
+		symbol: multdiv
+			Shift(68)
+			Reduce(20:Expression : Term	<<  >>)
+	S45
+		symbol: )
+			Shift(83)
+			Reduce(17:Statement : Expression	<<  >>)
+		symbol: plusminus
+			Shift(84)
+			Reduce(17:Statement : Expression	<<  >>)
+	S46
+		symbol: multdiv
+			Reduce(20:Expression : Term	<<  >>)
+			Shift(85)
+	S56
+		symbol: ,
+			Shift(91)
+			Reduce(24:Factor : Statement	<<  >>)
+		symbol: ]
+			Reduce(28:Args : Statement	<<  >>)
+			Reduce(24:Factor : Statement	<<  >>)
+	S60
+		symbol: plusminus
+			Shift(93)
+			Reduce(17:Statement : Expression	<<  >>)
+	S61
+		symbol: multdiv
+			Reduce(20:Expression : Term	<<  >>)
+			Shift(94)
+	S80
+		symbol: )
+			Reduce(17:Statement : Expression	<<  >>)
+			Shift(105)
+		symbol: plusminus
+			Shift(84)
+			Reduce(17:Statement : Expression	<<  >>)
+	S89
+		symbol: plusminus
+			Shift(84)
+			Reduce(17:Statement : Expression	<<  >>)
+		symbol: )
+			Shift(113)
+			Reduce(17:Statement : Expression	<<  >>)
+	S97
+		symbol: plusminus
+			Reduce(20:Expression : Term	<<  >>)
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+		symbol: multdiv
+			Reduce(20:Expression : Term	<<  >>)
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Shift(68)
+		symbol: )
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Reduce(20:Expression : Term	<<  >>)
+		symbol: ,
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Reduce(20:Expression : Term	<<  >>)
+	S98
+		symbol: )
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+		symbol: ,
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+		symbol: plusminus
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+		symbol: multdiv
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+	S108
+		symbol: plusminus
+			Reduce(17:Statement : Expression	<<  >>)
+			Shift(84)
+	S109
+		symbol: )
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Reduce(20:Expression : Term	<<  >>)
+		symbol: plusminus
+			Reduce(20:Expression : Term	<<  >>)
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+		symbol: multdiv
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Shift(85)
+			Reduce(20:Expression : Term	<<  >>)
+	S110
+		symbol: )
+			Reduce(22:Term : Factor	<<  >>)
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+		symbol: plusminus
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+		symbol: multdiv
+			Reduce(22:Term : Factor	<<  >>)
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+	S118
+		symbol: multdiv
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Shift(94)
+			Reduce(20:Expression : Term	<<  >>)
+		symbol: ,
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Reduce(20:Expression : Term	<<  >>)
+		symbol: ]
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Reduce(20:Expression : Term	<<  >>)
+		symbol: plusminus
+			Reduce(19:Expression : Expression plusminus Term	<<  >>)
+			Reduce(20:Expression : Term	<<  >>)
+	S119
+		symbol: ,
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+		symbol: ]
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+		symbol: plusminus
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+			Reduce(22:Term : Factor	<<  >>)
+		symbol: multdiv
+			Reduce(22:Term : Factor	<<  >>)
+			Reduce(21:Term : Term multdiv Factor	<<  >>)
+	S120
+		symbol: )
+			Shift(127)
+			Reduce(24:Factor : Statement	<<  >>)
+	S124
+		symbol: )
+			Shift(129)
+			Reduce(24:Factor : Statement	<<  >>)
+	S128
+		symbol: )
+			Shift(131)
+			Reduce(24:Factor : Statement	<<  >>)
+	S130
+		symbol: )
+			Shift(132)
+			Reduce(24:Factor : Statement	<<  >>)

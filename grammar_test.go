@@ -5,7 +5,6 @@ import (
 	"github.com/Loptt/lambdish-compiler/parser"
 	"testing"
 	"os"
-	"fmt"
 )
 
 
@@ -25,8 +24,7 @@ func readFile(path string) ([]byte, error) {
 	filesize := fileinfo.Size()
 	buffer := make([]byte, filesize)
 
-	bytesr, err := file.Read(buffer)
-	fmt.Println(bytesr)
+	_, err = file.Read(buffer)
 	if err != nil {
 		return nil, err
 	}
@@ -34,11 +32,15 @@ func readFile(path string) ([]byte, error) {
 	return buffer, nil
 }
 
-func TestDuck(t *testing.T) {
+func TestGrammar(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string {
 		"tests/test1.lsh",
+		"tests/test2.lsh",
+		"tests/test3.lsh",
+		"tests/test4.lsh",
 	}
+
 
 	for _, test := range tests {
 		input, err := readFile(test)
@@ -48,9 +50,10 @@ func TestDuck(t *testing.T) {
 		}
 
 		s := lexer.NewLexer(input);
-	_, errtest := p.Parse(s);
+		_, errtest := p.Parse(s);
 
 		if errtest != nil {
 			t.Errorf("%s: %v", test, errtest);
 		}
 	}
+}

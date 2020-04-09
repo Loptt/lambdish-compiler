@@ -2,7 +2,7 @@
 
 package parser
 
-const numNTSymbols = 16
+const numNTSymbols = 12
 
 type (
 	gotoTable [numStates]gotoRow
@@ -19,13 +19,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		5,  // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S1
@@ -37,13 +33,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S2
@@ -55,31 +47,23 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S3
 		-1, // S'
 		-1, // Program
-		7,  // List
+		9,  // List
 		3,  // FunctionOrCall
 		4,  // Function
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		5,  // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S4
@@ -91,13 +75,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S5
@@ -109,13 +89,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S6
@@ -127,13 +103,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S7
@@ -145,13 +117,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S8
@@ -160,16 +128,12 @@ var gotoTab = gotoTable{
 		-1, // List
 		-1, // FunctionOrCall
 		-1, // Function
-		10, // Params
-		11, // Type
+		-1, // Params
+		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S9
@@ -180,15 +144,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		19, // Statement
-		22, // Expression
-		24, // Term
-		25, // Factor
-		16, // FunctionCall
-		21, // Lambda
-		26, // Args
-		27, // Value
-		23, // Constant
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S10
 		-1, // S'
@@ -196,16 +156,12 @@ var gotoTab = gotoTable{
 		-1, // List
 		-1, // FunctionOrCall
 		-1, // Function
-		-1, // Params
-		-1, // Type
+		14, // Params
+		15, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S11
@@ -216,15 +172,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		27, // Args
+		25, // Constant
 	},
 	gotoRow{ // S12
 		-1, // S'
@@ -234,15 +186,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		33, // Args
+		25, // Constant
 	},
 	gotoRow{ // S13
 		-1, // S'
@@ -252,15 +200,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		34, // Args
+		25, // Constant
 	},
 	gotoRow{ // S14
 		-1, // S'
@@ -271,13 +215,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S15
@@ -287,15 +227,11 @@ var gotoTab = gotoTable{
 		-1, // FunctionOrCall
 		-1, // Function
 		-1, // Params
-		33, // Type
+		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S16
@@ -307,13 +243,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S17
@@ -325,13 +257,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S18
@@ -342,15 +270,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		42, // Statement
-		45, // Expression
-		47, // Term
-		48, // Factor
-		39, // FunctionCall
-		44, // Lambda
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
 		-1, // Args
-		-1, // Value
-		46, // Constant
+		-1, // Constant
 	},
 	gotoRow{ // S19
 		-1, // S'
@@ -359,15 +283,11 @@ var gotoTab = gotoTable{
 		-1, // FunctionOrCall
 		-1, // Function
 		-1, // Params
-		-1, // Type
+		37, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S20
@@ -378,15 +298,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		56, // Statement
-		59, // Expression
-		61, // Term
-		62, // Factor
-		53, // FunctionCall
-		58, // Lambda
-		63, // Args
-		64, // Value
-		60, // Constant
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S21
 		-1, // S'
@@ -397,13 +313,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S22
@@ -415,13 +327,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S23
@@ -433,13 +341,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S24
@@ -450,15 +354,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		48, // Statement
+		45, // FunctionCall
+		51, // Lambda
+		52, // Args
+		50, // Constant
 	},
 	gotoRow{ // S25
 		-1, // S'
@@ -469,13 +369,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S26
@@ -487,13 +383,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S27
@@ -505,13 +397,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S28
@@ -523,13 +411,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S29
@@ -541,13 +425,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S30
@@ -559,13 +439,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S31
@@ -577,13 +453,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S32
@@ -595,13 +467,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S33
@@ -613,13 +481,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S34
@@ -631,13 +495,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S35
@@ -647,15 +507,11 @@ var gotoTab = gotoTable{
 		-1, // FunctionOrCall
 		-1, // Function
 		-1, // Params
-		-1, // Type
+		63, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S36
@@ -667,13 +523,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S37
@@ -683,15 +535,11 @@ var gotoTab = gotoTable{
 		-1, // FunctionOrCall
 		-1, // Function
 		-1, // Params
-		75, // Type
+		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S38
@@ -702,15 +550,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		19, // Statement
-		22, // Expression
-		24, // Term
-		25, // Factor
-		16, // FunctionCall
-		21, // Lambda
-		76, // Args
-		27, // Value
-		23, // Constant
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S39
 		-1, // S'
@@ -721,13 +565,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S40
@@ -739,13 +579,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S41
@@ -755,16 +591,12 @@ var gotoTab = gotoTable{
 		-1, // FunctionOrCall
 		-1, // Function
 		-1, // Params
-		-1, // Type
-		42, // Statement
-		78, // Expression
-		47, // Term
-		48, // Factor
-		39, // FunctionCall
-		44, // Lambda
+		70, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
 		-1, // Args
-		-1, // Value
-		46, // Constant
+		-1, // Constant
 	},
 	gotoRow{ // S42
 		-1, // S'
@@ -774,15 +606,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		71, // Args
+		25, // Constant
 	},
 	gotoRow{ // S43
 		-1, // S'
@@ -790,17 +618,13 @@ var gotoTab = gotoTable{
 		-1, // List
 		-1, // FunctionOrCall
 		-1, // Function
-		-1, // Params
-		-1, // Type
-		56, // Statement
-		59, // Expression
-		61, // Term
-		62, // Factor
-		53, // FunctionCall
-		58, // Lambda
-		80, // Args
-		64, // Value
-		60, // Constant
+		72, // Params
+		15, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S44
 		-1, // S'
@@ -810,15 +634,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		73, // Args
+		25, // Constant
 	},
 	gotoRow{ // S45
 		-1, // S'
@@ -829,13 +649,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S46
@@ -847,13 +663,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S47
@@ -865,13 +677,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S48
@@ -883,13 +691,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S49
@@ -898,17 +702,13 @@ var gotoTab = gotoTable{
 		-1, // List
 		-1, // FunctionOrCall
 		-1, // Function
-		84, // Params
-		11, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		-1, // Params
+		-1, // Type
+		48, // Statement
+		45, // FunctionCall
+		51, // Lambda
+		77, // Args
+		50, // Constant
 	},
 	gotoRow{ // S50
 		-1, // S'
@@ -919,13 +719,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S51
@@ -937,13 +733,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S52
@@ -955,13 +747,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S53
@@ -973,13 +761,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S54
@@ -991,13 +775,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S55
@@ -1008,15 +788,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		42, // Statement
-		86, // Expression
-		47, // Term
-		48, // Factor
-		39, // FunctionCall
-		44, // Lambda
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
 		-1, // Args
-		-1, // Value
-		46, // Constant
+		-1, // Constant
 	},
 	gotoRow{ // S56
 		-1, // S'
@@ -1027,13 +803,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S57
@@ -1044,15 +816,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		56, // Statement
-		59, // Expression
-		61, // Term
-		62, // Factor
-		53, // FunctionCall
-		58, // Lambda
-		88, // Args
-		64, // Value
-		60, // Constant
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S58
 		-1, // S'
@@ -1063,13 +831,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S59
@@ -1080,15 +844,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		81, // Args
+		25, // Constant
 	},
 	gotoRow{ // S60
 		-1, // S'
@@ -1098,15 +858,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		82, // Args
+		25, // Constant
 	},
 	gotoRow{ // S61
 		-1, // S'
@@ -1117,13 +873,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S62
@@ -1135,13 +887,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S63
@@ -1153,13 +901,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S64
@@ -1171,13 +915,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S65
@@ -1189,13 +929,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S66
@@ -1207,13 +943,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S67
@@ -1223,15 +955,11 @@ var gotoTab = gotoTable{
 		-1, // FunctionOrCall
 		-1, // Function
 		-1, // Params
-		-1, // Type
+		84, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S68
@@ -1240,17 +968,13 @@ var gotoTab = gotoTable{
 		-1, // List
 		-1, // FunctionOrCall
 		-1, // Function
-		-1, // Params
-		-1, // Type
-		93, // Statement
-		22, // Expression
-		95, // Term
-		25, // Factor
-		16, // FunctionCall
-		21, // Lambda
+		85, // Params
+		15, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
 		-1, // Args
-		-1, // Value
-		94, // Constant
+		-1, // Constant
 	},
 	gotoRow{ // S69
 		-1, // S'
@@ -1260,15 +984,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		93, // Statement
-		22, // Expression
-		24, // Term
-		96, // Factor
-		16, // FunctionCall
-		21, // Lambda
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
 		-1, // Args
-		-1, // Value
-		94, // Constant
+		-1, // Constant
 	},
 	gotoRow{ // S70
 		-1, // S'
@@ -1279,13 +999,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S71
@@ -1296,15 +1012,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		19, // Statement
-		22, // Expression
-		24, // Term
-		25, // Factor
-		16, // FunctionCall
-		21, // Lambda
-		97, // Args
-		27, // Value
-		23, // Constant
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S72
 		-1, // S'
@@ -1314,33 +1026,25 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		98, // Statement
-		99, // Expression
-		47, // Term
-		48, // Factor
-		39, // FunctionCall
-		44, // Lambda
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
 		-1, // Args
-		-1, // Value
-		46, // Constant
+		-1, // Constant
 	},
 	gotoRow{ // S73
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		100, // Params
-		11,  // Type
-		-1,  // Statement
-		-1,  // Expression
-		-1,  // Term
-		-1,  // Factor
-		-1,  // FunctionCall
-		-1,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		-1,  // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S74
 		-1, // S'
@@ -1350,15 +1054,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		89, // Args
+		25, // Constant
 	},
 	gotoRow{ // S75
 		-1, // S'
@@ -1366,16 +1066,12 @@ var gotoTab = gotoTable{
 		-1, // List
 		-1, // FunctionOrCall
 		-1, // Function
-		-1, // Params
-		-1, // Type
+		90, // Params
+		15, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S76
@@ -1386,33 +1082,25 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
+		48, // Statement
+		45, // FunctionCall
+		51, // Lambda
+		91, // Args
+		50, // Constant
+	},
+	gotoRow{ // S77
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
-	},
-	gotoRow{ // S77
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		-1,  // Params
-		-1,  // Type
-		19,  // Statement
-		22,  // Expression
-		24,  // Term
-		25,  // Factor
-		16,  // FunctionCall
-		21,  // Lambda
-		103, // Args
-		27,  // Value
-		23,  // Constant
 	},
 	gotoRow{ // S78
 		-1, // S'
@@ -1423,32 +1111,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S79
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		105, // Params
-		11,  // Type
-		-1,  // Statement
-		-1,  // Expression
-		-1,  // Term
-		-1,  // Factor
-		-1,  // FunctionCall
-		-1,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		-1,  // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		93, // Args
+		25, // Constant
 	},
 	gotoRow{ // S80
 		-1, // S'
@@ -1458,15 +1138,11 @@ var gotoTab = gotoTable{
 		-1, // Function
 		-1, // Params
 		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		23, // Statement
+		20, // FunctionCall
+		26, // Lambda
+		94, // Args
+		25, // Constant
 	},
 	gotoRow{ // S81
 		-1, // S'
@@ -1477,32 +1153,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S82
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		-1,  // Params
-		-1,  // Type
-		42,  // Statement
-		99,  // Expression
-		107, // Term
-		48,  // Factor
-		39,  // FunctionCall
-		44,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		46,  // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S83
 		-1,  // S'
@@ -1512,15 +1180,11 @@ var gotoTab = gotoTable{
 		-1,  // Function
 		-1,  // Params
 		-1,  // Type
-		42,  // Statement
-		99,  // Expression
-		47,  // Term
-		108, // Factor
-		39,  // FunctionCall
-		44,  // Lambda
+		100, // Statement
+		97,  // FunctionCall
+		103, // Lambda
 		-1,  // Args
-		-1,  // Value
-		46,  // Constant
+		102, // Constant
 	},
 	gotoRow{ // S84
 		-1, // S'
@@ -1531,32 +1195,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S85
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		-1,  // Params
-		-1,  // Type
-		19,  // Statement
-		22,  // Expression
-		24,  // Term
-		25,  // Factor
-		16,  // FunctionCall
-		21,  // Lambda
-		110, // Args
-		27,  // Value
-		23,  // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S86
 		-1, // S'
@@ -1567,34 +1223,12 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S87
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		112, // Params
-		11,  // Type
-		-1,  // Statement
-		-1,  // Expression
-		-1,  // Term
-		-1,  // Factor
-		-1,  // FunctionCall
-		-1,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		-1,  // Constant
-	},
-	gotoRow{ // S88
 		-1, // S'
 		-1, // Program
 		-1, // List
@@ -1603,16 +1237,12 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
-	gotoRow{ // S89
+	gotoRow{ // S88
 		-1,  // S'
 		-1,  // Program
 		-1,  // List
@@ -1620,33 +1250,39 @@ var gotoTab = gotoTable{
 		-1,  // Function
 		-1,  // Params
 		-1,  // Type
-		114, // Statement
-		59,  // Expression
-		116, // Term
-		62,  // Factor
-		53,  // FunctionCall
-		58,  // Lambda
+		110, // Statement
+		97,  // FunctionCall
+		103, // Lambda
 		-1,  // Args
-		-1,  // Value
-		115, // Constant
+		102, // Constant
+	},
+	gotoRow{ // S89
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S90
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		-1,  // Params
-		-1,  // Type
-		114, // Statement
-		59,  // Expression
-		61,  // Term
-		117, // Factor
-		53,  // FunctionCall
-		58,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		115, // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S91
 		-1, // S'
@@ -1657,32 +1293,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S92
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		-1,  // Params
-		-1,  // Type
-		56,  // Statement
-		59,  // Expression
-		61,  // Term
-		62,  // Factor
-		53,  // FunctionCall
-		58,  // Lambda
-		118, // Args
-		64,  // Value
-		60,  // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S93
 		-1, // S'
@@ -1693,13 +1321,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S94
@@ -1711,13 +1335,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S95
@@ -1729,13 +1349,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S96
@@ -1747,13 +1363,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S97
@@ -1765,13 +1377,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S98
@@ -1783,13 +1391,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S99
@@ -1801,13 +1405,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S100
@@ -1819,32 +1419,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S101
-		-1, // S'
-		-1, // Program
-		-1, // List
-		-1, // FunctionOrCall
-		-1, // Function
-		-1, // Params
-		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		-1,  // S'
+		-1,  // Program
+		-1,  // List
+		-1,  // FunctionOrCall
+		-1,  // Function
+		-1,  // Params
+		-1,  // Type
+		48,  // Statement
+		45,  // FunctionCall
+		51,  // Lambda
+		118, // Args
+		50,  // Constant
 	},
 	gotoRow{ // S102
 		-1, // S'
@@ -1855,13 +1447,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S103
@@ -1873,13 +1461,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S104
@@ -1891,13 +1475,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S105
@@ -1909,13 +1489,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S106
@@ -1927,13 +1503,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S107
@@ -1945,13 +1517,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S108
@@ -1963,32 +1531,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S109
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		-1,  // Params
-		-1,  // Type
-		122, // Statement
-		99,  // Expression
-		47,  // Term
-		48,  // Factor
-		39,  // FunctionCall
-		44,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		46,  // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S110
 		-1, // S'
@@ -1999,13 +1559,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S111
@@ -2017,32 +1573,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S112
-		-1, // S'
-		-1, // Program
-		-1, // List
-		-1, // FunctionOrCall
-		-1, // Function
-		-1, // Params
-		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		-1,  // S'
+		-1,  // Program
+		-1,  // List
+		-1,  // FunctionOrCall
+		-1,  // Function
+		-1,  // Params
+		-1,  // Type
+		122, // Statement
+		97,  // FunctionCall
+		103, // Lambda
+		-1,  // Args
+		102, // Constant
 	},
 	gotoRow{ // S113
 		-1, // S'
@@ -2053,13 +1601,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S114
@@ -2071,50 +1615,38 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S115
-		-1, // S'
-		-1, // Program
-		-1, // List
-		-1, // FunctionOrCall
-		-1, // Function
-		-1, // Params
-		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		-1,  // S'
+		-1,  // Program
+		-1,  // List
+		-1,  // FunctionOrCall
+		-1,  // Function
+		-1,  // Params
+		-1,  // Type
+		23,  // Statement
+		20,  // FunctionCall
+		26,  // Lambda
+		123, // Args
+		25,  // Constant
 	},
 	gotoRow{ // S116
-		-1, // S'
-		-1, // Program
-		-1, // List
-		-1, // FunctionOrCall
-		-1, // Function
-		-1, // Params
-		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
+		-1,  // S'
+		-1,  // Program
+		-1,  // List
+		-1,  // FunctionOrCall
+		-1,  // Function
+		124, // Params
+		15,  // Type
+		-1,  // Statement
+		-1,  // FunctionCall
+		-1,  // Lambda
+		-1,  // Args
+		-1,  // Constant
 	},
 	gotoRow{ // S117
 		-1, // S'
@@ -2125,13 +1657,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S118
@@ -2143,52 +1671,12 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S119
-		-1, // S'
-		-1, // Program
-		-1, // List
-		-1, // FunctionOrCall
-		-1, // Function
-		-1, // Params
-		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
-	},
-	gotoRow{ // S120
-		-1, // S'
-		-1, // Program
-		-1, // List
-		-1, // FunctionOrCall
-		-1, // Function
-		-1, // Params
-		-1, // Type
-		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
-		-1, // FunctionCall
-		-1, // Lambda
-		-1, // Args
-		-1, // Value
-		-1, // Constant
-	},
-	gotoRow{ // S121
 		-1,  // S'
 		-1,  // Program
 		-1,  // List
@@ -2196,15 +1684,39 @@ var gotoTab = gotoTable{
 		-1,  // Function
 		-1,  // Params
 		-1,  // Type
-		125, // Statement
-		99,  // Expression
-		47,  // Term
-		48,  // Factor
-		39,  // FunctionCall
-		44,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		46,  // Constant
+		23,  // Statement
+		20,  // FunctionCall
+		26,  // Lambda
+		126, // Args
+		25,  // Constant
+	},
+	gotoRow{ // S120
+		-1,  // S'
+		-1,  // Program
+		-1,  // List
+		-1,  // FunctionOrCall
+		-1,  // Function
+		-1,  // Params
+		-1,  // Type
+		23,  // Statement
+		20,  // FunctionCall
+		26,  // Lambda
+		127, // Args
+		25,  // Constant
+	},
+	gotoRow{ // S121
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S122
 		-1, // S'
@@ -2215,13 +1727,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S123
@@ -2233,32 +1741,24 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S124
-		-1,  // S'
-		-1,  // Program
-		-1,  // List
-		-1,  // FunctionOrCall
-		-1,  // Function
-		-1,  // Params
-		-1,  // Type
-		127, // Statement
-		99,  // Expression
-		47,  // Term
-		48,  // Factor
-		39,  // FunctionCall
-		44,  // Lambda
-		-1,  // Args
-		-1,  // Value
-		46,  // Constant
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
 	},
 	gotoRow{ // S125
 		-1, // S'
@@ -2269,13 +1769,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S126
@@ -2287,13 +1783,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S127
@@ -2305,13 +1797,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S128
@@ -2323,13 +1811,9 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
 		-1, // Constant
 	},
 	gotoRow{ // S129
@@ -2341,13 +1825,79 @@ var gotoTab = gotoTable{
 		-1, // Params
 		-1, // Type
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
-		-1, // Factor
 		-1, // FunctionCall
 		-1, // Lambda
 		-1, // Args
-		-1, // Value
+		-1, // Constant
+	},
+	gotoRow{ // S130
+		-1,  // S'
+		-1,  // Program
+		-1,  // List
+		-1,  // FunctionOrCall
+		-1,  // Function
+		-1,  // Params
+		-1,  // Type
+		133, // Statement
+		97,  // FunctionCall
+		103, // Lambda
+		-1,  // Args
+		102, // Constant
+	},
+	gotoRow{ // S131
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
+	},
+	gotoRow{ // S132
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
+	},
+	gotoRow{ // S133
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
+		-1, // Constant
+	},
+	gotoRow{ // S134
+		-1, // S'
+		-1, // Program
+		-1, // List
+		-1, // FunctionOrCall
+		-1, // Function
+		-1, // Params
+		-1, // Type
+		-1, // Statement
+		-1, // FunctionCall
+		-1, // Lambda
+		-1, // Args
 		-1, // Constant
 	},
 }
