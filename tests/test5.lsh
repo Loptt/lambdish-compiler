@@ -1,0 +1,6 @@
+
+filterOdd :: [num] l => [num] (
+    (# num x => (%(x,2))) (head(l))
+)
+
+filterOdd( [1,2,3,4,5,6,7] )

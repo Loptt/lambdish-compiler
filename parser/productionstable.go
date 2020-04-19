@@ -181,7 +181,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Statement : Lambda	<<  >>`,
+		String: `Statement : LambdaExpr	<<  >>`,
 		Id:         "Statement",
 		NTType:     7,
 		Index:      16,
@@ -231,11 +231,31 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Lambda : "(" "#" Params "=>" Statement ")"	<<  >>`,
-		Id:         "Lambda",
+		String: `LambdaExpr : Lambda	<<  >>`,
+		Id:         "LambdaExpr",
 		NTType:     9,
 		Index:      21,
-		NumSymbols: 6,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `LambdaExpr : Lambda "(" Args ")"	<<  >>`,
+		Id:         "LambdaExpr",
+		NTType:     9,
+		Index:      22,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `Lambda : "(" "#" Params "=>" "(" Statement ")" ")"	<<  >>`,
+		Id:         "Lambda",
+		NTType:     10,
+		Index:      23,
+		NumSymbols: 8,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},
@@ -243,8 +263,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `Args : Statement "," Args	<<  >>`,
 		Id:         "Args",
-		NTType:     10,
-		Index:      22,
+		NTType:     11,
+		Index:      24,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -253,26 +273,6 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `Args : Statement	<<  >>`,
 		Id:         "Args",
-		NTType:     10,
-		Index:      23,
-		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return X[0], nil
-		},
-	},
-	ProdTabEntry{
-		String: `Args : empty	<<  >>`,
-		Id:         "Args",
-		NTType:     10,
-		Index:      24,
-		NumSymbols: 0,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return nil, nil
-		},
-	},
-	ProdTabEntry{
-		String: `Constant : boolean	<<  >>`,
-		Id:         "Constant",
 		NTType:     11,
 		Index:      25,
 		NumSymbols: 1,
@@ -281,10 +281,30 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Constant : number	<<  >>`,
-		Id:         "Constant",
+		String: `Args : empty	<<  >>`,
+		Id:         "Args",
 		NTType:     11,
 		Index:      26,
+		NumSymbols: 0,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return nil, nil
+		},
+	},
+	ProdTabEntry{
+		String: `Constant : boolean	<<  >>`,
+		Id:         "Constant",
+		NTType:     12,
+		Index:      27,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `Constant : number	<<  >>`,
+		Id:         "Constant",
+		NTType:     12,
+		Index:      28,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -293,8 +313,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `Constant : charac	<<  >>`,
 		Id:         "Constant",
-		NTType:     11,
-		Index:      27,
+		NTType:     12,
+		Index:      29,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -303,8 +323,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `Constant : "[" Args "]"	<<  >>`,
 		Id:         "Constant",
-		NTType:     11,
-		Index:      28,
+		NTType:     12,
+		Index:      30,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil

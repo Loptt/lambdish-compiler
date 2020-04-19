@@ -35,10 +35,7 @@ func readFile(path string) ([]byte, error) {
 func TestGrammar(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string {
-		"tests/test1.lsh",
-		"tests/test2.lsh",
-		"tests/test3.lsh",
-		"tests/test4.lsh",
+		"tests/test5.lsh",
 	}
 
 

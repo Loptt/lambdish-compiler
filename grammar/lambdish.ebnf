@@ -44,7 +44,7 @@ Type :
 Statement : 
     id
     | Constant 
-    | Lambda 
+    | LambdaExpr
     | FunctionCall; 
 
 FunctionCall : 
@@ -52,8 +52,12 @@ FunctionCall :
     | operations "(" Args ")"
     | relop "(" Args ")";
 
+LambdaExpr :
+    Lambda
+    | Lambda "(" Args ")";
+
 Lambda :
-    "(" "#" Params "=>" Statement ")";
+    "(" "#" Params "=>" "(" Statement ")" ")";
 
 Args :
     Statement "," Args
