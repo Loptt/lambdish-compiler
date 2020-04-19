@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Loptt/lambdish-compiler/lexer"
-	"github.com/Loptt/lambdish-compiler/parser"
+	"github.com/Loptt/lambdish-compiler/gocc/lexer"
+	"github.com/Loptt/lambdish-compiler/gocc/parser"
 	"testing"
 	"os"
 )

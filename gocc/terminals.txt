@@ -13,6 +13,7 @@ char
 [
 ]
 operations
+relop
 #
 boolean
 number

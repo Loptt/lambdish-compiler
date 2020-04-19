@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "github.com/Loptt/lambdish-compiler/errors"
-	"github.com/Loptt/lambdish-compiler/token"
+	parseError "github.com/Loptt/lambdish-compiler/gocc/errors"
+	"github.com/Loptt/lambdish-compiler/gocc/token"
 )
 
 const (

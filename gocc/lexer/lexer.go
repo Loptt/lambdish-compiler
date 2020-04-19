@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"unicode/utf8"
 
-	"github.com/Loptt/lambdish-compiler/token"
+	"github.com/Loptt/lambdish-compiler/gocc/token"
 )
 
 const (

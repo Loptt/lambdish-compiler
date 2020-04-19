@@ -2,20 +2,24 @@ S': {
 	empty
 	id
 	operations
+	relop
 }
 Program: {
 	empty
 	id
 	operations
+	relop
 }
 List: {
 	empty
 	id
 	operations
+	relop
 }
 FunctionOrCall: {
 	id
 	operations
+	relop
 }
 Function: {
 	id
@@ -41,10 +45,15 @@ Statement: {
 	id
 	number
 	operations
+	relop
 }
 FunctionCall: {
 	id
 	operations
+	relop
+}
+LambdaExpr: {
+	(
 }
 Lambda: {
 	(
@@ -58,6 +67,7 @@ Args: {
 	id
 	number
 	operations
+	relop
 }
 Constant: {
 	[
