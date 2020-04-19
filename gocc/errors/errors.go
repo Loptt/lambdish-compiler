@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Loptt/lambdish-compiler/token"
+	"github.com/Loptt/lambdish-compiler/gocc/token"
 )
 
 type ErrorSymbol interface {

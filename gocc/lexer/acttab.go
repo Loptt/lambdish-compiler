@@ -5,7 +5,7 @@ package lexer
 import (
 	"fmt"
 
-	"github.com/Loptt/lambdish-compiler/token"
+	"github.com/Loptt/lambdish-compiler/gocc/token"
 )
 
 type ActionTable [NumStates]ActionRow
