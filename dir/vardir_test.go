@@ -2,44 +2,40 @@ package dir
 
 import (
 	"github.com/Loptt/lambdish-compiler/types"
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func TestStringVar(t *testing.T) {
 	tests := []struct {
-		e    varentry
+		e    *VarEntry
 		want string
 	}{
 		{
-			e: varentry{
+			e: &VarEntry{
 				"minVal",
 				types.NewLambdishType(types.Num, 0),
-				"1",
 			},
 			want: "minVal",
 		},
 		{
-			e: varentry{
+			e: &VarEntry{
 				"isEnabled",
 				types.NewLambdishType(types.Bool, 0),
-				"true",
 			},
 			want: "isEnabled",
 		},
 		{
-			e: varentry{
+			e: &VarEntry{
 				"maxValue",
 				types.NewLambdishType(types.Num, 0),
-				"55675437564564758547896",
 			},
 			want: "maxValue",
 		},
 		{
-			e: varentry{
+			e: &VarEntry{
 				"arrBool",
 				types.NewLambdishType(types.Bool, 10),
-				"[[[[[[[[[[true,true]]]]]]]]]]",
 			},
 			want: "arrBool",
 		},
@@ -56,95 +52,83 @@ func TestStringVar(t *testing.T) {
 
 func TestAddVar(t *testing.T) {
 	tests := []struct {
-		e    varentry
+		e    *VarEntry
 		vd   VarDirectory
 		want VarDirectory
 	}{
 		{
 			vd: VarDirectory{
-				make(map[string]varentry),
+				make(map[string]*VarEntry),
 			},
-			e: varentry{
+			e: &VarEntry{
 				"minVal",
 				types.NewLambdishType(types.Num, 0),
-				"1",
 			},
 			want: VarDirectory{
-				map[string]varentry{
-					"minVal": varentry{
-					"minVal",
-					types.NewLambdishType(types.Num, 0),
-					"1",
+				map[string]*VarEntry{
+					"minVal": &VarEntry{
+						"minVal",
+						types.NewLambdishType(types.Num, 0),
 					},
 				},
 			},
 		},
 		{
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
 				},
 			},
-			e: varentry{
+			e: &VarEntry{
 				"minVal",
 				types.NewLambdishType(types.Num, 0),
-				"1",
 			},
 			want: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
 				},
 			},
 		},
 		{
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
 				},
 			},
-			e: varentry{
+			e: &VarEntry{
 				"arrBool",
 				types.NewLambdishType(types.Bool, 10),
-				"[[[[[[[[[[true,true]]]]]]]]]]",
 			},
 			want: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
-					"arrBool": varentry{
+					"arrBool": &VarEntry{
 						"arrBool",
 						types.NewLambdishType(types.Bool, 10),
-						"[[[[[[[[[[true,true]]]]]]]]]]",
 					},
 				},
 			},
@@ -163,53 +147,46 @@ func TestGetVar(t *testing.T) {
 	tests := []struct {
 		key  string
 		vd   VarDirectory
-		want *varentry
+		want *VarEntry
 	}{
 		{
 			key: "minVal",
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
-					"arrBool": varentry{
+					"arrBool": &VarEntry{
 						"arrBool",
 						types.NewLambdishType(types.Bool, 10),
-						"[[[[[[[[[[true,true]]]]]]]]]]",
 					},
 				},
 			},
-			want: &varentry{
-						"minVal",
-						types.NewLambdishType(types.Num, 0),
-						"1",
+			want: &VarEntry{
+				"minVal",
+				types.NewLambdishType(types.Num, 0),
 			},
 		},
 		{
 			key: "x",
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
-					"arrBool": varentry{
+					"arrBool": &VarEntry{
 						"arrBool",
 						types.NewLambdishType(types.Bool, 10),
-						"[[[[[[[[[[true,true]]]]]]]]]]",
 					},
 				},
 			},
@@ -218,21 +195,18 @@ func TestGetVar(t *testing.T) {
 		{
 			key: "ARRBOOL",
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
-					"arrBool": varentry{
+					"arrBool": &VarEntry{
 						"arrBool",
 						types.NewLambdishType(types.Bool, 10),
-						"[[[[[[[[[[true,true]]]]]]]]]]",
 					},
 				},
 			},
@@ -256,21 +230,18 @@ func TestExistsVar(t *testing.T) {
 		{
 			key: "minVal",
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
-					"arrBool": varentry{
+					"arrBool": &VarEntry{
 						"arrBool",
 						types.NewLambdishType(types.Bool, 10),
-						"[[[[[[[[[[true,true]]]]]]]]]]",
 					},
 				},
 			},
@@ -279,21 +250,18 @@ func TestExistsVar(t *testing.T) {
 		{
 			key: "x",
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
-					"arrBool": varentry{
+					"arrBool": &VarEntry{
 						"arrBool",
 						types.NewLambdishType(types.Bool, 10),
-						"[[[[[[[[[[true,true]]]]]]]]]]",
 					},
 				},
 			},
@@ -302,21 +270,18 @@ func TestExistsVar(t *testing.T) {
 		{
 			key: "ARRBOOL",
 			vd: VarDirectory{
-				map[string]varentry{
-					"isEnabled": varentry{
+				map[string]*VarEntry{
+					"isEnabled": &VarEntry{
 						"isEnabled",
 						types.NewLambdishType(types.Bool, 0),
-						"true",
 					},
-					"minVal": varentry{
+					"minVal": &VarEntry{
 						"minVal",
 						types.NewLambdishType(types.Num, 0),
-						"1",
 					},
-					"arrBool": varentry{
+					"arrBool": &VarEntry{
 						"arrBool",
 						types.NewLambdishType(types.Bool, 10),
-						"[[[[[[[[[[true,true]]]]]]]]]]",
 					},
 				},
 			},

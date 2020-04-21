@@ -1,12 +1,13 @@
 INVALID
 $
-empty
+func
 id
 ::
 =>
 (
 )
 ,
+empty
 num
 bool
 char

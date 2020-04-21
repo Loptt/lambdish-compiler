@@ -1,0 +1,5 @@
+1 LR-1 conflicts: 
+	S3
+		symbol: id
+			Reduce(3:Functions : Function	<<  >>)
+			Shift(4)

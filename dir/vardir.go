@@ -1,25 +1,28 @@
 package dir
 
 import (
-	"github.com/Loptt/lambdish-compiler/types"
 	"fmt"
+	"github.com/Loptt/lambdish-compiler/types"
 )
 
-type varentry struct {
+type VarEntry struct {
 	id string
-	t types.LambdishType
-	value string
+	t  types.LambdishType
 }
 
 type VarDirectory struct {
-	table map[string]varentry
+	table map[string]*VarEntry
 }
 
-func (e *varentry) String() string {
+func (e *VarEntry) String() string {
 	return fmt.Sprintf("%s", e.id)
 }
 
-func (vd *VarDirectory) Add(e varentry) bool {
+func NewVarEntry(id string, t types.LambdishType) *VarEntry {
+	return &VarEntry{id, t}
+}
+
+func (vd *VarDirectory) Add(e *VarEntry) bool {
 
 	_, ok := vd.table[e.String()]
 	if !ok {
@@ -28,10 +31,10 @@ func (vd *VarDirectory) Add(e varentry) bool {
 	return !ok
 }
 
-func (vd *VarDirectory) Get(key string) *varentry {
+func (vd *VarDirectory) Get(key string) *VarEntry {
 
 	if result, ok := vd.table[key]; ok {
-		return &result
+		return result
 	}
 
 	return nil

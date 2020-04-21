@@ -1,0 +1,81 @@
+
+_digit : '0'-'9' ;
+_alpha : 'a'-'z' | 'A'-'Z';
+_id : _alpha {(_digit | _alpha)};
+_integer : _digit {_digit};
+_float : _digit {_digit} '.' _digit {_digit};
+_string : '"' {(_digit | _alpha | ' ')} '"';
+_true : 't' 'r' 'u' 'e';
+_false : 'f' 'a' 'l' 's' 'e';
+
+!ws : ' ' | '\t' | '\n' | '\r';
+
+operations : '+' | '-' | '*' | '/' | '%';
+
+relop : '<' | '>' | '=' '=' | '<' '=' | '>' '=' | '!' '='; 
+
+number : _integer | _float;
+charac : '\'' (_alpha | _digit) '\'';
+id : _id;
+boolean : _true | _false;
+
+Program 
+    : Functions FunctionCall
+    ;   
+
+Functions 
+    : Function Functions                    
+    | Function                  
+    ;
+
+Function 
+    : "func" id "::" Params "=>" Type "(" Statement ")" 
+    ;
+
+Params 
+    : Type id "," Params              
+    | Type id                       
+    | empty                         
+    ;
+
+Type 
+    : "num"                            
+    | "bool"                           
+    | "char"                           
+    | "[" Type "]"                  
+    ; 
+
+Statement 
+    : id                         
+    | Constant                     
+    | LambdaExpr                    
+    | FunctionCall                  
+    ;
+
+FunctionCall 
+    : id "(" Args ")"              
+    | operations "(" Args ")"      
+    | relop "(" Args ")"          
+    ;
+
+LambdaExpr 
+    : Lambda                          
+    | Lambda "(" Args ")"           
+    ;
+
+Lambda 
+    : "(" "#" Params "=>" "(" Statement ")" ")"
+    ;
+
+Args 
+    : Statement "," Args      
+    | Statement            
+    | empty                 
+    ;
+
+Constant : 
+    boolean                     
+    | number                 
+    | charac                  
+    | "[" Args "]"                
+    ;
