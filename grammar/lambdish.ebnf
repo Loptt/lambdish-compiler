@@ -26,8 +26,8 @@ Program
     ;   
 
 Functions 
-    : Function Functions            << ast.AppendFunctions($0, $1) >>  
-    | Function                      << ast.NewFunction($0) >>  
+    : Function Functions            << ast.AppendFunctionList($0, $1) >>  
+    | Function                      << ast.NewFunctionList($0) >>  
     ;
     
 Function 
