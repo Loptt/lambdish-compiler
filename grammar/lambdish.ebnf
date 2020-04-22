@@ -22,7 +22,7 @@ boolean : _true | _false;
 << import "github.com/Loptt/lambdish-compiler/ast" >>
 
 Program 
-    : Functions FunctionCall        <<ast.VerifyFunctionCalls($0, $1)>>
+    : Functions FunctionCall        <<ast.NewProgram($0, $1)>>
     ;   
 
 Functions 
