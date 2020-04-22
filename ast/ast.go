@@ -70,6 +70,6 @@ type LambdaExpr struct {
 // Constant represents a constant value which can be either a num, bool, char or a list of these
 // as defined by the LambdishType struct
 type Constant struct {
-	t types.LambdishType
+	t *types.LambdishType
 	value string
 }
