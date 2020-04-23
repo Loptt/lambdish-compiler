@@ -19,53 +19,71 @@ charac : '\'' (_alpha | _digit) '\'';
 id : _id;
 boolean : _true | _false;
 
-Program : 
-    List;
+<< import (
+    "github.com/Loptt/lambdish-compiler/ast" 
+    "github.com/Loptt/lambdish-compiler/dir") >>
 
-List :
-    FunctionOrCall List | empty;
+Program 
+    : Functions Statement           << ast.NewProgram($0, $1) >>
+    ;   
 
-FunctionOrCall : Function | FunctionCall;
-
-Function : 
-    id "::" Params "=>" Type "(" Statement ")";
+Functions 
+    : Function Functions            << ast.AppendFunctionList($0, $1) >>  
+    | Function                      << ast.NewFunctionList($0) >>  
+    ;
+    
+Function 
+    : "func" id "::" Params "=>" Type "(" Statement ")"  << ast.NewFunction($1, $3, $5, $7) >>
+    ;
 
 Params : 
-    Type id "," Params 
-    | Type id
-    | empty;
+    Type id "," Params              << ast.AppendParamsList($0, $1, $3) >>
+    | Type id                       << ast.NewParamsList($0, $1) >>
+    | empty                         << make([]*dir.VarEntry, 0), nil >>
+    ;
 
-Type : 
-    "num" 
-    | "bool" 
-    | "char"
-    | "[" Type "]";
+Type 
+    : "num"                          << ast.NewType($0) >>
+    | "bool"                         << ast.NewType($0) >>  
+    | "char"                         << ast.NewType($0) >>   
+    | "[" Type "]"                   << ast.AppendType($1) >>
+    ; 
 
-Statement : 
-    id
-    | Constant 
-    | LambdaExpr
-    | FunctionCall; 
+Statement 
+    : id                            << ast.NewStatement($0) >>
+    | Constant                      << ast.NewStatement($0) >>
+    | LambdaExpr                    << ast.NewStatement($0) >>
+    | FunctionCall                  << ast.NewStatement($0) >>
+    ;
 
-FunctionCall : 
-    id "(" Args ")"
-    | operations "(" Args ")"
-    | relop "(" Args ")";
+FunctionCall 
+    : id "(" Args ")"              << ast.NewFunctionCall($0, $2) >>
+    | operations "(" Args ")"      << ast.NewFunctionCall($0, $2) >>
+    | relop "(" Args ")"           << ast.NewFunctionCall($0, $2) >>
+    ;
 
-LambdaExpr :
-    Lambda
-    | Lambda "(" Args ")";
+LambdaExpr 
+    : Lambda                        << $0, nil>>
+    | LambdaCall                    << $0, nil >>
+    ;
 
-Lambda :
-    "(" "#" Params "=>" "(" Statement ")" ")";
+Lambda 
+    : "(" "#" Params "=>" "(" Statement ")" ")" << ast.NewLambda($2,$5) >>
+    ;
 
-Args :
-    Statement "," Args
-    | Statement
-    | empty;
+LambdaCall 
+    : "(" "#" Params "=>" "(" Statement ")" ")" "(" Args ")" << ast.NewLambdaCall($2,$5,$9) >>
+    ;
 
-Constant : 
-    boolean 
-    | number 
-    | charac 
-    | "[" Args "]";
+Args 
+    : Statement "," Args            << ast.AppendStatementList($0,$2) >>
+    | Statement                     << ast.NewStatementList($0) >>
+    | empty                         << make([]ast.Statement, 0), nil >>
+    ;
+
+Constant 
+    : boolean                       << ast.NewConstantBool($0) >>
+    | number                        << ast.NewConstantNum($0) >>
+    | charac                        << ast.NewConstantChar($0) >>
+    | "[" Args "]"                  << ast.AppendConstant($1) >>
+    ;

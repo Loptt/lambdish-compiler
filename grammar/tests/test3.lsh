@@ -1,4 +1,4 @@
-maxAux :: [num] l, num biggest => num (
+func maxAux :: [num] l, num biggest => num (
 	if(empty(l),
 		biggest,
 		if(>(head(l), biggest),
@@ -8,7 +8,7 @@ maxAux :: [num] l, num biggest => num (
 	)
 )
 
-max :: [num] l => num (
+func max :: [num] l => num (
 	maxAux(l, head(l))
 )
 

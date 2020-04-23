@@ -1,4 +1,5 @@
-give1 :: num n => num (1)
+func give1 :: num n => num (1)
 
-give2 :: [num] n => num (iddd)
+func give2 :: [num] n => num (id)
 
+give2(give1(33))

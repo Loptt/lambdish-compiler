@@ -6,14 +6,15 @@ import (
 	"strings"
 )
 
-type funcentry struct {
+type FuncEntry struct {
 	id         string
 	returnval  types.LambdishType
 	paramcount int
 	params     []types.LambdishType
+	vardir     *VarDirectory
 }
 
-func (e *funcentry) String() string {
+func (e *FuncEntry) String() string {
 	var b strings.Builder
 
 	for _, p := range e.params {
@@ -23,13 +24,17 @@ func (e *funcentry) String() string {
 	return fmt.Sprintf("%s@%s@%s", e.id, e.returnval, b.String())
 }
 
+func NewFuncEntry(id string, returnval types.LambdishType, paramcount int, params []types.LambdishType, vardir *VarDirectory) *FuncEntry {
+	return &FuncEntry{id, returnval, paramcount, params, vardir}
+}
+
 type FuncDirectory struct {
-	table map[string]funcentry
+	table map[string]*FuncEntry
 }
 
 // Add function adds a new funcentry to the table. If the addition is successful
 // the function returns true and false otherwise.
-func (fd *FuncDirectory) Add(e funcentry) bool {
+func (fd *FuncDirectory) Add(e *FuncEntry) bool {
 
 	_, ok := fd.table[e.String()]
 	if !ok {
@@ -38,10 +43,10 @@ func (fd *FuncDirectory) Add(e funcentry) bool {
 	return !ok
 }
 
-func (fd *FuncDirectory) Get(key string) *funcentry {
+func (fd *FuncDirectory) Get(key string) *FuncEntry {
 
 	if result, ok := fd.table[key]; ok {
-		return &result
+		return result
 	}
 
 	return nil

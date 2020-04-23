@@ -1,28 +1,14 @@
 S': {
-	empty
-	id
-	operations
-	relop
+	func
 }
 Program: {
-	empty
-	id
-	operations
-	relop
+	func
 }
-List: {
-	empty
-	id
-	operations
-	relop
-}
-FunctionOrCall: {
-	id
-	operations
-	relop
+Functions: {
+	func
 }
 Function: {
-	id
+	func
 }
 Params: {
 	[

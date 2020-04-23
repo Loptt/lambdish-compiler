@@ -8,11 +8,11 @@ import (
 
 func TestStringDir(t *testing.T) {
 	tests := []struct {
-		e    funcentry
+		e    *FuncEntry
 		want string
 	}{
 		{
-			e: funcentry{
+			e: &FuncEntry{
 				"getMax",
 				types.NewLambdishType(types.Bool, 0),
 				2,
@@ -20,39 +20,103 @@ func TestStringDir(t *testing.T) {
 					types.NewLambdishType(types.Bool, 0),
 					types.NewLambdishType(types.Bool, 0),
 				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"isEnabled": &VarEntry{
+							"isEnabled",
+							types.NewLambdishType(types.Bool, 0),
+						},
+						"minVal": &VarEntry{
+							"minVal",
+							types.NewLambdishType(types.Num, 0),
+						},
+						"arrBool": &VarEntry{
+							"arrBool",
+							types.NewLambdishType(types.Bool, 10),
+						},
+					},
+				},
 			},
 			want: "getMax@3@33",
 		},
 		{
-			e: funcentry{
+			e: &FuncEntry{
 				"exists",
 				types.NewLambdishType(types.Bool, 0),
 				1,
 				[]types.LambdishType{
 					types.NewLambdishType(types.Bool, 0),
 				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"isEnabled": &VarEntry{
+							"isEnabled",
+							types.NewLambdishType(types.Bool, 0),
+						},
+						"minVal": &VarEntry{
+							"minVal",
+							types.NewLambdishType(types.Num, 0),
+						},
+						"arrBool": &VarEntry{
+							"arrBool",
+							types.NewLambdishType(types.Bool, 10),
+						},
+					},
+				},
 			},
 			want: "exists@3@3",
 		},
 		{
-			e: funcentry{
+			e: &FuncEntry{
 				"goGet",
 				types.NewLambdishType(types.Num, 0),
 				1,
 				[]types.LambdishType{
 					types.NewLambdishType(types.Bool, 0),
 				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"isEnabled": &VarEntry{
+							"isEnabled",
+							types.NewLambdishType(types.Bool, 0),
+						},
+						"minVal": &VarEntry{
+							"minVal",
+							types.NewLambdishType(types.Num, 0),
+						},
+						"arrBool": &VarEntry{
+							"arrBool",
+							types.NewLambdishType(types.Bool, 10),
+						},
+					},
+				},
 			},
 			want: "goGet@1@3",
 		},
 		{
-			e: funcentry{
+			e: &FuncEntry{
 				"getEven",
 				types.NewLambdishType(types.Num, 1),
 				2,
 				[]types.LambdishType{
 					types.NewLambdishType(types.Num, 1),
 					types.NewLambdishType(types.Num, 0),
+				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"isEnabled": &VarEntry{
+							"isEnabled",
+							types.NewLambdishType(types.Bool, 0),
+						},
+						"minVal": &VarEntry{
+							"minVal",
+							types.NewLambdishType(types.Num, 0),
+						},
+						"arrBool": &VarEntry{
+							"arrBool",
+							types.NewLambdishType(types.Bool, 10),
+						},
+					},
 				},
 			},
 			want: "getEven@[1]@[1]1",
@@ -70,15 +134,15 @@ func TestStringDir(t *testing.T) {
 
 func TestAddDir(t *testing.T) {
 	tests := []struct {
-		e    funcentry
+		e    *FuncEntry
 		fd   FuncDirectory
 		want FuncDirectory
 	}{
 		{
 			fd: FuncDirectory{
-				make(map[string]funcentry),
+				make(map[string]*FuncEntry),
 			},
-			e: funcentry{
+			e: &FuncEntry{
 				"getMax",
 				types.NewLambdishType(types.Bool, 0),
 				2,
@@ -86,16 +150,32 @@ func TestAddDir(t *testing.T) {
 					types.NewLambdishType(types.Bool, 0),
 					types.NewLambdishType(types.Bool, 0),
 				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"minVal": &VarEntry{
+							"minVal",
+							types.NewLambdishType(types.Num, 0),
+						},
+					},
+				},
 			},
 			want: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
 						},
 					},
 				},
@@ -103,8 +183,8 @@ func TestAddDir(t *testing.T) {
 		},
 		{
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -112,20 +192,36 @@ func TestAddDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
 				},
 			},
-			e: funcentry{
+			e: &FuncEntry{
 				"exists",
 				types.NewLambdishType(types.Bool, 0),
 				1,
 				[]types.LambdishType{
 					types.NewLambdishType(types.Bool, 0),
 				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"isEnabled": &VarEntry{
+							"isEnabled",
+							types.NewLambdishType(types.Bool, 0),
+						},
+					},
+				},
 			},
 			want: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -133,13 +229,29 @@ func TestAddDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
 						},
 					},
 				},
@@ -147,8 +259,8 @@ func TestAddDir(t *testing.T) {
 		},
 		{
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -156,18 +268,34 @@ func TestAddDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
 				},
 			},
-			e: funcentry{
+			e: &FuncEntry{
 				"getEven",
 				types.NewLambdishType(types.Num, 1),
 				2,
@@ -175,10 +303,18 @@ func TestAddDir(t *testing.T) {
 					types.NewLambdishType(types.Num, 1),
 					types.NewLambdishType(types.Num, 0),
 				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"arrBool": &VarEntry{
+							"arrBool",
+							types.NewLambdishType(types.Bool, 10),
+						},
+					},
+				},
 			},
 			want: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -186,22 +322,46 @@ func TestAddDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"getEven@[1]@[1]1": funcentry{
+					"getEven@[1]@[1]1": &FuncEntry{
 						"getEven",
 						types.NewLambdishType(types.Num, 1),
 						2,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Num, 1),
 							types.NewLambdishType(types.Num, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"arrBool": &VarEntry{
+									"arrBool",
+									types.NewLambdishType(types.Bool, 10),
+								},
+							},
 						},
 					},
 				},
@@ -221,13 +381,13 @@ func TestGetDir(t *testing.T) {
 	tests := []struct {
 		key  string
 		fd   FuncDirectory
-		want *funcentry
+		want *FuncEntry
 	}{
 		{
 			key: "getEven@[1]@[1]1",
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -235,16 +395,32 @@ func TestGetDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"getEven@[1]@[1]1": funcentry{
+					"getEven@[1]@[1]1": &FuncEntry{
 						"getEven",
 						types.NewLambdishType(types.Num, 1),
 						2,
@@ -252,10 +428,18 @@ func TestGetDir(t *testing.T) {
 							types.NewLambdishType(types.Num, 1),
 							types.NewLambdishType(types.Num, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"arrBool": &VarEntry{
+									"arrBool",
+									types.NewLambdishType(types.Bool, 10),
+								},
+							},
+						},
 					},
 				},
 			},
-			want: &funcentry{
+			want: &FuncEntry{
 				"getEven",
 				types.NewLambdishType(types.Num, 1),
 				2,
@@ -263,13 +447,21 @@ func TestGetDir(t *testing.T) {
 					types.NewLambdishType(types.Num, 1),
 					types.NewLambdishType(types.Num, 0),
 				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"arrBool": &VarEntry{
+							"arrBool",
+							types.NewLambdishType(types.Bool, 10),
+						},
+					},
+				},
 			},
 		},
 		{
 			key: "exists@3@3",
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -277,40 +469,72 @@ func TestGetDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"getEven@[1]@[1]1": funcentry{
+					"getEven@[1]@[1]1": &FuncEntry{
 						"getEven",
 						types.NewLambdishType(types.Num, 1),
 						2,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Num, 1),
+							types.NewLambdishType(types.Num, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"arrBool": &VarEntry{
+									"arrBool",
+									types.NewLambdishType(types.Bool, 10),
+								},
+							},
+						},
+					},
+				},
+			},
+			want: &FuncEntry{
+				"exists",
+				types.NewLambdishType(types.Bool, 0),
+				1,
+				[]types.LambdishType{
+					types.NewLambdishType(types.Bool, 0),
+				},
+				&VarDirectory{
+					map[string]*VarEntry{
+						"minVal": &VarEntry{
+							"minVal",
 							types.NewLambdishType(types.Num, 0),
 						},
 					},
 				},
 			},
-			want: &funcentry{
-						"exists",
-						types.NewLambdishType(types.Bool, 0),
-						1,
-						[]types.LambdishType{
-							types.NewLambdishType(types.Bool, 0),
-						},
-			},
 		},
 		{
 			key: "exists@3@4",
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -318,22 +542,46 @@ func TestGetDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"getEven@[1]@[1]1": funcentry{
+					"getEven@[1]@[1]1": &FuncEntry{
 						"getEven",
 						types.NewLambdishType(types.Num, 1),
 						2,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Num, 1),
 							types.NewLambdishType(types.Num, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"arrBool": &VarEntry{
+									"arrBool",
+									types.NewLambdishType(types.Bool, 10),
+								},
+							},
 						},
 					},
 				},
@@ -348,7 +596,6 @@ func TestGetDir(t *testing.T) {
 		}
 	}
 }
-
 func TestExistsDir(t *testing.T) {
 	tests := []struct {
 		key  string
@@ -358,8 +605,8 @@ func TestExistsDir(t *testing.T) {
 		{
 			key: "getEven@[1]@[1]1",
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -367,22 +614,46 @@ func TestExistsDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"getEven@[1]@[1]1": funcentry{
+					"getEven@[1]@[1]1": &FuncEntry{
 						"getEven",
 						types.NewLambdishType(types.Num, 1),
 						2,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Num, 1),
 							types.NewLambdishType(types.Num, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"arrBool": &VarEntry{
+									"arrBool",
+									types.NewLambdishType(types.Bool, 10),
+								},
+							},
 						},
 					},
 				},
@@ -392,8 +663,8 @@ func TestExistsDir(t *testing.T) {
 		{
 			key: "exists@3@3",
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -401,22 +672,46 @@ func TestExistsDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"getEven@[1]@[1]1": funcentry{
+					"getEven@[1]@[1]1": &FuncEntry{
 						"getEven",
 						types.NewLambdishType(types.Num, 1),
 						2,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Num, 1),
 							types.NewLambdishType(types.Num, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"arrBool": &VarEntry{
+									"arrBool",
+									types.NewLambdishType(types.Bool, 10),
+								},
+							},
 						},
 					},
 				},
@@ -426,8 +721,8 @@ func TestExistsDir(t *testing.T) {
 		{
 			key: "exists@3@4",
 			fd: FuncDirectory{
-				map[string]funcentry{
-					"getMax@3@33": funcentry{
+				map[string]*FuncEntry{
+					"getMax@3@33": &FuncEntry{
 						"getMax",
 						types.NewLambdishType(types.Bool, 0),
 						2,
@@ -435,22 +730,46 @@ func TestExistsDir(t *testing.T) {
 							types.NewLambdishType(types.Bool, 0),
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"isEnabled": &VarEntry{
+									"isEnabled",
+									types.NewLambdishType(types.Bool, 0),
+								},
+							},
+						},
 					},
-					"exists@3@3": funcentry{
+					"exists@3@3": &FuncEntry{
 						"exists",
 						types.NewLambdishType(types.Bool, 0),
 						1,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Bool, 0),
 						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"minVal": &VarEntry{
+									"minVal",
+									types.NewLambdishType(types.Num, 0),
+								},
+							},
+						},
 					},
-					"getEven@[1]@[1]1": funcentry{
+					"getEven@[1]@[1]1": &FuncEntry{
 						"getEven",
 						types.NewLambdishType(types.Num, 1),
 						2,
 						[]types.LambdishType{
 							types.NewLambdishType(types.Num, 1),
 							types.NewLambdishType(types.Num, 0),
+						},
+						&VarDirectory{
+							map[string]*VarEntry{
+								"arrBool": &VarEntry{
+									"arrBool",
+									types.NewLambdishType(types.Bool, 10),
+								},
+							},
 						},
 					},
 				},
@@ -465,4 +784,3 @@ func TestExistsDir(t *testing.T) {
 		}
 	}
 }
-

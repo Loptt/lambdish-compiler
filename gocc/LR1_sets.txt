@@ -1,42 +1,22 @@
 S0{
 	S' : •Program «$»
-	Program : •List «$»
-	List : •FunctionOrCall List «$»
-	List : empty• «$»
-	FunctionOrCall : •Function «$»
-	FunctionOrCall : •Function «id»
-	FunctionOrCall : •Function «operations»
-	FunctionOrCall : •Function «relop»
-	FunctionOrCall : •FunctionCall «$»
-	FunctionOrCall : •FunctionCall «id»
-	FunctionOrCall : •FunctionCall «operations»
-	FunctionOrCall : •FunctionCall «relop»
-	Function : •id :: Params => Type ( Statement ) «$»
-	Function : •id :: Params => Type ( Statement ) «id»
-	Function : •id :: Params => Type ( Statement ) «operations»
-	Function : •id :: Params => Type ( Statement ) «relop»
-	FunctionCall : •id ( Args ) «$»
-	FunctionCall : •operations ( Args ) «$»
-	FunctionCall : •relop ( Args ) «$»
-	FunctionCall : •id ( Args ) «id»
-	FunctionCall : •operations ( Args ) «id»
-	FunctionCall : •relop ( Args ) «id»
-	FunctionCall : •id ( Args ) «operations»
-	FunctionCall : •operations ( Args ) «operations»
-	FunctionCall : •relop ( Args ) «operations»
-	FunctionCall : •id ( Args ) «relop»
-	FunctionCall : •operations ( Args ) «relop»
-	FunctionCall : •relop ( Args ) «relop»
+	Program : •Functions FunctionCall «$»
+	Functions : •Function Functions «id»
+	Functions : •Function Functions «operations»
+	Functions : •Function Functions «relop»
+	Functions : •Function «id»
+	Functions : •Function «operations»
+	Functions : •Function «relop»
+	Function : •func id :: Params => Type ( Statement ) «func»
+	Function : •func id :: Params => Type ( Statement ) «id»
+	Function : •func id :: Params => Type ( Statement ) «operations»
+	Function : •func id :: Params => Type ( Statement ) «relop»
 }
 Transitions:
 	Program -> 1
-	List -> 2
-	FunctionOrCall -> 3
-	Function -> 4
-	FunctionCall -> 5
-	id -> 6
-	operations -> 7
-	relop -> 8
+	Functions -> 2
+	Function -> 3
+	func -> 4
 
 
 S1{
@@ -46,88 +26,67 @@ Transitions:
 
 
 S2{
-	Program : List• «$»
-}
-Transitions:
-
-
-S3{
-	List : FunctionOrCall •List «$»
-	List : •FunctionOrCall List «$»
-	List : empty• «$»
-	FunctionOrCall : •Function «$»
-	FunctionOrCall : •Function «id»
-	FunctionOrCall : •Function «operations»
-	FunctionOrCall : •Function «relop»
-	FunctionOrCall : •FunctionCall «$»
-	FunctionOrCall : •FunctionCall «id»
-	FunctionOrCall : •FunctionCall «operations»
-	FunctionOrCall : •FunctionCall «relop»
-	Function : •id :: Params => Type ( Statement ) «$»
-	Function : •id :: Params => Type ( Statement ) «id»
-	Function : •id :: Params => Type ( Statement ) «operations»
-	Function : •id :: Params => Type ( Statement ) «relop»
+	Program : Functions •FunctionCall «$»
 	FunctionCall : •id ( Args ) «$»
 	FunctionCall : •operations ( Args ) «$»
 	FunctionCall : •relop ( Args ) «$»
-	FunctionCall : •id ( Args ) «id»
-	FunctionCall : •operations ( Args ) «id»
-	FunctionCall : •relop ( Args ) «id»
-	FunctionCall : •id ( Args ) «operations»
-	FunctionCall : •operations ( Args ) «operations»
-	FunctionCall : •relop ( Args ) «operations»
-	FunctionCall : •id ( Args ) «relop»
-	FunctionCall : •operations ( Args ) «relop»
-	FunctionCall : •relop ( Args ) «relop»
 }
 Transitions:
-	FunctionOrCall -> 3
-	Function -> 4
 	FunctionCall -> 5
 	id -> 6
 	operations -> 7
 	relop -> 8
-	List -> 9
+
+
+S3{
+	Functions : Function •Functions «id»
+	Functions : Function •Functions «operations»
+	Functions : Function •Functions «relop»
+	Functions : Function• «id»
+	Functions : Function• «operations»
+	Functions : Function• «relop»
+	Functions : •Function Functions «id»
+	Functions : •Function «id»
+	Functions : •Function Functions «operations»
+	Functions : •Function «operations»
+	Functions : •Function Functions «relop»
+	Functions : •Function «relop»
+	Function : •func id :: Params => Type ( Statement ) «func»
+	Function : •func id :: Params => Type ( Statement ) «id»
+	Function : •func id :: Params => Type ( Statement ) «operations»
+	Function : •func id :: Params => Type ( Statement ) «relop»
+}
+Transitions:
+	Function -> 3
+	func -> 4
+	Functions -> 9
 
 
 S4{
-	FunctionOrCall : Function• «$»
-	FunctionOrCall : Function• «id»
-	FunctionOrCall : Function• «operations»
-	FunctionOrCall : Function• «relop»
+	Function : func •id :: Params => Type ( Statement ) «func»
+	Function : func •id :: Params => Type ( Statement ) «id»
+	Function : func •id :: Params => Type ( Statement ) «operations»
+	Function : func •id :: Params => Type ( Statement ) «relop»
 }
 Transitions:
+	id -> 10
 
 
 S5{
-	FunctionOrCall : FunctionCall• «$»
-	FunctionOrCall : FunctionCall• «id»
-	FunctionOrCall : FunctionCall• «operations»
-	FunctionOrCall : FunctionCall• «relop»
+	Program : Functions FunctionCall• «$»
 }
 Transitions:
 
 
 S6{
-	Function : id •:: Params => Type ( Statement ) «$»
-	Function : id •:: Params => Type ( Statement ) «id»
-	Function : id •:: Params => Type ( Statement ) «operations»
-	Function : id •:: Params => Type ( Statement ) «relop»
 	FunctionCall : id •( Args ) «$»
-	FunctionCall : id •( Args ) «id»
-	FunctionCall : id •( Args ) «operations»
-	FunctionCall : id •( Args ) «relop»
 }
 Transitions:
-	:: -> 10
 	( -> 11
 
 
 S7{
 	FunctionCall : operations •( Args ) «$»
-	FunctionCall : operations •( Args ) «id»
-	FunctionCall : operations •( Args ) «operations»
-	FunctionCall : operations •( Args ) «relop»
 }
 Transitions:
 	( -> 12
@@ -135,25 +94,190 @@ Transitions:
 
 S8{
 	FunctionCall : relop •( Args ) «$»
-	FunctionCall : relop •( Args ) «id»
-	FunctionCall : relop •( Args ) «operations»
-	FunctionCall : relop •( Args ) «relop»
 }
 Transitions:
 	( -> 13
 
 
 S9{
-	List : FunctionOrCall List• «$»
+	Functions : Function Functions• «id»
+	Functions : Function Functions• «operations»
+	Functions : Function Functions• «relop»
 }
 Transitions:
 
 
 S10{
-	Function : id :: •Params => Type ( Statement ) «$»
-	Function : id :: •Params => Type ( Statement ) «id»
-	Function : id :: •Params => Type ( Statement ) «operations»
-	Function : id :: •Params => Type ( Statement ) «relop»
+	Function : func id •:: Params => Type ( Statement ) «func»
+	Function : func id •:: Params => Type ( Statement ) «id»
+	Function : func id •:: Params => Type ( Statement ) «operations»
+	Function : func id •:: Params => Type ( Statement ) «relop»
+}
+Transitions:
+	:: -> 14
+
+
+S11{
+	FunctionCall : id ( •Args ) «$»
+	Args : •Statement , Args «)»
+	Args : •Statement «)»
+	Args : empty• «)»
+	Statement : •id «,»
+	Statement : •Constant «,»
+	Statement : •LambdaExpr «,»
+	Statement : •FunctionCall «,»
+	Statement : •id «)»
+	Statement : •Constant «)»
+	Statement : •LambdaExpr «)»
+	Statement : •FunctionCall «)»
+	Constant : •boolean «,»
+	Constant : •number «,»
+	Constant : •charac «,»
+	Constant : •[ Args ] «,»
+	LambdaExpr : •Lambda «,»
+	LambdaExpr : •Lambda ( Args ) «,»
+	FunctionCall : •id ( Args ) «,»
+	FunctionCall : •operations ( Args ) «,»
+	FunctionCall : •relop ( Args ) «,»
+	Constant : •boolean «)»
+	Constant : •number «)»
+	Constant : •charac «)»
+	Constant : •[ Args ] «)»
+	LambdaExpr : •Lambda «)»
+	LambdaExpr : •Lambda ( Args ) «)»
+	FunctionCall : •id ( Args ) «)»
+	FunctionCall : •operations ( Args ) «)»
+	FunctionCall : •relop ( Args ) «)»
+	Lambda : •( # Params => ( Statement ) ) «,»
+	Lambda : •( # Params => ( Statement ) ) «(»
+	Lambda : •( # Params => ( Statement ) ) «)»
+}
+Transitions:
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	Args -> 22
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+
+
+S12{
+	FunctionCall : operations ( •Args ) «$»
+	Args : •Statement , Args «)»
+	Args : •Statement «)»
+	Args : empty• «)»
+	Statement : •id «,»
+	Statement : •Constant «,»
+	Statement : •LambdaExpr «,»
+	Statement : •FunctionCall «,»
+	Statement : •id «)»
+	Statement : •Constant «)»
+	Statement : •LambdaExpr «)»
+	Statement : •FunctionCall «)»
+	Constant : •boolean «,»
+	Constant : •number «,»
+	Constant : •charac «,»
+	Constant : •[ Args ] «,»
+	LambdaExpr : •Lambda «,»
+	LambdaExpr : •Lambda ( Args ) «,»
+	FunctionCall : •id ( Args ) «,»
+	FunctionCall : •operations ( Args ) «,»
+	FunctionCall : •relop ( Args ) «,»
+	Constant : •boolean «)»
+	Constant : •number «)»
+	Constant : •charac «)»
+	Constant : •[ Args ] «)»
+	LambdaExpr : •Lambda «)»
+	LambdaExpr : •Lambda ( Args ) «)»
+	FunctionCall : •id ( Args ) «)»
+	FunctionCall : •operations ( Args ) «)»
+	FunctionCall : •relop ( Args ) «)»
+	Lambda : •( # Params => ( Statement ) ) «,»
+	Lambda : •( # Params => ( Statement ) ) «(»
+	Lambda : •( # Params => ( Statement ) ) «)»
+}
+Transitions:
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 29
+
+
+S13{
+	FunctionCall : relop ( •Args ) «$»
+	Args : •Statement , Args «)»
+	Args : •Statement «)»
+	Args : empty• «)»
+	Statement : •id «,»
+	Statement : •Constant «,»
+	Statement : •LambdaExpr «,»
+	Statement : •FunctionCall «,»
+	Statement : •id «)»
+	Statement : •Constant «)»
+	Statement : •LambdaExpr «)»
+	Statement : •FunctionCall «)»
+	Constant : •boolean «,»
+	Constant : •number «,»
+	Constant : •charac «,»
+	Constant : •[ Args ] «,»
+	LambdaExpr : •Lambda «,»
+	LambdaExpr : •Lambda ( Args ) «,»
+	FunctionCall : •id ( Args ) «,»
+	FunctionCall : •operations ( Args ) «,»
+	FunctionCall : •relop ( Args ) «,»
+	Constant : •boolean «)»
+	Constant : •number «)»
+	Constant : •charac «)»
+	Constant : •[ Args ] «)»
+	LambdaExpr : •Lambda «)»
+	LambdaExpr : •Lambda ( Args ) «)»
+	FunctionCall : •id ( Args ) «)»
+	FunctionCall : •operations ( Args ) «)»
+	FunctionCall : •relop ( Args ) «)»
+	Lambda : •( # Params => ( Statement ) ) «,»
+	Lambda : •( # Params => ( Statement ) ) «(»
+	Lambda : •( # Params => ( Statement ) ) «)»
+}
+Transitions:
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 30
+
+
+S14{
+	Function : func id :: •Params => Type ( Statement ) «func»
+	Function : func id :: •Params => Type ( Statement ) «id»
+	Function : func id :: •Params => Type ( Statement ) «operations»
+	Function : func id :: •Params => Type ( Statement ) «relop»
 	Params : •Type id , Params «=>»
 	Params : •Type id «=>»
 	Params : empty• «=>»
@@ -163,265 +287,49 @@ S10{
 	Type : •[ Type ] «id»
 }
 Transitions:
-	Params -> 14
-	Type -> 15
-	num -> 16
-	bool -> 17
-	char -> 18
-	[ -> 19
-
-
-S11{
-	FunctionCall : id ( •Args ) «$»
-	FunctionCall : id ( •Args ) «id»
-	FunctionCall : id ( •Args ) «operations»
-	FunctionCall : id ( •Args ) «relop»
-	Args : •Statement , Args «)»
-	Args : •Statement «)»
-	Args : empty• «)»
-	Statement : •id «,»
-	Statement : •Constant «,»
-	Statement : •LambdaExpr «,»
-	Statement : •FunctionCall «,»
-	Statement : •id «)»
-	Statement : •Constant «)»
-	Statement : •LambdaExpr «)»
-	Statement : •FunctionCall «)»
-	Constant : •boolean «,»
-	Constant : •number «,»
-	Constant : •charac «,»
-	Constant : •[ Args ] «,»
-	LambdaExpr : •Lambda «,»
-	LambdaExpr : •Lambda ( Args ) «,»
-	FunctionCall : •id ( Args ) «,»
-	FunctionCall : •operations ( Args ) «,»
-	FunctionCall : •relop ( Args ) «,»
-	Constant : •boolean «)»
-	Constant : •number «)»
-	Constant : •charac «)»
-	Constant : •[ Args ] «)»
-	LambdaExpr : •Lambda «)»
-	LambdaExpr : •Lambda ( Args ) «)»
-	FunctionCall : •id ( Args ) «)»
-	FunctionCall : •operations ( Args ) «)»
-	FunctionCall : •relop ( Args ) «)»
-	Lambda : •( # Params => ( Statement ) ) «,»
-	Lambda : •( # Params => ( Statement ) ) «(»
-	Lambda : •( # Params => ( Statement ) ) «)»
-}
-Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	Args -> 27
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-
-
-S12{
-	FunctionCall : operations ( •Args ) «$»
-	FunctionCall : operations ( •Args ) «id»
-	FunctionCall : operations ( •Args ) «operations»
-	FunctionCall : operations ( •Args ) «relop»
-	Args : •Statement , Args «)»
-	Args : •Statement «)»
-	Args : empty• «)»
-	Statement : •id «,»
-	Statement : •Constant «,»
-	Statement : •LambdaExpr «,»
-	Statement : •FunctionCall «,»
-	Statement : •id «)»
-	Statement : •Constant «)»
-	Statement : •LambdaExpr «)»
-	Statement : •FunctionCall «)»
-	Constant : •boolean «,»
-	Constant : •number «,»
-	Constant : •charac «,»
-	Constant : •[ Args ] «,»
-	LambdaExpr : •Lambda «,»
-	LambdaExpr : •Lambda ( Args ) «,»
-	FunctionCall : •id ( Args ) «,»
-	FunctionCall : •operations ( Args ) «,»
-	FunctionCall : •relop ( Args ) «,»
-	Constant : •boolean «)»
-	Constant : •number «)»
-	Constant : •charac «)»
-	Constant : •[ Args ] «)»
-	LambdaExpr : •Lambda «)»
-	LambdaExpr : •Lambda ( Args ) «)»
-	FunctionCall : •id ( Args ) «)»
-	FunctionCall : •operations ( Args ) «)»
-	FunctionCall : •relop ( Args ) «)»
-	Lambda : •( # Params => ( Statement ) ) «,»
-	Lambda : •( # Params => ( Statement ) ) «(»
-	Lambda : •( # Params => ( Statement ) ) «)»
-}
-Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 34
-
-
-S13{
-	FunctionCall : relop ( •Args ) «$»
-	FunctionCall : relop ( •Args ) «id»
-	FunctionCall : relop ( •Args ) «operations»
-	FunctionCall : relop ( •Args ) «relop»
-	Args : •Statement , Args «)»
-	Args : •Statement «)»
-	Args : empty• «)»
-	Statement : •id «,»
-	Statement : •Constant «,»
-	Statement : •LambdaExpr «,»
-	Statement : •FunctionCall «,»
-	Statement : •id «)»
-	Statement : •Constant «)»
-	Statement : •LambdaExpr «)»
-	Statement : •FunctionCall «)»
-	Constant : •boolean «,»
-	Constant : •number «,»
-	Constant : •charac «,»
-	Constant : •[ Args ] «,»
-	LambdaExpr : •Lambda «,»
-	LambdaExpr : •Lambda ( Args ) «,»
-	FunctionCall : •id ( Args ) «,»
-	FunctionCall : •operations ( Args ) «,»
-	FunctionCall : •relop ( Args ) «,»
-	Constant : •boolean «)»
-	Constant : •number «)»
-	Constant : •charac «)»
-	Constant : •[ Args ] «)»
-	LambdaExpr : •Lambda «)»
-	LambdaExpr : •Lambda ( Args ) «)»
-	FunctionCall : •id ( Args ) «)»
-	FunctionCall : •operations ( Args ) «)»
-	FunctionCall : •relop ( Args ) «)»
-	Lambda : •( # Params => ( Statement ) ) «,»
-	Lambda : •( # Params => ( Statement ) ) «(»
-	Lambda : •( # Params => ( Statement ) ) «)»
-}
-Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 35
-
-
-S14{
-	Function : id :: Params •=> Type ( Statement ) «$»
-	Function : id :: Params •=> Type ( Statement ) «id»
-	Function : id :: Params •=> Type ( Statement ) «operations»
-	Function : id :: Params •=> Type ( Statement ) «relop»
-}
-Transitions:
-	=> -> 36
+	Params -> 31
+	Type -> 32
+	num -> 33
+	bool -> 34
+	char -> 35
+	[ -> 36
 
 
 S15{
-	Params : Type •id , Params «=>»
-	Params : Type •id «=>»
-}
-Transitions:
-	id -> 37
-
-
-S16{
-	Type : num• «id»
-}
-Transitions:
-
-
-S17{
-	Type : bool• «id»
-}
-Transitions:
-
-
-S18{
-	Type : char• «id»
-}
-Transitions:
-
-
-S19{
-	Type : [ •Type ] «id»
-	Type : •num «]»
-	Type : •bool «]»
-	Type : •char «]»
-	Type : •[ Type ] «]»
-}
-Transitions:
-	Type -> 38
-	num -> 39
-	bool -> 40
-	char -> 41
-	[ -> 42
-
-
-S20{
 	Statement : FunctionCall• «,»
 	Statement : FunctionCall• «)»
 }
 Transitions:
 
 
-S21{
+S16{
 	Statement : id• «,»
 	Statement : id• «)»
 	FunctionCall : id •( Args ) «,»
 	FunctionCall : id •( Args ) «)»
 }
 Transitions:
-	( -> 43
+	( -> 37
 
 
-S22{
+S17{
 	Lambda : ( •# Params => ( Statement ) ) «,»
 	Lambda : ( •# Params => ( Statement ) ) «(»
 	Lambda : ( •# Params => ( Statement ) ) «)»
 }
 Transitions:
-	# -> 44
+	# -> 38
 
 
-S23{
+S18{
 	Args : Statement •, Args «)»
 	Args : Statement• «)»
 }
 Transitions:
-	, -> 45
+	, -> 39
 
 
-S24{
+S19{
 	Constant : [ •Args ] «,»
 	Constant : [ •Args ] «)»
 	Args : •Statement , Args «]»
@@ -458,180 +366,156 @@ S24{
 	Lambda : •( # Params => ( Statement ) ) «]»
 }
 Transitions:
-	FunctionCall -> 46
-	id -> 47
-	( -> 48
-	Statement -> 49
-	[ -> 50
-	Constant -> 51
-	LambdaExpr -> 52
-	Args -> 53
-	operations -> 54
-	relop -> 55
-	Lambda -> 56
-	boolean -> 57
-	number -> 58
-	charac -> 59
+	FunctionCall -> 40
+	id -> 41
+	( -> 42
+	Statement -> 43
+	[ -> 44
+	Constant -> 45
+	LambdaExpr -> 46
+	Args -> 47
+	operations -> 48
+	relop -> 49
+	Lambda -> 50
+	boolean -> 51
+	number -> 52
+	charac -> 53
 
 
-S25{
+S20{
 	Statement : Constant• «,»
 	Statement : Constant• «)»
 }
 Transitions:
 
 
-S26{
+S21{
 	Statement : LambdaExpr• «,»
 	Statement : LambdaExpr• «)»
 }
 Transitions:
 
 
-S27{
+S22{
 	FunctionCall : id ( Args •) «$»
-	FunctionCall : id ( Args •) «id»
-	FunctionCall : id ( Args •) «operations»
-	FunctionCall : id ( Args •) «relop»
 }
 Transitions:
-	) -> 60
+	) -> 54
 
 
-S28{
+S23{
 	FunctionCall : operations •( Args ) «,»
 	FunctionCall : operations •( Args ) «)»
 }
 Transitions:
-	( -> 61
+	( -> 55
 
 
-S29{
+S24{
 	FunctionCall : relop •( Args ) «,»
 	FunctionCall : relop •( Args ) «)»
 }
 Transitions:
-	( -> 62
+	( -> 56
 
 
-S30{
+S25{
 	LambdaExpr : Lambda• «,»
 	LambdaExpr : Lambda •( Args ) «,»
 	LambdaExpr : Lambda• «)»
 	LambdaExpr : Lambda •( Args ) «)»
 }
 Transitions:
-	( -> 63
+	( -> 57
 
 
-S31{
+S26{
 	Constant : boolean• «,»
 	Constant : boolean• «)»
 }
 Transitions:
 
 
-S32{
+S27{
 	Constant : number• «,»
 	Constant : number• «)»
 }
 Transitions:
 
 
-S33{
+S28{
 	Constant : charac• «,»
 	Constant : charac• «)»
 }
 Transitions:
 
 
-S34{
+S29{
 	FunctionCall : operations ( Args •) «$»
-	FunctionCall : operations ( Args •) «id»
-	FunctionCall : operations ( Args •) «operations»
-	FunctionCall : operations ( Args •) «relop»
 }
 Transitions:
-	) -> 64
+	) -> 58
+
+
+S30{
+	FunctionCall : relop ( Args •) «$»
+}
+Transitions:
+	) -> 59
+
+
+S31{
+	Function : func id :: Params •=> Type ( Statement ) «func»
+	Function : func id :: Params •=> Type ( Statement ) «id»
+	Function : func id :: Params •=> Type ( Statement ) «operations»
+	Function : func id :: Params •=> Type ( Statement ) «relop»
+}
+Transitions:
+	=> -> 60
+
+
+S32{
+	Params : Type •id , Params «=>»
+	Params : Type •id «=>»
+}
+Transitions:
+	id -> 61
+
+
+S33{
+	Type : num• «id»
+}
+Transitions:
+
+
+S34{
+	Type : bool• «id»
+}
+Transitions:
 
 
 S35{
-	FunctionCall : relop ( Args •) «$»
-	FunctionCall : relop ( Args •) «id»
-	FunctionCall : relop ( Args •) «operations»
-	FunctionCall : relop ( Args •) «relop»
+	Type : char• «id»
 }
 Transitions:
-	) -> 65
 
 
 S36{
-	Function : id :: Params => •Type ( Statement ) «$»
-	Function : id :: Params => •Type ( Statement ) «id»
-	Function : id :: Params => •Type ( Statement ) «operations»
-	Function : id :: Params => •Type ( Statement ) «relop»
-	Type : •num «(»
-	Type : •bool «(»
-	Type : •char «(»
-	Type : •[ Type ] «(»
-}
-Transitions:
-	Type -> 66
-	num -> 67
-	bool -> 68
-	char -> 69
-	[ -> 70
-
-
-S37{
-	Params : Type id •, Params «=>»
-	Params : Type id• «=>»
-}
-Transitions:
-	, -> 71
-
-
-S38{
-	Type : [ Type •] «id»
-}
-Transitions:
-	] -> 72
-
-
-S39{
-	Type : num• «]»
-}
-Transitions:
-
-
-S40{
-	Type : bool• «]»
-}
-Transitions:
-
-
-S41{
-	Type : char• «]»
-}
-Transitions:
-
-
-S42{
-	Type : [ •Type ] «]»
+	Type : [ •Type ] «id»
 	Type : •num «]»
 	Type : •bool «]»
 	Type : •char «]»
 	Type : •[ Type ] «]»
 }
 Transitions:
-	num -> 39
-	bool -> 40
-	char -> 41
-	[ -> 42
-	Type -> 73
+	Type -> 62
+	num -> 63
+	bool -> 64
+	char -> 65
+	[ -> 66
 
 
-S43{
+S37{
 	FunctionCall : id ( •Args ) «,»
 	FunctionCall : id ( •Args ) «)»
 	Args : •Statement , Args «)»
@@ -668,23 +552,23 @@ S43{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 74
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 67
 
 
-S44{
+S38{
 	Lambda : ( # •Params => ( Statement ) ) «,»
 	Lambda : ( # •Params => ( Statement ) ) «(»
 	Lambda : ( # •Params => ( Statement ) ) «)»
@@ -697,15 +581,15 @@ S44{
 	Type : •[ Type ] «id»
 }
 Transitions:
-	Type -> 15
-	num -> 16
-	bool -> 17
-	char -> 18
-	[ -> 19
-	Params -> 75
+	Type -> 32
+	num -> 33
+	bool -> 34
+	char -> 35
+	[ -> 36
+	Params -> 68
 
 
-S45{
+S39{
 	Args : Statement , •Args «)»
 	Args : •Statement , Args «)»
 	Args : •Statement «)»
@@ -741,57 +625,57 @@ S45{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 76
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 69
 
 
-S46{
+S40{
 	Statement : FunctionCall• «,»
 	Statement : FunctionCall• «]»
 }
 Transitions:
 
 
-S47{
+S41{
 	Statement : id• «,»
 	Statement : id• «]»
 	FunctionCall : id •( Args ) «,»
 	FunctionCall : id •( Args ) «]»
 }
 Transitions:
-	( -> 77
+	( -> 70
 
 
-S48{
+S42{
 	Lambda : ( •# Params => ( Statement ) ) «,»
 	Lambda : ( •# Params => ( Statement ) ) «(»
 	Lambda : ( •# Params => ( Statement ) ) «]»
 }
 Transitions:
-	# -> 78
+	# -> 71
 
 
-S49{
+S43{
 	Args : Statement •, Args «]»
 	Args : Statement• «]»
 }
 Transitions:
-	, -> 79
+	, -> 72
 
 
-S50{
+S44{
 	Constant : [ •Args ] «,»
 	Constant : [ •Args ] «]»
 	Args : •Statement , Args «]»
@@ -828,101 +712,98 @@ S50{
 	Lambda : •( # Params => ( Statement ) ) «]»
 }
 Transitions:
-	FunctionCall -> 46
-	id -> 47
-	( -> 48
-	Statement -> 49
-	[ -> 50
-	Constant -> 51
-	LambdaExpr -> 52
-	operations -> 54
-	relop -> 55
-	Lambda -> 56
-	boolean -> 57
-	number -> 58
-	charac -> 59
-	Args -> 80
+	FunctionCall -> 40
+	id -> 41
+	( -> 42
+	Statement -> 43
+	[ -> 44
+	Constant -> 45
+	LambdaExpr -> 46
+	operations -> 48
+	relop -> 49
+	Lambda -> 50
+	boolean -> 51
+	number -> 52
+	charac -> 53
+	Args -> 73
 
 
-S51{
+S45{
 	Statement : Constant• «,»
 	Statement : Constant• «]»
 }
 Transitions:
 
 
-S52{
+S46{
 	Statement : LambdaExpr• «,»
 	Statement : LambdaExpr• «]»
 }
 Transitions:
 
 
-S53{
+S47{
 	Constant : [ Args •] «,»
 	Constant : [ Args •] «)»
 }
 Transitions:
-	] -> 81
+	] -> 74
 
 
-S54{
+S48{
 	FunctionCall : operations •( Args ) «,»
 	FunctionCall : operations •( Args ) «]»
 }
 Transitions:
-	( -> 82
+	( -> 75
 
 
-S55{
+S49{
 	FunctionCall : relop •( Args ) «,»
 	FunctionCall : relop •( Args ) «]»
 }
 Transitions:
-	( -> 83
+	( -> 76
 
 
-S56{
+S50{
 	LambdaExpr : Lambda• «,»
 	LambdaExpr : Lambda •( Args ) «,»
 	LambdaExpr : Lambda• «]»
 	LambdaExpr : Lambda •( Args ) «]»
 }
 Transitions:
-	( -> 84
+	( -> 77
 
 
-S57{
+S51{
 	Constant : boolean• «,»
 	Constant : boolean• «]»
 }
 Transitions:
 
 
-S58{
+S52{
 	Constant : number• «,»
 	Constant : number• «]»
 }
 Transitions:
 
 
-S59{
+S53{
 	Constant : charac• «,»
 	Constant : charac• «]»
 }
 Transitions:
 
 
-S60{
+S54{
 	FunctionCall : id ( Args )• «$»
-	FunctionCall : id ( Args )• «id»
-	FunctionCall : id ( Args )• «operations»
-	FunctionCall : id ( Args )• «relop»
 }
 Transitions:
 
 
-S61{
+S55{
 	FunctionCall : operations ( •Args ) «,»
 	FunctionCall : operations ( •Args ) «)»
 	Args : •Statement , Args «)»
@@ -959,23 +840,23 @@ S61{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 85
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 78
 
 
-S62{
+S56{
 	FunctionCall : relop ( •Args ) «,»
 	FunctionCall : relop ( •Args ) «)»
 	Args : •Statement , Args «)»
@@ -1012,23 +893,23 @@ S62{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 86
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 79
 
 
-S63{
+S57{
 	LambdaExpr : Lambda ( •Args ) «,»
 	LambdaExpr : Lambda ( •Args ) «)»
 	Args : •Statement , Args «)»
@@ -1065,139 +946,124 @@ S63{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 87
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 80
+
+
+S58{
+	FunctionCall : operations ( Args )• «$»
+}
+Transitions:
+
+
+S59{
+	FunctionCall : relop ( Args )• «$»
+}
+Transitions:
+
+
+S60{
+	Function : func id :: Params => •Type ( Statement ) «func»
+	Function : func id :: Params => •Type ( Statement ) «id»
+	Function : func id :: Params => •Type ( Statement ) «operations»
+	Function : func id :: Params => •Type ( Statement ) «relop»
+	Type : •num «(»
+	Type : •bool «(»
+	Type : •char «(»
+	Type : •[ Type ] «(»
+}
+Transitions:
+	Type -> 81
+	num -> 82
+	bool -> 83
+	char -> 84
+	[ -> 85
+
+
+S61{
+	Params : Type id •, Params «=>»
+	Params : Type id• «=>»
+}
+Transitions:
+	, -> 86
+
+
+S62{
+	Type : [ Type •] «id»
+}
+Transitions:
+	] -> 87
+
+
+S63{
+	Type : num• «]»
+}
+Transitions:
 
 
 S64{
-	FunctionCall : operations ( Args )• «$»
-	FunctionCall : operations ( Args )• «id»
-	FunctionCall : operations ( Args )• «operations»
-	FunctionCall : operations ( Args )• «relop»
+	Type : bool• «]»
 }
 Transitions:
 
 
 S65{
-	FunctionCall : relop ( Args )• «$»
-	FunctionCall : relop ( Args )• «id»
-	FunctionCall : relop ( Args )• «operations»
-	FunctionCall : relop ( Args )• «relop»
+	Type : char• «]»
 }
 Transitions:
 
 
 S66{
-	Function : id :: Params => Type •( Statement ) «$»
-	Function : id :: Params => Type •( Statement ) «id»
-	Function : id :: Params => Type •( Statement ) «operations»
-	Function : id :: Params => Type •( Statement ) «relop»
-}
-Transitions:
-	( -> 88
-
-
-S67{
-	Type : num• «(»
-}
-Transitions:
-
-
-S68{
-	Type : bool• «(»
-}
-Transitions:
-
-
-S69{
-	Type : char• «(»
-}
-Transitions:
-
-
-S70{
-	Type : [ •Type ] «(»
+	Type : [ •Type ] «]»
 	Type : •num «]»
 	Type : •bool «]»
 	Type : •char «]»
 	Type : •[ Type ] «]»
 }
 Transitions:
-	num -> 39
-	bool -> 40
-	char -> 41
-	[ -> 42
-	Type -> 89
+	num -> 63
+	bool -> 64
+	char -> 65
+	[ -> 66
+	Type -> 88
 
 
-S71{
-	Params : Type id , •Params «=>»
-	Params : •Type id , Params «=>»
-	Params : •Type id «=>»
-	Params : empty• «=>»
-	Type : •num «id»
-	Type : •bool «id»
-	Type : •char «id»
-	Type : •[ Type ] «id»
-}
-Transitions:
-	Type -> 15
-	num -> 16
-	bool -> 17
-	char -> 18
-	[ -> 19
-	Params -> 90
-
-
-S72{
-	Type : [ Type ]• «id»
-}
-Transitions:
-
-
-S73{
-	Type : [ Type •] «]»
-}
-Transitions:
-	] -> 91
-
-
-S74{
+S67{
 	FunctionCall : id ( Args •) «,»
 	FunctionCall : id ( Args •) «)»
 }
 Transitions:
-	) -> 92
+	) -> 89
 
 
-S75{
+S68{
 	Lambda : ( # Params •=> ( Statement ) ) «,»
 	Lambda : ( # Params •=> ( Statement ) ) «(»
 	Lambda : ( # Params •=> ( Statement ) ) «)»
 }
 Transitions:
-	=> -> 93
+	=> -> 90
 
 
-S76{
+S69{
 	Args : Statement , Args• «)»
 }
 Transitions:
 
 
-S77{
+S70{
 	FunctionCall : id ( •Args ) «,»
 	FunctionCall : id ( •Args ) «]»
 	Args : •Statement , Args «)»
@@ -1234,23 +1100,23 @@ S77{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 94
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 91
 
 
-S78{
+S71{
 	Lambda : ( # •Params => ( Statement ) ) «,»
 	Lambda : ( # •Params => ( Statement ) ) «(»
 	Lambda : ( # •Params => ( Statement ) ) «]»
@@ -1263,15 +1129,15 @@ S78{
 	Type : •[ Type ] «id»
 }
 Transitions:
-	Type -> 15
-	num -> 16
-	bool -> 17
-	char -> 18
-	[ -> 19
-	Params -> 95
+	Type -> 32
+	num -> 33
+	bool -> 34
+	char -> 35
+	[ -> 36
+	Params -> 92
 
 
-S79{
+S72{
 	Args : Statement , •Args «]»
 	Args : •Statement , Args «]»
 	Args : •Statement «]»
@@ -1307,38 +1173,38 @@ S79{
 	Lambda : •( # Params => ( Statement ) ) «]»
 }
 Transitions:
-	FunctionCall -> 46
-	id -> 47
-	( -> 48
-	Statement -> 49
-	[ -> 50
-	Constant -> 51
-	LambdaExpr -> 52
-	operations -> 54
-	relop -> 55
-	Lambda -> 56
-	boolean -> 57
-	number -> 58
-	charac -> 59
-	Args -> 96
+	FunctionCall -> 40
+	id -> 41
+	( -> 42
+	Statement -> 43
+	[ -> 44
+	Constant -> 45
+	LambdaExpr -> 46
+	operations -> 48
+	relop -> 49
+	Lambda -> 50
+	boolean -> 51
+	number -> 52
+	charac -> 53
+	Args -> 93
 
 
-S80{
+S73{
 	Constant : [ Args •] «,»
 	Constant : [ Args •] «]»
 }
 Transitions:
-	] -> 97
+	] -> 94
 
 
-S81{
+S74{
 	Constant : [ Args ]• «,»
 	Constant : [ Args ]• «)»
 }
 Transitions:
 
 
-S82{
+S75{
 	FunctionCall : operations ( •Args ) «,»
 	FunctionCall : operations ( •Args ) «]»
 	Args : •Statement , Args «)»
@@ -1375,23 +1241,23 @@ S82{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 98
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 95
 
 
-S83{
+S76{
 	FunctionCall : relop ( •Args ) «,»
 	FunctionCall : relop ( •Args ) «]»
 	Args : •Statement , Args «)»
@@ -1428,23 +1294,23 @@ S83{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 99
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 96
 
 
-S84{
+S77{
 	LambdaExpr : Lambda ( •Args ) «,»
 	LambdaExpr : Lambda ( •Args ) «]»
 	Args : •Statement , Args «)»
@@ -1481,51 +1347,217 @@ S84{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 100
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 97
 
 
-S85{
+S78{
 	FunctionCall : operations ( Args •) «,»
 	FunctionCall : operations ( Args •) «)»
 }
 Transitions:
-	) -> 101
+	) -> 98
 
 
-S86{
+S79{
 	FunctionCall : relop ( Args •) «,»
 	FunctionCall : relop ( Args •) «)»
 }
 Transitions:
-	) -> 102
+	) -> 99
 
 
-S87{
+S80{
 	LambdaExpr : Lambda ( Args •) «,»
 	LambdaExpr : Lambda ( Args •) «)»
 }
 Transitions:
-	) -> 103
+	) -> 100
+
+
+S81{
+	Function : func id :: Params => Type •( Statement ) «func»
+	Function : func id :: Params => Type •( Statement ) «id»
+	Function : func id :: Params => Type •( Statement ) «operations»
+	Function : func id :: Params => Type •( Statement ) «relop»
+}
+Transitions:
+	( -> 101
+
+
+S82{
+	Type : num• «(»
+}
+Transitions:
+
+
+S83{
+	Type : bool• «(»
+}
+Transitions:
+
+
+S84{
+	Type : char• «(»
+}
+Transitions:
+
+
+S85{
+	Type : [ •Type ] «(»
+	Type : •num «]»
+	Type : •bool «]»
+	Type : •char «]»
+	Type : •[ Type ] «]»
+}
+Transitions:
+	num -> 63
+	bool -> 64
+	char -> 65
+	[ -> 66
+	Type -> 102
+
+
+S86{
+	Params : Type id , •Params «=>»
+	Params : •Type id , Params «=>»
+	Params : •Type id «=>»
+	Params : empty• «=>»
+	Type : •num «id»
+	Type : •bool «id»
+	Type : •char «id»
+	Type : •[ Type ] «id»
+}
+Transitions:
+	Type -> 32
+	num -> 33
+	bool -> 34
+	char -> 35
+	[ -> 36
+	Params -> 103
+
+
+S87{
+	Type : [ Type ]• «id»
+}
+Transitions:
 
 
 S88{
-	Function : id :: Params => Type ( •Statement ) «$»
-	Function : id :: Params => Type ( •Statement ) «id»
-	Function : id :: Params => Type ( •Statement ) «operations»
-	Function : id :: Params => Type ( •Statement ) «relop»
+	Type : [ Type •] «]»
+}
+Transitions:
+	] -> 104
+
+
+S89{
+	FunctionCall : id ( Args )• «,»
+	FunctionCall : id ( Args )• «)»
+}
+Transitions:
+
+
+S90{
+	Lambda : ( # Params => •( Statement ) ) «,»
+	Lambda : ( # Params => •( Statement ) ) «(»
+	Lambda : ( # Params => •( Statement ) ) «)»
+}
+Transitions:
+	( -> 105
+
+
+S91{
+	FunctionCall : id ( Args •) «,»
+	FunctionCall : id ( Args •) «]»
+}
+Transitions:
+	) -> 106
+
+
+S92{
+	Lambda : ( # Params •=> ( Statement ) ) «,»
+	Lambda : ( # Params •=> ( Statement ) ) «(»
+	Lambda : ( # Params •=> ( Statement ) ) «]»
+}
+Transitions:
+	=> -> 107
+
+
+S93{
+	Args : Statement , Args• «]»
+}
+Transitions:
+
+
+S94{
+	Constant : [ Args ]• «,»
+	Constant : [ Args ]• «]»
+}
+Transitions:
+
+
+S95{
+	FunctionCall : operations ( Args •) «,»
+	FunctionCall : operations ( Args •) «]»
+}
+Transitions:
+	) -> 108
+
+
+S96{
+	FunctionCall : relop ( Args •) «,»
+	FunctionCall : relop ( Args •) «]»
+}
+Transitions:
+	) -> 109
+
+
+S97{
+	LambdaExpr : Lambda ( Args •) «,»
+	LambdaExpr : Lambda ( Args •) «]»
+}
+Transitions:
+	) -> 110
+
+
+S98{
+	FunctionCall : operations ( Args )• «,»
+	FunctionCall : operations ( Args )• «)»
+}
+Transitions:
+
+
+S99{
+	FunctionCall : relop ( Args )• «,»
+	FunctionCall : relop ( Args )• «)»
+}
+Transitions:
+
+
+S100{
+	LambdaExpr : Lambda ( Args )• «,»
+	LambdaExpr : Lambda ( Args )• «)»
+}
+Transitions:
+
+
+S101{
+	Function : func id :: Params => Type ( •Statement ) «func»
+	Function : func id :: Params => Type ( •Statement ) «id»
+	Function : func id :: Params => Type ( •Statement ) «operations»
+	Function : func id :: Params => Type ( •Statement ) «relop»
 	Statement : •id «)»
 	Statement : •Constant «)»
 	Statement : •LambdaExpr «)»
@@ -1543,164 +1575,146 @@ S88{
 	Lambda : •( # Params => ( Statement ) ) «(»
 }
 Transitions:
-	FunctionCall -> 104
-	id -> 105
-	( -> 106
-	Statement -> 107
-	[ -> 108
-	Constant -> 109
-	LambdaExpr -> 110
-	operations -> 111
-	relop -> 112
-	Lambda -> 113
-	boolean -> 114
-	number -> 115
-	charac -> 116
+	FunctionCall -> 111
+	id -> 112
+	( -> 113
+	Statement -> 114
+	[ -> 115
+	Constant -> 116
+	LambdaExpr -> 117
+	operations -> 118
+	relop -> 119
+	Lambda -> 120
+	boolean -> 121
+	number -> 122
+	charac -> 123
 
 
-S89{
+S102{
 	Type : [ Type •] «(»
 }
 Transitions:
-	] -> 117
+	] -> 124
 
 
-S90{
+S103{
 	Params : Type id , Params• «=>»
 }
 Transitions:
 
 
-S91{
+S104{
 	Type : [ Type ]• «]»
 }
 Transitions:
 
 
-S92{
+S105{
+	Lambda : ( # Params => ( •Statement ) ) «,»
+	Lambda : ( # Params => ( •Statement ) ) «(»
+	Lambda : ( # Params => ( •Statement ) ) «)»
+	Statement : •id «)»
+	Statement : •Constant «)»
+	Statement : •LambdaExpr «)»
+	Statement : •FunctionCall «)»
+	Constant : •boolean «)»
+	Constant : •number «)»
+	Constant : •charac «)»
+	Constant : •[ Args ] «)»
+	LambdaExpr : •Lambda «)»
+	LambdaExpr : •Lambda ( Args ) «)»
+	FunctionCall : •id ( Args ) «)»
+	FunctionCall : •operations ( Args ) «)»
+	FunctionCall : •relop ( Args ) «)»
+	Lambda : •( # Params => ( Statement ) ) «)»
+	Lambda : •( # Params => ( Statement ) ) «(»
+}
+Transitions:
+	FunctionCall -> 111
+	id -> 112
+	( -> 113
+	[ -> 115
+	Constant -> 116
+	LambdaExpr -> 117
+	operations -> 118
+	relop -> 119
+	Lambda -> 120
+	boolean -> 121
+	number -> 122
+	charac -> 123
+	Statement -> 125
+
+
+S106{
 	FunctionCall : id ( Args )• «,»
-	FunctionCall : id ( Args )• «)»
+	FunctionCall : id ( Args )• «]»
 }
 Transitions:
 
 
-S93{
+S107{
 	Lambda : ( # Params => •( Statement ) ) «,»
 	Lambda : ( # Params => •( Statement ) ) «(»
-	Lambda : ( # Params => •( Statement ) ) «)»
+	Lambda : ( # Params => •( Statement ) ) «]»
 }
 Transitions:
-	( -> 118
+	( -> 126
 
 
-S94{
-	FunctionCall : id ( Args •) «,»
-	FunctionCall : id ( Args •) «]»
-}
-Transitions:
-	) -> 119
-
-
-S95{
-	Lambda : ( # Params •=> ( Statement ) ) «,»
-	Lambda : ( # Params •=> ( Statement ) ) «(»
-	Lambda : ( # Params •=> ( Statement ) ) «]»
-}
-Transitions:
-	=> -> 120
-
-
-S96{
-	Args : Statement , Args• «]»
-}
-Transitions:
-
-
-S97{
-	Constant : [ Args ]• «,»
-	Constant : [ Args ]• «]»
-}
-Transitions:
-
-
-S98{
-	FunctionCall : operations ( Args •) «,»
-	FunctionCall : operations ( Args •) «]»
-}
-Transitions:
-	) -> 121
-
-
-S99{
-	FunctionCall : relop ( Args •) «,»
-	FunctionCall : relop ( Args •) «]»
-}
-Transitions:
-	) -> 122
-
-
-S100{
-	LambdaExpr : Lambda ( Args •) «,»
-	LambdaExpr : Lambda ( Args •) «]»
-}
-Transitions:
-	) -> 123
-
-
-S101{
+S108{
 	FunctionCall : operations ( Args )• «,»
-	FunctionCall : operations ( Args )• «)»
+	FunctionCall : operations ( Args )• «]»
 }
 Transitions:
 
 
-S102{
+S109{
 	FunctionCall : relop ( Args )• «,»
-	FunctionCall : relop ( Args )• «)»
+	FunctionCall : relop ( Args )• «]»
 }
 Transitions:
 
 
-S103{
+S110{
 	LambdaExpr : Lambda ( Args )• «,»
-	LambdaExpr : Lambda ( Args )• «)»
+	LambdaExpr : Lambda ( Args )• «]»
 }
 Transitions:
 
 
-S104{
+S111{
 	Statement : FunctionCall• «)»
 }
 Transitions:
 
 
-S105{
+S112{
 	Statement : id• «)»
 	FunctionCall : id •( Args ) «)»
 }
 Transitions:
-	( -> 124
+	( -> 127
 
 
-S106{
+S113{
 	Lambda : ( •# Params => ( Statement ) ) «)»
 	Lambda : ( •# Params => ( Statement ) ) «(»
 }
 Transitions:
-	# -> 125
+	# -> 128
 
 
-S107{
-	Function : id :: Params => Type ( Statement •) «$»
-	Function : id :: Params => Type ( Statement •) «id»
-	Function : id :: Params => Type ( Statement •) «operations»
-	Function : id :: Params => Type ( Statement •) «relop»
+S114{
+	Function : func id :: Params => Type ( Statement •) «func»
+	Function : func id :: Params => Type ( Statement •) «id»
+	Function : func id :: Params => Type ( Statement •) «operations»
+	Function : func id :: Params => Type ( Statement •) «relop»
 }
 Transitions:
-	) -> 126
+	) -> 129
 
 
-S108{
+S115{
 	Constant : [ •Args ] «)»
 	Args : •Statement , Args «]»
 	Args : •Statement «]»
@@ -1736,84 +1750,93 @@ S108{
 	Lambda : •( # Params => ( Statement ) ) «]»
 }
 Transitions:
-	FunctionCall -> 46
-	id -> 47
-	( -> 48
-	Statement -> 49
-	[ -> 50
-	Constant -> 51
-	LambdaExpr -> 52
-	operations -> 54
-	relop -> 55
-	Lambda -> 56
-	boolean -> 57
-	number -> 58
-	charac -> 59
-	Args -> 127
+	FunctionCall -> 40
+	id -> 41
+	( -> 42
+	Statement -> 43
+	[ -> 44
+	Constant -> 45
+	LambdaExpr -> 46
+	operations -> 48
+	relop -> 49
+	Lambda -> 50
+	boolean -> 51
+	number -> 52
+	charac -> 53
+	Args -> 130
 
 
-S109{
+S116{
 	Statement : Constant• «)»
 }
 Transitions:
 
 
-S110{
+S117{
 	Statement : LambdaExpr• «)»
 }
 Transitions:
 
 
-S111{
+S118{
 	FunctionCall : operations •( Args ) «)»
 }
 Transitions:
-	( -> 128
+	( -> 131
 
 
-S112{
+S119{
 	FunctionCall : relop •( Args ) «)»
 }
 Transitions:
-	( -> 129
+	( -> 132
 
 
-S113{
+S120{
 	LambdaExpr : Lambda• «)»
 	LambdaExpr : Lambda •( Args ) «)»
 }
 Transitions:
-	( -> 130
+	( -> 133
 
 
-S114{
+S121{
 	Constant : boolean• «)»
 }
 Transitions:
 
 
-S115{
+S122{
 	Constant : number• «)»
 }
 Transitions:
 
 
-S116{
+S123{
 	Constant : charac• «)»
 }
 Transitions:
 
 
-S117{
+S124{
 	Type : [ Type ]• «(»
 }
 Transitions:
 
 
-S118{
+S125{
+	Lambda : ( # Params => ( Statement •) ) «,»
+	Lambda : ( # Params => ( Statement •) ) «(»
+	Lambda : ( # Params => ( Statement •) ) «)»
+}
+Transitions:
+	) -> 134
+
+
+S126{
 	Lambda : ( # Params => ( •Statement ) ) «,»
 	Lambda : ( # Params => ( •Statement ) ) «(»
-	Lambda : ( # Params => ( •Statement ) ) «)»
+	Lambda : ( # Params => ( •Statement ) ) «]»
 	Statement : •id «)»
 	Statement : •Constant «)»
 	Statement : •LambdaExpr «)»
@@ -1831,59 +1854,22 @@ S118{
 	Lambda : •( # Params => ( Statement ) ) «(»
 }
 Transitions:
-	FunctionCall -> 104
-	id -> 105
-	( -> 106
-	[ -> 108
-	Constant -> 109
-	LambdaExpr -> 110
-	operations -> 111
-	relop -> 112
-	Lambda -> 113
-	boolean -> 114
-	number -> 115
-	charac -> 116
-	Statement -> 131
+	FunctionCall -> 111
+	id -> 112
+	( -> 113
+	[ -> 115
+	Constant -> 116
+	LambdaExpr -> 117
+	operations -> 118
+	relop -> 119
+	Lambda -> 120
+	boolean -> 121
+	number -> 122
+	charac -> 123
+	Statement -> 135
 
 
-S119{
-	FunctionCall : id ( Args )• «,»
-	FunctionCall : id ( Args )• «]»
-}
-Transitions:
-
-
-S120{
-	Lambda : ( # Params => •( Statement ) ) «,»
-	Lambda : ( # Params => •( Statement ) ) «(»
-	Lambda : ( # Params => •( Statement ) ) «]»
-}
-Transitions:
-	( -> 132
-
-
-S121{
-	FunctionCall : operations ( Args )• «,»
-	FunctionCall : operations ( Args )• «]»
-}
-Transitions:
-
-
-S122{
-	FunctionCall : relop ( Args )• «,»
-	FunctionCall : relop ( Args )• «]»
-}
-Transitions:
-
-
-S123{
-	LambdaExpr : Lambda ( Args )• «,»
-	LambdaExpr : Lambda ( Args )• «]»
-}
-Transitions:
-
-
-S124{
+S127{
 	FunctionCall : id ( •Args ) «)»
 	Args : •Statement , Args «)»
 	Args : •Statement «)»
@@ -1919,23 +1905,23 @@ S124{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 133
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 136
 
 
-S125{
+S128{
 	Lambda : ( # •Params => ( Statement ) ) «)»
 	Lambda : ( # •Params => ( Statement ) ) «(»
 	Params : •Type id , Params «=>»
@@ -1947,31 +1933,31 @@ S125{
 	Type : •[ Type ] «id»
 }
 Transitions:
-	Type -> 15
-	num -> 16
-	bool -> 17
-	char -> 18
-	[ -> 19
-	Params -> 134
+	Type -> 32
+	num -> 33
+	bool -> 34
+	char -> 35
+	[ -> 36
+	Params -> 137
 
 
-S126{
-	Function : id :: Params => Type ( Statement )• «$»
-	Function : id :: Params => Type ( Statement )• «id»
-	Function : id :: Params => Type ( Statement )• «operations»
-	Function : id :: Params => Type ( Statement )• «relop»
+S129{
+	Function : func id :: Params => Type ( Statement )• «func»
+	Function : func id :: Params => Type ( Statement )• «id»
+	Function : func id :: Params => Type ( Statement )• «operations»
+	Function : func id :: Params => Type ( Statement )• «relop»
 }
 Transitions:
 
 
-S127{
+S130{
 	Constant : [ Args •] «)»
 }
 Transitions:
-	] -> 135
+	] -> 138
 
 
-S128{
+S131{
 	FunctionCall : operations ( •Args ) «)»
 	Args : •Statement , Args «)»
 	Args : •Statement «)»
@@ -2007,23 +1993,23 @@ S128{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 136
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 139
 
 
-S129{
+S132{
 	FunctionCall : relop ( •Args ) «)»
 	Args : •Statement , Args «)»
 	Args : •Statement «)»
@@ -2059,23 +2045,23 @@ S129{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 137
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 140
 
 
-S130{
+S133{
 	LambdaExpr : Lambda ( •Args ) «)»
 	Args : •Statement , Args «)»
 	Args : •Statement «)»
@@ -2111,160 +2097,83 @@ S130{
 	Lambda : •( # Params => ( Statement ) ) «)»
 }
 Transitions:
-	FunctionCall -> 20
-	id -> 21
-	( -> 22
-	Statement -> 23
-	[ -> 24
-	Constant -> 25
-	LambdaExpr -> 26
-	operations -> 28
-	relop -> 29
-	Lambda -> 30
-	boolean -> 31
-	number -> 32
-	charac -> 33
-	Args -> 138
-
-
-S131{
-	Lambda : ( # Params => ( Statement •) ) «,»
-	Lambda : ( # Params => ( Statement •) ) «(»
-	Lambda : ( # Params => ( Statement •) ) «)»
-}
-Transitions:
-	) -> 139
-
-
-S132{
-	Lambda : ( # Params => ( •Statement ) ) «,»
-	Lambda : ( # Params => ( •Statement ) ) «(»
-	Lambda : ( # Params => ( •Statement ) ) «]»
-	Statement : •id «)»
-	Statement : •Constant «)»
-	Statement : •LambdaExpr «)»
-	Statement : •FunctionCall «)»
-	Constant : •boolean «)»
-	Constant : •number «)»
-	Constant : •charac «)»
-	Constant : •[ Args ] «)»
-	LambdaExpr : •Lambda «)»
-	LambdaExpr : •Lambda ( Args ) «)»
-	FunctionCall : •id ( Args ) «)»
-	FunctionCall : •operations ( Args ) «)»
-	FunctionCall : •relop ( Args ) «)»
-	Lambda : •( # Params => ( Statement ) ) «)»
-	Lambda : •( # Params => ( Statement ) ) «(»
-}
-Transitions:
-	FunctionCall -> 104
-	id -> 105
-	( -> 106
-	[ -> 108
-	Constant -> 109
-	LambdaExpr -> 110
-	operations -> 111
-	relop -> 112
-	Lambda -> 113
-	boolean -> 114
-	number -> 115
-	charac -> 116
-	Statement -> 140
-
-
-S133{
-	FunctionCall : id ( Args •) «)»
-}
-Transitions:
-	) -> 141
+	FunctionCall -> 15
+	id -> 16
+	( -> 17
+	Statement -> 18
+	[ -> 19
+	Constant -> 20
+	LambdaExpr -> 21
+	operations -> 23
+	relop -> 24
+	Lambda -> 25
+	boolean -> 26
+	number -> 27
+	charac -> 28
+	Args -> 141
 
 
 S134{
-	Lambda : ( # Params •=> ( Statement ) ) «)»
-	Lambda : ( # Params •=> ( Statement ) ) «(»
+	Lambda : ( # Params => ( Statement ) •) «,»
+	Lambda : ( # Params => ( Statement ) •) «(»
+	Lambda : ( # Params => ( Statement ) •) «)»
 }
 Transitions:
-	=> -> 142
+	) -> 142
 
 
 S135{
-	Constant : [ Args ]• «)»
-}
-Transitions:
-
-
-S136{
-	FunctionCall : operations ( Args •) «)»
+	Lambda : ( # Params => ( Statement •) ) «,»
+	Lambda : ( # Params => ( Statement •) ) «(»
+	Lambda : ( # Params => ( Statement •) ) «]»
 }
 Transitions:
 	) -> 143
 
 
-S137{
-	FunctionCall : relop ( Args •) «)»
+S136{
+	FunctionCall : id ( Args •) «)»
 }
 Transitions:
 	) -> 144
 
 
-S138{
-	LambdaExpr : Lambda ( Args •) «)»
+S137{
+	Lambda : ( # Params •=> ( Statement ) ) «)»
+	Lambda : ( # Params •=> ( Statement ) ) «(»
 }
 Transitions:
-	) -> 145
+	=> -> 145
+
+
+S138{
+	Constant : [ Args ]• «)»
+}
+Transitions:
 
 
 S139{
-	Lambda : ( # Params => ( Statement ) •) «,»
-	Lambda : ( # Params => ( Statement ) •) «(»
-	Lambda : ( # Params => ( Statement ) •) «)»
+	FunctionCall : operations ( Args •) «)»
 }
 Transitions:
 	) -> 146
 
 
 S140{
-	Lambda : ( # Params => ( Statement •) ) «,»
-	Lambda : ( # Params => ( Statement •) ) «(»
-	Lambda : ( # Params => ( Statement •) ) «]»
+	FunctionCall : relop ( Args •) «)»
 }
 Transitions:
 	) -> 147
 
 
 S141{
-	FunctionCall : id ( Args )• «)»
+	LambdaExpr : Lambda ( Args •) «)»
 }
 Transitions:
+	) -> 148
 
 
 S142{
-	Lambda : ( # Params => •( Statement ) ) «)»
-	Lambda : ( # Params => •( Statement ) ) «(»
-}
-Transitions:
-	( -> 148
-
-
-S143{
-	FunctionCall : operations ( Args )• «)»
-}
-Transitions:
-
-
-S144{
-	FunctionCall : relop ( Args )• «)»
-}
-Transitions:
-
-
-S145{
-	LambdaExpr : Lambda ( Args )• «)»
-}
-Transitions:
-
-
-S146{
 	Lambda : ( # Params => ( Statement ) )• «,»
 	Lambda : ( # Params => ( Statement ) )• «(»
 	Lambda : ( # Params => ( Statement ) )• «)»
@@ -2272,7 +2181,7 @@ S146{
 Transitions:
 
 
-S147{
+S143{
 	Lambda : ( # Params => ( Statement ) •) «,»
 	Lambda : ( # Params => ( Statement ) •) «(»
 	Lambda : ( # Params => ( Statement ) •) «]»
@@ -2281,7 +2190,47 @@ Transitions:
 	) -> 149
 
 
+S144{
+	FunctionCall : id ( Args )• «)»
+}
+Transitions:
+
+
+S145{
+	Lambda : ( # Params => •( Statement ) ) «)»
+	Lambda : ( # Params => •( Statement ) ) «(»
+}
+Transitions:
+	( -> 150
+
+
+S146{
+	FunctionCall : operations ( Args )• «)»
+}
+Transitions:
+
+
+S147{
+	FunctionCall : relop ( Args )• «)»
+}
+Transitions:
+
+
 S148{
+	LambdaExpr : Lambda ( Args )• «)»
+}
+Transitions:
+
+
+S149{
+	Lambda : ( # Params => ( Statement ) )• «,»
+	Lambda : ( # Params => ( Statement ) )• «(»
+	Lambda : ( # Params => ( Statement ) )• «]»
+}
+Transitions:
+
+
+S150{
 	Lambda : ( # Params => ( •Statement ) ) «)»
 	Lambda : ( # Params => ( •Statement ) ) «(»
 	Statement : •id «)»
@@ -2301,46 +2250,38 @@ S148{
 	Lambda : •( # Params => ( Statement ) ) «(»
 }
 Transitions:
-	FunctionCall -> 104
-	id -> 105
-	( -> 106
-	[ -> 108
-	Constant -> 109
-	LambdaExpr -> 110
-	operations -> 111
-	relop -> 112
-	Lambda -> 113
-	boolean -> 114
-	number -> 115
-	charac -> 116
-	Statement -> 150
-
-
-S149{
-	Lambda : ( # Params => ( Statement ) )• «,»
-	Lambda : ( # Params => ( Statement ) )• «(»
-	Lambda : ( # Params => ( Statement ) )• «]»
-}
-Transitions:
-
-
-S150{
-	Lambda : ( # Params => ( Statement •) ) «)»
-	Lambda : ( # Params => ( Statement •) ) «(»
-}
-Transitions:
-	) -> 151
+	FunctionCall -> 111
+	id -> 112
+	( -> 113
+	[ -> 115
+	Constant -> 116
+	LambdaExpr -> 117
+	operations -> 118
+	relop -> 119
+	Lambda -> 120
+	boolean -> 121
+	number -> 122
+	charac -> 123
+	Statement -> 151
 
 
 S151{
-	Lambda : ( # Params => ( Statement ) •) «)»
-	Lambda : ( # Params => ( Statement ) •) «(»
+	Lambda : ( # Params => ( Statement •) ) «)»
+	Lambda : ( # Params => ( Statement •) ) «(»
 }
 Transitions:
 	) -> 152
 
 
 S152{
+	Lambda : ( # Params => ( Statement ) •) «)»
+	Lambda : ( # Params => ( Statement ) •) «(»
+}
+Transitions:
+	) -> 153
+
+
+S153{
 	Lambda : ( # Params => ( Statement ) )• «)»
 	Lambda : ( # Params => ( Statement ) )• «(»
 }
