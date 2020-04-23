@@ -8,9 +8,9 @@ import (
 
 type FuncEntry struct {
 	id         string
-	returnval  types.LambdishType
+	returnval  *types.LambdishType
 	paramcount int
-	params     []types.LambdishType
+	params     []*types.LambdishType
 	vardir     *VarDirectory
 }
 
@@ -24,7 +24,7 @@ func (e *FuncEntry) String() string {
 	return fmt.Sprintf("%s@%s@%s", e.id, e.returnval, b.String())
 }
 
-func NewFuncEntry(id string, returnval types.LambdishType, paramcount int, params []types.LambdishType, vardir *VarDirectory) *FuncEntry {
+func NewFuncEntry(id string, returnval *types.LambdishType, paramcount int, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
 	return &FuncEntry{id, returnval, paramcount, params, vardir}
 }
 

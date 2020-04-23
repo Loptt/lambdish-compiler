@@ -7,7 +7,7 @@ import (
 
 type VarEntry struct {
 	id string
-	t  types.LambdishType
+	t  *types.LambdishType
 }
 
 type VarDirectory struct {
@@ -18,7 +18,7 @@ func (e *VarEntry) String() string {
 	return fmt.Sprintf("%s", e.id)
 }
 
-func NewVarEntry(id string, t types.LambdishType) *VarEntry {
+func NewVarEntry(id string, t *types.LambdishType) *VarEntry {
 	return &VarEntry{id, t}
 }
 
