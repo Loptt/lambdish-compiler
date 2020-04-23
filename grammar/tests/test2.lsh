@@ -1,11 +1,11 @@
-sum :: num l => num (
+func sum :: num l => num (
 	if(empty(l), 
         0,
         +(head(l), sum(tail(l)))
     )
 )
 
-reverse :: [char] l => [char] (
+func reverse :: [char] l => [char] (
 	if(empty(l),
 		[],
 		append( reverse(tail(l)) , [head(l)])
@@ -13,4 +13,3 @@ reverse :: [char] l => [char] (
 )
 
 sum([3, 2, 4, 6, 7])
-reverse(['h','o','l','a'])
