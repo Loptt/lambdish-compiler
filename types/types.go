@@ -59,10 +59,22 @@ func (l LambdishType) String() string {
 	return builder.String()
 }
 
-func NewLambdishType(t BasicType, list int) LambdishType {
-	return LambdishType{t, list}
+// List
+func (lt *LambdishType) List() int {
+	return lt.list
 }
 
+// Type
+func (lt *LambdishType) Type() BasicType {
+	return lt.t
+}
+
+// NewLambdishType
+func NewLambdishType(t BasicType, list int) *LambdishType {
+	return &LambdishType{t, list}
+}
+
+// Equal
 func (l LambdishType) Equal(l2 LambdishType) bool {
 	return l.t == l2.t && l.list == l2.list
 }
