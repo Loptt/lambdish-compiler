@@ -57,3 +57,7 @@ func (fd *FuncDirectory) Exists(key string) bool {
 	_, ok := fd.table[key]
 	return ok
 }
+
+func NewFuncDirectory() *FuncDirectory {
+	return &FuncDirectory{}
+}
