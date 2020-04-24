@@ -1,33 +1,25 @@
 package sem
 
 import (
-	"github.com/Loptt/lambdish-compiler/types"
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/ast"
 ) 
 
 // SemanticCheck
-func SemanticCheck(program *ast.Program) error {
+func SemanticCheck(program *ast.Program) (*dir.FuncDirectory,error) {
 	funcdir := dir.NewFuncDirectory()
 
-	return walkProgram(program, funcdir)
-}
-
-func walkProgram(program *ast.Program, funcdir *dir.FuncDirectory) error {
-	for _, f := range program.functions {
-		err := walkFunction(f, funcdir)
-		if err != nil {
-			return err
-		}
+	err := buildFuncDirProgram(program, funcdir);
+	if err != nil {
+		return nil,err
 	}
 
-	err := walkFunctionCall(program.call, funcdir)
+	return funcdir, nil
 }
 
-func walkFunction(function *Function, funcdir *dir.FuncDirectory) error {
 
-}
+// Construir directorio de funciones en func.go
 
-func walkFunctionCall(call *FunctionCall, funcdir *dir.FuncDirectory) error {
+// Checar que las funciones y variables que se usen existan u
 
-}
+// Checar la cohesion de tipos

@@ -11,11 +11,11 @@ empty
 num
 bool
 char
-[
-]
 operations
 relop
 #
 boolean
 number
 charac
+[
+]

@@ -3,7 +3,9 @@ func filterOdd :: [num] l => [num] (
 )
 
 func map :: [num] l, (num, [char] => char) f => [num] (
-    append(f(head(l)), map(tail(l), f))
+    append(f(head(l)), map(tail(l), f)
 )
 
-filterOdd(3)
+map([1,2,3,4], filterOdd)
+
+filterOdd( [1,2,3,4,5,6,7] )

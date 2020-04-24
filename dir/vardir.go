@@ -9,6 +9,13 @@ type VarEntry struct {
 	id string
 	t  *types.LambdishType
 }
+func(ve *VarEntry) Id() string {
+	return ve.id
+}
+
+func(ve *VarEntry) Type() *types.LambdishType {
+	return ve.t
+}
 
 type VarDirectory struct {
 	table map[string]*VarEntry
@@ -44,4 +51,9 @@ func (vd *VarDirectory) Exists(key string) bool {
 
 	_, ok := vd.table[key]
 	return ok
+}
+
+
+func NewVarDirectory() *VarDirectory {
+	return &VarDirectory{make(map[string]*VarEntry)}
 }

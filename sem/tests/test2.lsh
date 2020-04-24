@@ -1,0 +1,15 @@
+func sum :: num l => num (
+	if(empty(l), 
+        0,
+        +(head(l), sum(tail(l)))
+    )
+)
+
+func reverse :: [char] l => [char] (
+	if(empty(l),
+		[],
+		append( reverse(tail(l)) , [head(l)])
+	)
+)
+
+sum([3, 2, 4, 6, 7])

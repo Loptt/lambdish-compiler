@@ -1,13 +1,13 @@
-package main
+package sem
 
 import (
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
+	"github.com/Loptt/lambdish-compiler/ast"
 	"testing"
 	"github.com/davecgh/go-spew/spew"
 	"os"
 )
-
 
 func readFile(path string) ([]byte, error) {
 	file, err := os.Open(path)
@@ -33,10 +33,10 @@ func readFile(path string) ([]byte, error) {
 	return buffer, nil
 }
 
-func TestGrammar(t *testing.T) {
+func TestSemanticCheck(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string {
-		"tests/test6.lsh",
+		"tests/test7_fake.lsh",
 	}
 
 	for _, test := range tests {
@@ -47,12 +47,20 @@ func TestGrammar(t *testing.T) {
 		}
 
 		s := lexer.NewLexer(input);
-		program, errtest := p.Parse(s);
-
-		spew.Dump(program)
-
+		pro, errtest := p.Parse(s);
 		if errtest != nil {
 			t.Errorf("%s: %v", test, errtest);
 		}
+
+		program, ok := pro.(*ast.Program)
+		if !ok {
+			t.Fatalf("Cannot cast to Program");
+		}
+
+		funcdir, err := SemanticCheck(program);
+		if err != nil {
+			t.Errorf("Error from semantic: %v", err);
+		}
+		spew.Dump(funcdir)
 	}
 }

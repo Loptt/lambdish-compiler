@@ -21,7 +21,8 @@ boolean : _true | _false;
 
 << import (
     "github.com/Loptt/lambdish-compiler/ast" 
-    "github.com/Loptt/lambdish-compiler/dir") >>
+    "github.com/Loptt/lambdish-compiler/dir"
+    "github.com/Loptt/lambdish-compiler/types") >>
 
 Program 
     : Functions Statement           << ast.NewProgram($0, $1) >>
@@ -45,9 +46,16 @@ Params :
 Type 
     : "num"                          << ast.NewType($0) >>
     | "bool"                         << ast.NewType($0) >>  
-    | "char"                         << ast.NewType($0) >>   
+    | "char"                         << ast.NewType($0) >>
+    | "(" FuncTypes "=>" Type ")"    << ast.NewFunctionType($1, $3)>>
     | "[" Type "]"                   << ast.AppendType($1) >>
     ; 
+
+FuncTypes
+    : Type "," FuncTypes             << ast.AppendFuncTypeList($0, $2) >>
+    | Type                           << ast.NewFuncTypeList($0) >>
+    | empty                          << make([]*types.LambdishType, 0 ), nil >>
+    ;
 
 Statement 
     : id                            << ast.NewStatement($0) >>

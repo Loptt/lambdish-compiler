@@ -1,9 +1,5 @@
-func filterOdd :: [num] l => [num] (
-    (# num x => ( %(x,2) ) ) ( head(l) )
-)
-
 func map :: [num] l, (num, [char] => char) f => [num] (
     append(f(head(l)), map(tail(l), f))
 )
 
-filterOdd(3)
+map([1,2,3], (# num x => (+(x, 1))))

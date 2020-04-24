@@ -15,6 +15,12 @@ type Program struct {
 	functions []*Function
 	call      *FunctionCall
 }
+func (p *Program) Functions() []*Function {
+	return p.functions
+}
+func (p *Program) Call() *FunctionCall {
+	return p.call
+}
 
 // Function represents a function definition and consists of
 //
@@ -28,6 +34,19 @@ type Function struct {
 	params    []*dir.VarEntry
 	t         *types.LambdishType
 	statement Statement
+}
+
+func (f *Function) Id() string {
+	return f.id
+}
+func (f *Function) Params() []*dir.VarEntry {
+	return f.params
+}
+func (f *Function) Type() *types.LambdishType {
+	return f.t
+}
+func (f *Function) Statement() Statement {
+	return f.statement
 }
 
 // Statement interface represents the body of the function

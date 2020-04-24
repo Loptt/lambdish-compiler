@@ -14,7 +14,7 @@ type FuncEntry struct {
 	vardir     *VarDirectory
 }
 
-func (e *FuncEntry) String() string {
+func (e *FuncEntry) Key() string {
 	var b strings.Builder
 
 	for _, p := range e.params {
@@ -36,9 +36,9 @@ type FuncDirectory struct {
 // the function returns true and false otherwise.
 func (fd *FuncDirectory) Add(e *FuncEntry) bool {
 
-	_, ok := fd.table[e.String()]
+	_, ok := fd.table[e.Key()]
 	if !ok {
-		fd.table[e.String()] = e
+		fd.table[e.Key()] = e
 	}
 	return !ok
 }
@@ -59,5 +59,5 @@ func (fd *FuncDirectory) Exists(key string) bool {
 }
 
 func NewFuncDirectory() *FuncDirectory {
-	return &FuncDirectory{}
+	return &FuncDirectory{make(map[string]*FuncEntry)}
 }
