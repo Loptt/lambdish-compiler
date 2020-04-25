@@ -260,7 +260,7 @@ func NewFunctionCall(id, args interface{}) (*FunctionCall, error) {
 }
 
 // NewLambda
-func NewLambda(params, statement interface{}) (*Lambda, error) {
+func NewLambda(params, retval, statement interface{}) (*Lambda, error) {
 	p, ok := params.([]*dir.VarEntry)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for params. Expected []*dir.VarEntry]")
@@ -271,11 +271,17 @@ func NewLambda(params, statement interface{}) (*Lambda, error) {
 		return nil, errutil.Newf("Invalid type for params. Expected Statement")
 	}
 
-	return &Lambda{p, s}, nil
+	t,ok := retval.(*types.LambdishType)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for type. Expected *types.LambdishType")
+	}
+
+
+	return &Lambda{p, s, t}, nil
 }
 
 // NewLambdaCall
-func NewLambdaCall(params, statement, args interface{}) (*LambdaCall, error) {
+func NewLambdaCall(params, retval,  statement, args interface{}) (*LambdaCall, error) {
 	p, ok := params.([]*dir.VarEntry)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for params. Expected []*dir.VarEntry]")
@@ -291,7 +297,12 @@ func NewLambdaCall(params, statement, args interface{}) (*LambdaCall, error) {
 		return nil, errutil.Newf("Invalid type for params. Expected Statement")
 	}
 
-	return &LambdaCall{p, a, s}, nil
+	t,ok := retval.(*types.LambdishType)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for retval. Expected *types.LambdishType")
+	}
+
+	return &LambdaCall{p, a, s, t}, nil
 }
 
 // NewConstantBool

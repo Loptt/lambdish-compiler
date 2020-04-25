@@ -29,6 +29,7 @@ func (p *Program) Call() *FunctionCall {
 // -t: return value of the funcion
 // -statement: body of the function
 //
+
 type Function struct {
 	id        string
 	params    []*dir.VarEntry
@@ -97,6 +98,13 @@ type FunctionCall struct {
 	args []Statement
 }
 
+func (fc *FunctionCall) Args() []Statement{
+	return fc.args
+}
+
+func (fc *FunctionCall) Id() string{
+	return fc.id
+}
 // IsId conforms to the Statement interface to determine if object is Id
 func (fc *FunctionCall) IsId() bool {
 	return false
@@ -127,6 +135,7 @@ func (fc *FunctionCall) IsFunctionCall() bool {
 type Lambda struct {
 	params    []*dir.VarEntry
 	statement Statement
+	retval *types.LambdishType
 }
 
 // IsId conforms to the Statement interface to determine if object is Id
@@ -154,12 +163,70 @@ func (l *Lambda) IsFunctionCall() bool {
 	return false
 }
 
+func (l *Lambda) Retval() *types.LambdishType {
+	return l.retval
+}
+
+func (l* Lambda) Params() []*types.LambdishType{
+
+	params := make([]*types.LambdishType, 0)
+
+	for _, p := range l.params {
+		params = append(params, p.Type())
+	}
+	return params
+}
+
+func (l* Lambda) Statement() Statement {
+	return l.statement
+}
+
+func (l *Lambda) VarDir() *dir.VarDirectory{
+	vd := dir.NewVarDirectory()
+
+	for _,p := range l.params {
+		vd.Add(p)
+	}
+	return vd
+}
+
 // Lambda call represents the definition of a lambda and subsequently calling the lamdbda function
 // with the provided arguments in args
 type LambdaCall struct {
 	params    []*dir.VarEntry
 	args      []Statement
 	statement Statement
+	retval *types.LambdishType
+}
+func (lc *LambdaCall) Params() []*types.LambdishType{
+
+	params := make([]*types.LambdishType, 0)
+
+	for _, p := range lc.params {
+		params = append(params, p.Type())
+	}
+	return params
+}
+
+func (lc *LambdaCall) Args() []Statement {
+	return lc.args
+}
+
+func (lc *LambdaCall) Statement() Statement {
+	return lc.statement
+}
+
+func (lc *LambdaCall) Retval() *types.LambdishType {
+	return lc.retval
+}
+
+func (lc *LambdaCall) VarDir() *dir.VarDirectory{
+	vd := dir.NewVarDirectory()
+
+	for _,p := range lc.params {
+		vd.Add(p)
+	}
+	return vd
 }
 
 // IsId conforms to the Statement interface to determine if object is Id
@@ -275,4 +342,8 @@ func (cl *ConstantList) IsLambdaCall() bool {
 // IsFunctionCall conforms to the Statement interface to determine if object is FunctionCall
 func (cl *ConstantList) IsFunctionCall() bool {
 	return false
+}
+
+func (cl *ConstantList) Contents() []Statement {
+	return cl.contents
 }

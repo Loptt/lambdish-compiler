@@ -9,9 +9,9 @@ import (
 type FuncEntry struct {
 	id         string
 	returnval  *types.LambdishType
-	paramcount int
 	params     []*types.LambdishType
 	vardir     *VarDirectory
+	lambdas    []*FuncEntry
 }
 
 func (e *FuncEntry) Key() string {
@@ -24,8 +24,19 @@ func (e *FuncEntry) Key() string {
 	return fmt.Sprintf("%s@%s@%s", e.id, e.returnval, b.String())
 }
 
-func NewFuncEntry(id string, returnval *types.LambdishType, paramcount int, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
-	return &FuncEntry{id, returnval, paramcount, params, vardir}
+func (fd *FuncEntry) Lambdas() []*FuncEntry {
+	return fd.lambdas
+}
+
+func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
+	id := string(len(fe.lambdas))
+	lambda := &FuncEntry{id, retval, params, vardir, make([]*FuncEntry, 0)}
+	fe.lambdas = append([]*FuncEntry{lambda}, fe.lambdas...)
+	return lambda
+}
+
+func NewFuncEntry(id string, returnval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
+	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry,0)}
 }
 
 type FuncDirectory struct {
@@ -61,3 +72,4 @@ func (fd *FuncDirectory) Exists(key string) bool {
 func NewFuncDirectory() *FuncDirectory {
 	return &FuncDirectory{make(map[string]*FuncEntry)}
 }
+

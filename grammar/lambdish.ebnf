@@ -76,11 +76,11 @@ LambdaExpr
     ;
 
 Lambda 
-    : "(" "#" Params "=>" "(" Statement ")" ")" << ast.NewLambda($2,$5) >>
+    : "(" "#" Params "=>" Type "(" Statement ")" ")" << ast.NewLambda($2,$4,$6) >>
     ;
 
 LambdaCall 
-    : "(" "#" Params "=>" "(" Statement ")" ")" "(" Args ")" << ast.NewLambdaCall($2,$5,$9) >>
+    : "(" "#" Params "=>" Type "(" Statement ")" ")" "(" Args ")" << ast.NewLambdaCall($2, $4, $6, $10) >>
     ;
 
 Args 

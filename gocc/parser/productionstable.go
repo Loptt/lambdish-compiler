@@ -274,23 +274,23 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Lambda : "(" "#" Params "=>" "(" Statement ")" ")"	<< ast.NewLambda(X[2],X[5]) >>`,
+		String: `Lambda : "(" "#" Params "=>" Type "(" Statement ")" ")"	<< ast.NewLambda(X[2],X[4],X[6]) >>`,
 		Id:         "Lambda",
 		NTType:     10,
 		Index:      25,
-		NumSymbols: 8,
+		NumSymbols: 9,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewLambda(X[2],X[5])
+			return ast.NewLambda(X[2],X[4],X[6])
 		},
 	},
 	ProdTabEntry{
-		String: `LambdaCall : "(" "#" Params "=>" "(" Statement ")" ")" "(" Args ")"	<< ast.NewLambdaCall(X[2],X[5],X[9]) >>`,
+		String: `LambdaCall : "(" "#" Params "=>" Type "(" Statement ")" ")" "(" Args ")"	<< ast.NewLambdaCall(X[2], X[4], X[6], X[10]) >>`,
 		Id:         "LambdaCall",
 		NTType:     11,
 		Index:      26,
-		NumSymbols: 11,
+		NumSymbols: 12,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewLambdaCall(X[2],X[5],X[9])
+			return ast.NewLambdaCall(X[2], X[4], X[6], X[10])
 		},
 	},
 	ProdTabEntry{
