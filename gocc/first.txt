@@ -11,14 +11,14 @@ Function: {
 	func
 }
 Params: {
-	[
+	(
 	bool
 	char
 	empty
 	num
 }
 Type: {
-	[
+	(
 	bool
 	char
 	num

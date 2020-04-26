@@ -41,6 +41,7 @@ func TestString(t *testing.T) {
 			l: LambdishType{
 				t:    Num,
 				list: 0,
+				function: false,
 			},
 			want: "1",
 		},
@@ -48,6 +49,7 @@ func TestString(t *testing.T) {
 			l: LambdishType{
 				t:    Bool,
 				list: 1,
+				function: false,
 			},
 			want: "[3]",
 		},
@@ -55,6 +57,7 @@ func TestString(t *testing.T) {
 			l: LambdishType{
 				t:    Char,
 				list: 2,
+				function: false,
 			},
 			want: "[[2]]",
 		},
@@ -62,8 +65,52 @@ func TestString(t *testing.T) {
 			l: LambdishType{
 				t:    Bool,
 				list: 5,
+				function: false,
 			},
 			want: "[[[[[3]]]]]",
+		},
+		{
+			l: LambdishType{
+				t:    Num,
+				list: 0,
+				params: []*LambdishType{
+					{t: Num, list: 0, function: false},
+				},
+				function: true,
+			},
+			want: "(1=>1)",
+		},
+		{
+			l: LambdishType{
+				t:    Bool,
+				list: 0,
+				params: []*LambdishType{
+					{t: Num, list: 1, function: false},
+					{t: Num, list: 1, function: false},
+				},
+				function: true,
+			},
+			want: "([1][1]=>3)",
+		},
+		{
+			l: LambdishType{
+				t:    Bool,
+				list: 0,
+				params: []*LambdishType{
+					{
+						t: Num, 
+						list: 0, 
+						function: true, 
+						params: []*LambdishType{
+							{t: Num, list: 0, function: false},
+							{t: Num, list: 0, function: false},
+						},
+					},
+					{t: Num, list: 1, function: false},
+				},
+				function: true,
+			},
+			want: "((11=>1)[1]=>3)",
 		},
 	}
 

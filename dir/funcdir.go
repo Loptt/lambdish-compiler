@@ -9,12 +9,12 @@ import (
 type FuncEntry struct {
 	id         string
 	returnval  *types.LambdishType
-	paramcount int
 	params     []*types.LambdishType
 	vardir     *VarDirectory
+	lambdas    []*FuncEntry
 }
 
-func (e *FuncEntry) String() string {
+func (e *FuncEntry) Key() string {
 	var b strings.Builder
 
 	for _, p := range e.params {
@@ -24,8 +24,19 @@ func (e *FuncEntry) String() string {
 	return fmt.Sprintf("%s@%s@%s", e.id, e.returnval, b.String())
 }
 
-func NewFuncEntry(id string, returnval *types.LambdishType, paramcount int, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
-	return &FuncEntry{id, returnval, paramcount, params, vardir}
+func (fd *FuncEntry) Lambdas() []*FuncEntry {
+	return fd.lambdas
+}
+
+func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
+	id := string(len(fe.lambdas))
+	lambda := &FuncEntry{id, retval, params, vardir, make([]*FuncEntry, 0)}
+	fe.lambdas = append([]*FuncEntry{lambda}, fe.lambdas...)
+	return lambda
+}
+
+func NewFuncEntry(id string, returnval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
+	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry,0)}
 }
 
 type FuncDirectory struct {
@@ -36,9 +47,9 @@ type FuncDirectory struct {
 // the function returns true and false otherwise.
 func (fd *FuncDirectory) Add(e *FuncEntry) bool {
 
-	_, ok := fd.table[e.String()]
+	_, ok := fd.table[e.Key()]
 	if !ok {
-		fd.table[e.String()] = e
+		fd.table[e.Key()] = e
 	}
 	return !ok
 }
@@ -57,3 +68,8 @@ func (fd *FuncDirectory) Exists(key string) bool {
 	_, ok := fd.table[key]
 	return ok
 }
+
+func NewFuncDirectory() *FuncDirectory {
+	return &FuncDirectory{make(map[string]*FuncEntry)}
+}
+

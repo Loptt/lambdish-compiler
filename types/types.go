@@ -39,6 +39,8 @@ func (t BasicType) convert() rune {
 type LambdishType struct {
 	t    BasicType
 	list int
+	params []*LambdishType
+	function bool
 }
 
 // String converts the type to its string representation which is used only in the dirfunc package
@@ -50,7 +52,19 @@ func (l LambdishType) String() string {
 		builder.WriteRune('[')
 	}
 
-	builder.WriteRune(l.t.convert())
+	if l.function {
+		builder.WriteRune('(')
+
+		for _, t := range l.params {
+			builder.WriteString(t.String())
+		}
+
+		builder.WriteString("=>")
+		builder.WriteRune(l.t.convert())
+		builder.WriteRune(')')
+	} else {
+		builder.WriteRune(l.t.convert())
+	}
 
 	for i := 0; i < l.list; i++ {
 		builder.WriteRune(']')
@@ -69,9 +83,24 @@ func (lt *LambdishType) Type() BasicType {
 	return lt.t
 }
 
-// NewLambdishType
-func NewLambdishType(t BasicType, list int) *LambdishType {
-	return &LambdishType{t, list}
+// Function
+func (lt *LambdishType) Params() []*LambdishType {
+	return lt.params
+}
+
+// Function
+func (lt *LambdishType) Function() bool {
+	return lt.function
+}
+
+// NewDataLambdishType
+func NewDataLambdishType(t BasicType, list int) *LambdishType {
+	return &LambdishType{t, list, nil, false}
+}
+
+// NewDataLambdishType
+func NewFuncLambdishType(t BasicType, list int, params []*LambdishType) *LambdishType {
+	return &LambdishType{t, list, params, true}
 }
 
 // Equal

@@ -30,9 +30,9 @@ S0{
 	num : • 'n' 'u' 'm'
 	bool : • 'b' 'o' 'o' 'l'
 	char : • 'c' 'h' 'a' 'r'
+	# : • '#'
 	[ : • '['
 	] : • ']'
-	# : • '#'
 	_float : • _digit {_digit} '.' _digit {_digit}
 	_integer : • _digit {_digit}
 	_id : • _alpha {(_digit | _alpha)}

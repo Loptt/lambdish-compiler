@@ -1,0 +1,15 @@
+func maxAux :: [num] l, num biggest => num (
+	if(empty(l),
+		biggest,
+		if(>(head(l), biggest),
+            maxAux(tail(l), head(l)),
+            maxAux(tail(l), biggest)
+        )
+	)
+)
+
+func max :: [num] l => num (
+	maxAux(l, head(l))
+)
+
+max([2,3,4,2,3])
