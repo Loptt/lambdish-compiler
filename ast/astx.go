@@ -71,7 +71,10 @@ func NewFunction(id, params, typ, statement interface{}) (*Function, error) {
 		return nil, errutil.Newf("Invalid type for statement. Expected Statement")
 	}
 
-	return &Function{d, p, t, s}, nil
+	f := &Function{d, "", p, t, s}
+	f.CreateKey()
+
+	return f, nil
 }
 
 // NewStatementList

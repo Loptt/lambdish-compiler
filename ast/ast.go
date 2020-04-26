@@ -1,8 +1,10 @@
 package ast
 
 import (
+	"fmt"
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/types"
+	"strings"
 )
 
 // Program defines the root of the tree
@@ -15,6 +17,7 @@ type Program struct {
 	functions []*Function
 	call      *FunctionCall
 }
+
 func (p *Program) Functions() []*Function {
 	return p.functions
 }
@@ -32,6 +35,7 @@ func (p *Program) Call() *FunctionCall {
 
 type Function struct {
 	id        string
+	key       string
 	params    []*dir.VarEntry
 	t         *types.LambdishType
 	statement Statement
@@ -40,14 +44,31 @@ type Function struct {
 func (f *Function) Id() string {
 	return f.id
 }
+
 func (f *Function) Params() []*dir.VarEntry {
 	return f.params
 }
+
 func (f *Function) Type() *types.LambdishType {
 	return f.t
 }
+
 func (f *Function) Statement() Statement {
 	return f.statement
+}
+
+func (f *Function) Key() string {
+	return f.key
+}
+
+func (f *Function) CreateKey() {
+	var b strings.Builder
+
+	for _, p := range f.params {
+		b.WriteString(p.Type().String())
+	}
+
+	f.key = fmt.Sprintf("%s@%s@%s", f.id, f.t, b.String())
 }
 
 // Statement interface represents the body of the function
@@ -87,6 +108,11 @@ func (i *Id) IsFunctionCall() bool {
 	return false
 }
 
+// String returns the string casting of Id
+func (i *Id) String() string {
+	return string(*i)
+}
+
 // FunctionCall represents a call to a function either in the body of a function or as
 // the main entry point of the program
 //
@@ -98,13 +124,14 @@ type FunctionCall struct {
 	args []Statement
 }
 
-func (fc *FunctionCall) Args() []Statement{
+func (fc *FunctionCall) Args() []Statement {
 	return fc.args
 }
 
-func (fc *FunctionCall) Id() string{
+func (fc *FunctionCall) Id() string {
 	return fc.id
 }
+
 // IsId conforms to the Statement interface to determine if object is Id
 func (fc *FunctionCall) IsId() bool {
 	return false
@@ -135,7 +162,7 @@ func (fc *FunctionCall) IsFunctionCall() bool {
 type Lambda struct {
 	params    []*dir.VarEntry
 	statement Statement
-	retval *types.LambdishType
+	retval    *types.LambdishType
 }
 
 // IsId conforms to the Statement interface to determine if object is Id
@@ -167,8 +194,7 @@ func (l *Lambda) Retval() *types.LambdishType {
 	return l.retval
 }
 
-func (l* Lambda) Params() []*types.LambdishType{
-
+func (l *Lambda) Params() []*types.LambdishType {
 	params := make([]*types.LambdishType, 0)
 
 	for _, p := range l.params {
@@ -177,17 +203,20 @@ func (l* Lambda) Params() []*types.LambdishType{
 	return params
 }
 
-func (l* Lambda) Statement() Statement {
+func (l *Lambda) Statement() Statement {
 	return l.statement
 }
 
-func (l *Lambda) VarDir() *dir.VarDirectory{
+func (l *Lambda) CreateVarDir() (*dir.VarDirectory, bool) {
 	vd := dir.NewVarDirectory()
 
-	for _,p := range l.params {
-		vd.Add(p)
+	for _, p := range l.params {
+		ok := vd.Add(p)
+		if !ok {
+			return nil, false
+		}
 	}
-	return vd
+	return vd, true
 }
 
 // Lambda call represents the definition of a lambda and subsequently calling the lamdbda function
@@ -196,9 +225,10 @@ type LambdaCall struct {
 	params    []*dir.VarEntry
 	args      []Statement
 	statement Statement
-	retval *types.LambdishType
+	retval    *types.LambdishType
 }
-func (lc *LambdaCall) Params() []*types.LambdishType{
+
+func (lc *LambdaCall) Params() []*types.LambdishType {
 
 	params := make([]*types.LambdishType, 0)
 
@@ -220,13 +250,16 @@ func (lc *LambdaCall) Retval() *types.LambdishType {
 	return lc.retval
 }
 
-func (lc *LambdaCall) VarDir() *dir.VarDirectory{
+func (lc *LambdaCall) CreateVarDir() (*dir.VarDirectory, bool) {
 	vd := dir.NewVarDirectory()
 
-	for _,p := range lc.params {
-		vd.Add(p)
+	for _, p := range lc.params {
+		ok := vd.Add(p)
+		if !ok {
+			return nil, false
+		}
 	}
-	return vd
+	return vd, true
 }
 
 // IsId conforms to the Statement interface to determine if object is Id

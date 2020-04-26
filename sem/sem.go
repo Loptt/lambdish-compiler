@@ -18,7 +18,7 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
 	if err != nil {
 		return nil, err
     }
-    
+    /*
     // Check the scope of function calls and variable uses.
     // Errors to check:
     //  *If a function is called that does not exist
@@ -27,7 +27,7 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
     err := scopeCheckProgram(program, funcdir)
     if err != nil {
         return err
-    }
+    }*/
 
 	return funcdir, nil
 }

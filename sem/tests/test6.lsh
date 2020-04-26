@@ -1,5 +1,5 @@
 func map :: [num] l, (num, [char] => char) f => [num] (
-    append(f(head(l)), map(tail(l), f))
+    l
 )
 
-map([1,2,3], (# num x => num (+(x, 1))))
+map([])
