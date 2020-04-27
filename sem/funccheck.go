@@ -63,17 +63,10 @@ func buildFuncDirStatement(statement ast.Statement, fe *dir.FuncEntry) error {
 			return err
 		}
 		return nil
-	} else if lcall, ok := statement.(*ast.LambdaCall); ok {
-		vardir, ok := lcall.CreateVarDir()
-		if !ok {
-			return errutil.Newf("Multiple parameter declaration in lambda")
-		}
-		lamdbaEntry := fe.AddLambda(lcall.Retval(), lcall.Params(), vardir)
-		if err := buildFuncDirStatement(lcall.Statement(), lamdbaEntry); err != nil {
+	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
+		if err := buildFuncDirStatement(fcall.Statement(), fe); err != nil {
 			return err
 		}
-		return nil
-	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
 		for _, s := range fcall.Args() {
 			if err := buildFuncDirStatement(s, fe); err != nil {
 				return err

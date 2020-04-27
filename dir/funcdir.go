@@ -22,7 +22,7 @@ func (fe *FuncEntry) Key() string {
 		b.WriteString(p.String())
 	}
 
-	return fmt.Sprintf("%s@%s@%s", fe.id, fe.returnval, b.String())
+	return fmt.Sprintf("%s@%s", fe.id, b.String())
 }
 
 // Lambdas returns the array of FuncEntry which represents the lambdas inside this FuncEntry
@@ -46,6 +46,16 @@ func (fe *FuncEntry) VarDir() *VarDirectory {
 // NewFuncEntry creates a new FuncEntry struct
 func NewFuncEntry(id string, returnval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
 	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry,0)}
+}
+
+func FuncEntryKey(id string, params []*types.LambdishType) string {
+	var b strings.Builder
+
+	for _, p := range params {
+		b.WriteString(p.String())
+	}
+
+	return fmt.Sprintf("%s@%s", id, b.String())
 }
 
 // FuncDirectory represents a table of FuncEntry structs used to store all the function declarations

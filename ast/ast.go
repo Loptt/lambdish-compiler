@@ -68,7 +68,7 @@ func (f *Function) CreateKey() {
 		b.WriteString(p.Type().String())
 	}
 
-	f.key = fmt.Sprintf("%s@%s@%s", f.id, f.t, b.String())
+	f.key = fmt.Sprintf("%s@%s", f.id, b.String())
 }
 
 // Statement interface represents the body of the function
@@ -79,6 +79,8 @@ type Statement interface {
 	IsLambdaCall() bool
 	IsFunctionCall() bool
 }
+
+// TODO: Remove IsLambdaCall from interface statement
 
 // Id is a wrapper for a string to represent an id for a variable as a statement
 type Id string
@@ -120,7 +122,7 @@ func (i *Id) String() string {
 // -args: list of arguments to the function
 //
 type FunctionCall struct {
-	id   string
+	s    Statement
 	args []Statement
 }
 
@@ -128,8 +130,8 @@ func (fc *FunctionCall) Args() []Statement {
 	return fc.args
 }
 
-func (fc *FunctionCall) Id() string {
-	return fc.id
+func (fc *FunctionCall) Statement() Statement {
+	return fc.s
 }
 
 // IsId conforms to the Statement interface to determine if object is Id
@@ -219,74 +221,6 @@ func (l *Lambda) CreateVarDir() (*dir.VarDirectory, bool) {
 	return vd, true
 }
 
-// Lambda call represents the definition of a lambda and subsequently calling the lamdbda function
-// with the provided arguments in args
-type LambdaCall struct {
-	params    []*dir.VarEntry
-	args      []Statement
-	statement Statement
-	retval    *types.LambdishType
-}
-
-func (lc *LambdaCall) Params() []*types.LambdishType {
-
-	params := make([]*types.LambdishType, 0)
-
-	for _, p := range lc.params {
-		params = append(params, p.Type())
-	}
-	return params
-}
-
-func (lc *LambdaCall) Args() []Statement {
-	return lc.args
-}
-
-func (lc *LambdaCall) Statement() Statement {
-	return lc.statement
-}
-
-func (lc *LambdaCall) Retval() *types.LambdishType {
-	return lc.retval
-}
-
-func (lc *LambdaCall) CreateVarDir() (*dir.VarDirectory, bool) {
-	vd := dir.NewVarDirectory()
-
-	for _, p := range lc.params {
-		ok := vd.Add(p)
-		if !ok {
-			return nil, false
-		}
-	}
-	return vd, true
-}
-
-// IsId conforms to the Statement interface to determine if object is Id
-func (lc *LambdaCall) IsId() bool {
-	return false
-}
-
-// IsConstant conforms to the Statement interface to determine if object is Constant
-func (lc *LambdaCall) IsConstant() bool {
-	return false
-}
-
-// IsLambda conforms to the Statement interface to determine if object is Lambda
-func (lc *LambdaCall) IsLambda() bool {
-	return false
-}
-
-// IsLambdaCall conforms to the Statement interface to determine if object is LambdaCall
-func (lc *LambdaCall) IsLambdaCall() bool {
-	return true
-}
-
-// IsFunctionCall conforms to the Statement interface to determine if object is FunctionCall
-func (lc *LambdaCall) IsFunctionCall() bool {
-	return false
-}
-
 // Constant represents a constant value which can be either a num, bool, char or a list of these
 // as defined by the LambdishType struct
 type Constant interface {
@@ -335,6 +269,11 @@ func (c *ConstantValue) IsLambdaCall() bool {
 func (c *ConstantValue) IsFunctionCall() bool {
 	return false
 }
+
+func (c *ConstantValue) Type() *types.LambdishType {
+	return c.t
+}
+
 
 // ConstantList implements the Constant interface and defines a list which is a collection of
 // statements

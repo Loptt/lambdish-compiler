@@ -5,6 +5,8 @@ import (
 	"github.com/Loptt/lambdish-compiler/dir"
 )
 
+// idExistsInFuncStack checks if the given id exists at any parameter declaration in the stack of 
+// FuncEntry. If it exist, it means that the id has been declared and is in scope
 func idExistsInFuncStack(id *ast.Id, fes *dir.FuncEntryStack) bool {
 	for !fes.Empty() {
 		fe := fes.Top()
@@ -18,10 +20,3 @@ func idExistsInFuncStack(id *ast.Id, fes *dir.FuncEntryStack) bool {
 	return false
 }
 
-func functionCallExistsInFuncDirectory(fcall *ast.FunctionCall, funcdir *dir.FuncDirectory) bool {
-	return true
-}
-/*
-func getTypeStatement(statement Statement, funcdir) *types.LambdishType {
-
-}*/

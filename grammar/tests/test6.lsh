@@ -1,4 +1,4 @@
-func map :: [num] l, (num, [char] => char) f => [num] (
+func map :: [num] l, (num, [char] => num) f => [num] (
     append(f ( head(l) ), map(tail(l), f)  )
 )
 

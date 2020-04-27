@@ -12,6 +12,7 @@ Function: {
 }
 Params: {
 	(
+	[
 	bool
 	char
 	empty
@@ -19,8 +20,22 @@ Params: {
 }
 Type: {
 	(
+	[
 	bool
 	char
+	num
+}
+BasicType: {
+	bool
+	char
+	num
+}
+FuncTypes: {
+	(
+	[
+	bool
+	char
+	empty
 	num
 }
 Statement: {
@@ -34,17 +49,16 @@ Statement: {
 	relop
 }
 FunctionCall: {
+	(
+	[
+	boolean
+	charac
 	id
+	number
 	operations
 	relop
 }
-LambdaExpr: {
-	(
-}
 Lambda: {
-	(
-}
-LambdaCall: {
 	(
 }
 Args: {

@@ -19,7 +19,7 @@ func scopeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory) error {
 func scopeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory) error {
 	fe := funcdir.Get(function.Key())
 	if fe == nil {
-		return errutil.Newf("Function entry %s not found in FuncDirectory", fe.Key())
+		return errutil.Newf("Function entry %+v not found in FuncDirectory", fe)
 	}
 
 	fes := dir.NewFuncEntryStack()
@@ -34,16 +34,23 @@ func scopeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory) erro
 
 func scopeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory) error {
 	if id, ok := statement.(*ast.Id); ok {
-		if !idExistsInFuncStack(id, fes) {
-			return errutil.Newf("Id %s not declared in this scope", id) 
+		if idExistsInFuncStack(id, fes) {
+			return nil
 		}
-		return nil
+		// TODO: check if id exists in funcdir
+		return errutil.Newf("Id %s not declared in this scope", id)
 	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
-		if !functionCallExistsInFuncDirectory(fcall, funcdir) {
-			return errutil.Newf("Function %s is not declared", fcall.Id()) 
+		if err := scopeCheckStatement(fcall.Statement(), fes, funcdir); err != nil {
+			return err
+		}
+
+		for _, arg := range fcall.Args() {
+			if err := scopeCheckStatement(arg, fes, funcdir); err != nil {
+				return err
+			}
 		}
 		return nil
-	}
+	} 
 
 	return nil
 }

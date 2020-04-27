@@ -1,5 +1,8 @@
-func map :: [num] l, (num, [char] => char) f => [num] (
-    l
+
+func apply :: num x, (num => (bool => char) ) f => (num => char) (
+    (# num x, (char => bool) g => bool (
+        g(x)
+    ))
 )
 
 map([])

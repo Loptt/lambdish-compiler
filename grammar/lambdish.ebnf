@@ -44,12 +44,16 @@ Params :
     ;
 
 Type 
-    : "num"                          << ast.NewType($0) >>
-    | "bool"                         << ast.NewType($0) >>  
-    | "char"                         << ast.NewType($0) >>
+    : BasicType                           << $0, nil >>
     | "(" FuncTypes "=>" Type ")"    << ast.NewFunctionType($1, $3)>>
-    | "[" Type "]"                   << ast.AppendType($1) >>
+    | "[" Type "]"                        << ast.AppendType($1) >>
     ; 
+
+BasicType
+    : "num"                         << ast.NewType($0) >>
+    | "bool"                        << ast.NewType($0) >>
+    | "char"                        << ast.NewType($0) >>
+    ;
 
 FuncTypes
     : Type "," FuncTypes             << ast.AppendFuncTypeList($0, $2) >>
@@ -60,27 +64,18 @@ FuncTypes
 Statement 
     : id                            << ast.NewStatement($0) >>
     | Constant                      << ast.NewStatement($0) >>
-    | LambdaExpr                    << ast.NewStatement($0) >>
+    | Lambda                        << ast.NewStatement($0) >>
     | FunctionCall                  << ast.NewStatement($0) >>
     ;
 
 FunctionCall 
-    : id "(" Args ")"              << ast.NewFunctionCall($0, $2) >>
+    : Statement "(" Args ")"       << ast.NewFunctionCall($0, $2) >>
     | operations "(" Args ")"      << ast.NewFunctionCall($0, $2) >>
     | relop "(" Args ")"           << ast.NewFunctionCall($0, $2) >>
     ;
 
-LambdaExpr 
-    : Lambda                        << $0, nil>>
-    | LambdaCall                    << $0, nil >>
-    ;
-
 Lambda 
     : "(" "#" Params "=>" Type "(" Statement ")" ")" << ast.NewLambda($2,$4,$6) >>
-    ;
-
-LambdaCall 
-    : "(" "#" Params "=>" Type "(" Statement ")" ")" "(" Args ")" << ast.NewLambdaCall($2, $4, $6, $10) >>
     ;
 
 Args 
