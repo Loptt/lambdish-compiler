@@ -30,6 +30,4 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
 	return funcdir, nil
 }
 
-// TODO: Checar que las funciones y variables que se usen existan
-
 // TODO: Checar la cohesion de tipos
