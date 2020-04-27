@@ -53,7 +53,6 @@ func (vd *VarDirectory) Exists(key string) bool {
 	return ok
 }
 
-
 func NewVarDirectory() *VarDirectory {
 	return &VarDirectory{make(map[string]*VarEntry)}
 }

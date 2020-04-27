@@ -2,41 +2,17 @@ package sem
 
 import (
 	"github.com/Loptt/lambdish-compiler/ast"
+	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
 	//"github.com/davecgh/go-spew/spew"
-	"os"
 	"testing"
 )
 
-func readFile(path string) ([]byte, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-
-	defer file.Close()
-
-	fileinfo, err := file.Stat()
-	if err != nil {
-		return nil, err
-	}
-
-	filesize := fileinfo.Size()
-	buffer := make([]byte, filesize)
-
-	_, err = file.Read(buffer)
-	if err != nil {
-		return nil, err
-	}
-
-	return buffer, nil
-}
-
-func TestSemanticCheck(t *testing.T) {
+func TestScopeCheckProgram(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
-		"tests/test5.lsh",
+		"tests/test6.lsh",
 	}
 
 	for _, test := range tests {
@@ -57,10 +33,18 @@ func TestSemanticCheck(t *testing.T) {
 			t.Fatalf("Cannot cast to Program")
 		}
 
-		_, err = SemanticCheck(program)
+		funcdir := dir.NewFuncDirectory()
+
+		err = buildFuncDirProgram(program, funcdir)
 		if err != nil {
-			t.Errorf("Error from semantic: %v", err)
+			t.Errorf("buildFuncDirProgram: %v", err)
 		}
-		// spew.Dump(funcdir)
+
+		err = scopeCheckProgram(program, funcdir)
+		if err != nil {
+			t.Errorf("scopeCheckProgram: %v", err)
+		}
+
+		//spew.Dump(funcdir)
 	}
 }

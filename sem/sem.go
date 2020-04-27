@@ -11,11 +11,10 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
 
     // Build the function directory and their corresponding Var directiories
     // Errors to check:
-    //  *If a function is declared twice an error will be returned
+    //  *If a function is declared twice
     //  *If two parameters in the same function have the same id
     //
-	err := buildFuncDirProgram(program, funcdir)
-	if err != nil {
+	if err := buildFuncDirProgram(program, funcdir); err != nil {
 		return nil, err
     }
     
@@ -24,9 +23,8 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
     //  *If a function is called that does not exist
     //  *If a variable is used and it has not been declared in the parameters
     //
-    err := scopeCheckProgram(program, funcdir)
-    if err != nil {
-        return err
+    if err := scopeCheckProgram(program, funcdir); err != nil {
+        return funcdir, err
     }
 
 	return funcdir, nil

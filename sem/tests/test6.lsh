@@ -1,5 +1,11 @@
-func map :: [num] l, (num, [char] => char) f => [num] (
-    append(f(head(l)), map(tail(l), f))
+func test :: char c, char c2 => num (
+    (# num x => num (
+        (# char y => char (
+            (# bool z => bool (
+                testy(z)
+            ))
+        ))
+    ))
 )
 
-map([1,2,3], (# num x => num (+(x, 1))))
+map([])

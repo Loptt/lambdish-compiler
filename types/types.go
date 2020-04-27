@@ -9,12 +9,15 @@ import (
 // Num: any integer or floating point number, either positive or negative
 // Char: any character representable as an ascii value
 // Bool: a boolean value that can only be true or false
+// Null: It is used in the LambdishType struct to indicate that that type is a function
+// type and thus the BasicType should not be used
 type BasicType int
 
 const (
 	Num BasicType = iota
 	Char
 	Bool
+	Null
 )
 
 func (t BasicType) convert() rune {
@@ -33,14 +36,39 @@ func (t BasicType) convert() rune {
 	return 'n'
 }
 
-// LambdishType represents any type on the lambdish language. It consists of a basic type
-// and in the case it is an array, then list will be greater than 0 indicating the amount of nested
-// arrays. Otherwise 0 in list indicates that the type is just a basic type.
+// LambdishType represents any type on the lambdish language.
+// A type in the language can be either a basic type (num, bool, char), or a function type.
+//
+// - In the case of the function type, the following should be set
+//		-function: true
+//		-params: non null (might be empty anyways)
+//		-basic: NULL
+//
+// - In the case of a basic type, the following should be set
+// 		-function: false
+//		-params: null
+//		-basic: non null, the corresponing type
+//
+// Additional to this, the type might represent a list. If that is the case, all rules set above will
+// remain true, and list will be set to a non-zero value, indicating the levels of nesting of the type 
+// in the list.
+//
+// For example, a value of list = 1 for a basic type num will consists of a list as following
+// 		- [num]
+//
+// And a value of list = 3 for a function type could then look like this
+// 		- [[[(num, num => bool)]]]
+// 
+// Nontheless external users of this package should only construct Lambdishtype structs using the
+// predefined constructors provided below. When a function type is needed, the NewFuncLambdishType
+// function should be called, and NewDataLambdishType with the basic type accordingly.
+// This will ensure that the values are initialized correctly according to the rules set above.
 type LambdishType struct {
-	t    BasicType
-	list int
-	params []*LambdishType
+	basic    BasicType
+	retval   *LambdishType
+	params   []*LambdishType
 	function bool
+	list     int
 }
 
 // String converts the type to its string representation which is used only in the dirfunc package
@@ -60,10 +88,10 @@ func (l LambdishType) String() string {
 		}
 
 		builder.WriteString("=>")
-		builder.WriteRune(l.t.convert())
+		builder.WriteString(l.retval.String())
 		builder.WriteRune(')')
 	} else {
-		builder.WriteRune(l.t.convert())
+		builder.WriteRune(l.basic.convert())
 	}
 
 	for i := 0; i < l.list; i++ {
@@ -79,11 +107,11 @@ func (lt *LambdishType) List() int {
 }
 
 // Type
-func (lt *LambdishType) Type() BasicType {
-	return lt.t
+func (lt *LambdishType) Basic() BasicType {
+	return lt.basic
 }
 
-// Function
+// Params
 func (lt *LambdishType) Params() []*LambdishType {
 	return lt.params
 }
@@ -93,17 +121,17 @@ func (lt *LambdishType) Function() bool {
 	return lt.function
 }
 
-// NewDataLambdishType
-func NewDataLambdishType(t BasicType, list int) *LambdishType {
-	return &LambdishType{t, list, nil, false}
+// Retval
+func (lt *LambdishType) Retval() *LambdishType {
+	return lt.retval
 }
 
 // NewDataLambdishType
-func NewFuncLambdishType(t BasicType, list int, params []*LambdishType) *LambdishType {
-	return &LambdishType{t, list, params, true}
+func NewDataLambdishType(b BasicType, list int) *LambdishType {
+	return &LambdishType{b, nil, nil, false, list}
 }
 
-// Equal
-func (l LambdishType) Equal(l2 LambdishType) bool {
-	return l.t == l2.t && l.list == l2.list
+// NewDataLambdishType
+func NewFuncLambdishType(retval *LambdishType, params []*LambdishType, list int) *LambdishType {
+	return &LambdishType{Null, retval, params, true, list}
 }

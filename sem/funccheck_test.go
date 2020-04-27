@@ -2,38 +2,14 @@ package sem
 
 import (
 	"github.com/Loptt/lambdish-compiler/ast"
+	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
 	//"github.com/davecgh/go-spew/spew"
-	"os"
 	"testing"
 )
 
-func readFile(path string) ([]byte, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-
-	defer file.Close()
-
-	fileinfo, err := file.Stat()
-	if err != nil {
-		return nil, err
-	}
-
-	filesize := fileinfo.Size()
-	buffer := make([]byte, filesize)
-
-	_, err = file.Read(buffer)
-	if err != nil {
-		return nil, err
-	}
-
-	return buffer, nil
-}
-
-func TestSemanticCheck(t *testing.T) {
+func TestBuildFuncDirProgram(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
 		"tests/test5.lsh",
@@ -57,10 +33,13 @@ func TestSemanticCheck(t *testing.T) {
 			t.Fatalf("Cannot cast to Program")
 		}
 
-		_, err = SemanticCheck(program)
+		funcdir := dir.NewFuncDirectory()
+
+		err = buildFuncDirProgram(program, funcdir)
 		if err != nil {
-			t.Errorf("Error from semantic: %v", err)
+			t.Errorf("buildFuncDirProgram: %v", err)
 		}
-		// spew.Dump(funcdir)
+
+		//spew.Dump(funcdir)
 	}
 }

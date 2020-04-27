@@ -1,6 +1,6 @@
-func filterOdd :: [num] l => (num => [num]) (
-    (# num x => [num] (
-        (# char c => num (234))
+func filterOdd :: [num] l, char x => (num, num => [num]) (
+    (# num x, num y => [num] (
+        (# char cn, num n => num (234))
     ))
 )
 

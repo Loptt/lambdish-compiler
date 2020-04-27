@@ -8,6 +8,8 @@ id
 )
 ,
 empty
+[
+]
 num
 bool
 char
@@ -17,5 +19,3 @@ relop
 boolean
 number
 charac
-[
-]

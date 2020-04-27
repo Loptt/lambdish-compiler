@@ -1,8 +1,10 @@
 package ast
 
 import (
+	"fmt"
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/types"
+	"strings"
 )
 
 // Program defines the root of the tree
@@ -15,6 +17,7 @@ type Program struct {
 	functions []*Function
 	call      *FunctionCall
 }
+
 func (p *Program) Functions() []*Function {
 	return p.functions
 }
@@ -32,6 +35,7 @@ func (p *Program) Call() *FunctionCall {
 
 type Function struct {
 	id        string
+	key       string
 	params    []*dir.VarEntry
 	t         *types.LambdishType
 	statement Statement
@@ -40,14 +44,31 @@ type Function struct {
 func (f *Function) Id() string {
 	return f.id
 }
+
 func (f *Function) Params() []*dir.VarEntry {
 	return f.params
 }
+
 func (f *Function) Type() *types.LambdishType {
 	return f.t
 }
+
 func (f *Function) Statement() Statement {
 	return f.statement
+}
+
+func (f *Function) Key() string {
+	return f.key
+}
+
+func (f *Function) CreateKey() {
+	var b strings.Builder
+
+	for _, p := range f.params {
+		b.WriteString(p.Type().String())
+	}
+
+	f.key = fmt.Sprintf("%s@%s", f.id, b.String())
 }
 
 // Statement interface represents the body of the function
@@ -58,6 +79,8 @@ type Statement interface {
 	IsLambdaCall() bool
 	IsFunctionCall() bool
 }
+
+// TODO: Remove IsLambdaCall from interface statement
 
 // Id is a wrapper for a string to represent an id for a variable as a statement
 type Id string
@@ -87,6 +110,11 @@ func (i *Id) IsFunctionCall() bool {
 	return false
 }
 
+// String returns the string casting of Id
+func (i *Id) String() string {
+	return string(*i)
+}
+
 // FunctionCall represents a call to a function either in the body of a function or as
 // the main entry point of the program
 //
@@ -94,17 +122,18 @@ func (i *Id) IsFunctionCall() bool {
 // -args: list of arguments to the function
 //
 type FunctionCall struct {
-	id   string
+	s    Statement
 	args []Statement
 }
 
-func (fc *FunctionCall) Args() []Statement{
+func (fc *FunctionCall) Args() []Statement {
 	return fc.args
 }
 
-func (fc *FunctionCall) Id() string{
-	return fc.id
+func (fc *FunctionCall) Statement() Statement {
+	return fc.s
 }
+
 // IsId conforms to the Statement interface to determine if object is Id
 func (fc *FunctionCall) IsId() bool {
 	return false
@@ -135,7 +164,8 @@ func (fc *FunctionCall) IsFunctionCall() bool {
 type Lambda struct {
 	params    []*dir.VarEntry
 	statement Statement
-	retval *types.LambdishType
+	retval    *types.LambdishType
+	id string
 }
 
 // IsId conforms to the Statement interface to determine if object is Id
@@ -167,8 +197,11 @@ func (l *Lambda) Retval() *types.LambdishType {
 	return l.retval
 }
 
-func (l* Lambda) Params() []*types.LambdishType{
+func (l *Lambda) Id() string {
+	return l.id
+}
 
+func (l *Lambda) Params() []*types.LambdishType {
 	params := make([]*types.LambdishType, 0)
 
 	for _, p := range l.params {
@@ -177,81 +210,24 @@ func (l* Lambda) Params() []*types.LambdishType{
 	return params
 }
 
-func (l* Lambda) Statement() Statement {
+func (l *Lambda) Statement() Statement {
 	return l.statement
 }
 
-func (l *Lambda) VarDir() *dir.VarDirectory{
+func (l *Lambda) CreateVarDir() (*dir.VarDirectory, bool) {
 	vd := dir.NewVarDirectory()
 
-	for _,p := range l.params {
-		vd.Add(p)
+	for _, p := range l.params {
+		ok := vd.Add(p)
+		if !ok {
+			return nil, false
+		}
 	}
-	return vd
+	return vd, true
 }
 
-// Lambda call represents the definition of a lambda and subsequently calling the lamdbda function
-// with the provided arguments in args
-type LambdaCall struct {
-	params    []*dir.VarEntry
-	args      []Statement
-	statement Statement
-	retval *types.LambdishType
-}
-func (lc *LambdaCall) Params() []*types.LambdishType{
-
-	params := make([]*types.LambdishType, 0)
-
-	for _, p := range lc.params {
-		params = append(params, p.Type())
-	}
-	return params
-}
-
-func (lc *LambdaCall) Args() []Statement {
-	return lc.args
-}
-
-func (lc *LambdaCall) Statement() Statement {
-	return lc.statement
-}
-
-func (lc *LambdaCall) Retval() *types.LambdishType {
-	return lc.retval
-}
-
-func (lc *LambdaCall) VarDir() *dir.VarDirectory{
-	vd := dir.NewVarDirectory()
-
-	for _,p := range lc.params {
-		vd.Add(p)
-	}
-	return vd
-}
-
-// IsId conforms to the Statement interface to determine if object is Id
-func (lc *LambdaCall) IsId() bool {
-	return false
-}
-
-// IsConstant conforms to the Statement interface to determine if object is Constant
-func (lc *LambdaCall) IsConstant() bool {
-	return false
-}
-
-// IsLambda conforms to the Statement interface to determine if object is Lambda
-func (lc *LambdaCall) IsLambda() bool {
-	return false
-}
-
-// IsLambdaCall conforms to the Statement interface to determine if object is LambdaCall
-func (lc *LambdaCall) IsLambdaCall() bool {
-	return true
-}
-
-// IsFunctionCall conforms to the Statement interface to determine if object is FunctionCall
-func (lc *LambdaCall) IsFunctionCall() bool {
-	return false
+func (l *Lambda) SetId(id string) {
+	l.id = id
 }
 
 // Constant represents a constant value which can be either a num, bool, char or a list of these
@@ -302,6 +278,11 @@ func (c *ConstantValue) IsLambdaCall() bool {
 func (c *ConstantValue) IsFunctionCall() bool {
 	return false
 }
+
+func (c *ConstantValue) Type() *types.LambdishType {
+	return c.t
+}
+
 
 // ConstantList implements the Constant interface and defines a list which is a collection of
 // statements

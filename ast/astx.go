@@ -71,7 +71,10 @@ func NewFunction(id, params, typ, statement interface{}) (*Function, error) {
 		return nil, errutil.Newf("Invalid type for statement. Expected Statement")
 	}
 
-	return &Function{d, p, t, s}, nil
+	f := &Function{d, "", p, t, s}
+	f.CreateKey()
+
+	return f, nil
 }
 
 // NewStatementList
@@ -200,7 +203,7 @@ func NewFunctionType(params, ret interface{}) (*types.LambdishType, error) {
 		return nil, errutil.Newf("Invalid type for type. Expected LambdishType.")
 	}
 
-	return types.NewFuncLambdishType(rv.Type(), 0, p), nil
+	return types.NewFuncLambdishType(rv, p, 0), nil
 }
 
 // AppendType
@@ -211,9 +214,9 @@ func AppendType(typ interface{}) (*types.LambdishType, error) {
 	}
 
 	if t.Function() {
-		return types.NewFuncLambdishType(t.Type(), t.List()+1, t.Params()), nil
+		return types.NewFuncLambdishType(t.Retval(), t.Params(), t.List()+1), nil
 	} else {
-		return types.NewDataLambdishType(t.Type(), t.List()+1), nil
+		return types.NewDataLambdishType(t.Basic(), t.List()+1), nil
 	}
 }
 
@@ -244,19 +247,17 @@ func AppendFuncTypeList(typ, list interface{}) ([]*types.LambdishType, error) {
 
 // NewFunctionCall
 func NewFunctionCall(id, args interface{}) (*FunctionCall, error) {
-	i, ok := id.(*token.Token)
+	i, ok := id.(Statement)
 	if !ok {
-		return nil, errutil.Newf("Invalid type for id. Expected token")
+		return nil, errutil.Newf("Invalid type for id. Expected statement")
 	}
-
-	d := string(i.Lit)
 	
 	a, ok := args.([]Statement)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for args. Expected []Statement, got %v", args)
 	}
 
-	return &FunctionCall{d, a}, nil
+	return &FunctionCall{i, a}, nil
 }
 
 // NewLambda
@@ -277,32 +278,7 @@ func NewLambda(params, retval, statement interface{}) (*Lambda, error) {
 	}
 
 
-	return &Lambda{p, s, t}, nil
-}
-
-// NewLambdaCall
-func NewLambdaCall(params, retval,  statement, args interface{}) (*LambdaCall, error) {
-	p, ok := params.([]*dir.VarEntry)
-	if !ok {
-		return nil, errutil.Newf("Invalid type for params. Expected []*dir.VarEntry]")
-	}
-
-	a, ok := args.([]Statement)
-	if !ok {
-		return nil, errutil.Newf("Invalid type for args. Expected []Statement, got %+v", args)
-	}
-
-	s, ok := statement.(Statement)
-	if !ok {
-		return nil, errutil.Newf("Invalid type for params. Expected Statement")
-	}
-
-	t,ok := retval.(*types.LambdishType)
-	if !ok {
-		return nil, errutil.Newf("Invalid type for retval. Expected *types.LambdishType")
-	}
-
-	return &LambdaCall{p, a, s, t}, nil
+	return &Lambda{p, s, t, ""}, nil
 }
 
 // NewConstantBool

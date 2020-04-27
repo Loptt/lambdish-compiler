@@ -9,8 +9,7 @@ import (
 
 func buildFuncDirProgram(program *ast.Program, funcdir *dir.FuncDirectory) error {
 	for _, f := range program.Functions() {
-		err := buildFuncDirFunction(f, funcdir)
-		if err != nil {
+		if err := buildFuncDirFunction(f, funcdir); err != nil {
 			return err
 		}
 	}
@@ -25,29 +24,27 @@ func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) er
 
 	for _, p := range function.Params() {
 		params = append(params, p.Type())
-		err := buildVarDirFunction(p, vardir)
-		if err != nil {
+		if err := buildVarDirFunction(p, vardir); err != nil {
 			return err
 		}
+
 	}
 	
 	fe := dir.NewFuncEntry(id, t, params, vardir)
 
-	err := buildFuncDirStatement(function.Statement(), fe)
-	if err != nil {
+	if err := buildFuncDirStatement(function.Statement(), fe); err != nil {
 		return err
 	}
 
-	ok := funcdir.Add(fe)
-	if !ok {
+	if ok := funcdir.Add(fe); !ok {
 		return errutil.Newf("Invalid FuncEntry. This FuncEntry already exists.")
 	}
+
 	return nil
 }
 
 func buildVarDirFunction(ve *dir.VarEntry, vardir *dir.VarDirectory) error {
-	ok := vardir.Add(ve)
-	if !ok {
+	if ok := vardir.Add(ve); !ok {
 		return errutil.Newf("Invalid VarEntry. This VarEntry already exists.")
 	}
 	return nil
@@ -55,31 +52,33 @@ func buildVarDirFunction(ve *dir.VarEntry, vardir *dir.VarDirectory) error {
 
 func buildFuncDirStatement(statement ast.Statement, fe *dir.FuncEntry) error {
 	if lambda, ok := statement.(*ast.Lambda); ok {
-		lamdbaEntry := fe.AddLambda(lambda.Retval(), lambda.Params(), lambda.VarDir())
-		err := buildFuncDirStatement(lambda.Statement(), lamdbaEntry)
-		if err != nil {
-			return err
-		} 
-		return nil
-	} else if lcall, ok := statement.(*ast.LambdaCall); ok {
-		lamdbaEntry := fe.AddLambda(lcall.Retval(), lcall.Params(), lcall.VarDir())
-		err := buildFuncDirStatement(lcall.Statement(), lamdbaEntry)
-		if err != nil {
+		vardir, ok := lambda.CreateVarDir()
+		if !ok {
+			return errutil.Newf("Multiple parameter declaration in lambda")
+		}
+
+		lambdaEntry := fe.AddLambda(lambda.Retval(), lambda.Params(), vardir)
+
+		// Add ID to lambda ast so that its func entry can be retreived later
+		lambda.SetId(lambdaEntry.Id())
+
+		if err := buildFuncDirStatement(lambda.Statement(), lambdaEntry); err != nil {
 			return err
 		}
 		return nil
 	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
+		if err := buildFuncDirStatement(fcall.Statement(), fe); err != nil {
+			return err
+		}
 		for _, s := range fcall.Args() {
-			err := buildFuncDirStatement(s, fe)
-			if err != nil {
+			if err := buildFuncDirStatement(s, fe); err != nil {
 				return err
 			}
 		}
 		return nil
 	} else if cl, ok := statement.(*ast.ConstantList); ok {
 		for _, c := range cl.Contents() {
-			err := buildFuncDirStatement(c, fe)
-			if err != nil {
+			if err := buildFuncDirStatement(c, fe); err != nil {
 				return err
 			}
 		}
