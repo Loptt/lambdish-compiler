@@ -5,7 +5,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
-	"github.com/davecgh/go-spew/spew"
+	//"github.com/davecgh/go-spew/spew"
 	"testing"
 )
 
@@ -45,6 +45,6 @@ func TestScopeCheckProgram(t *testing.T) {
 			t.Errorf("scopeCheckProgram: %v", err)
 		}
 
-		spew.Dump(funcdir)
+		//spew.Dump(funcdir)
 	}
 }

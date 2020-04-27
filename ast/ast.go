@@ -165,6 +165,7 @@ type Lambda struct {
 	params    []*dir.VarEntry
 	statement Statement
 	retval    *types.LambdishType
+	id string
 }
 
 // IsId conforms to the Statement interface to determine if object is Id
@@ -196,6 +197,10 @@ func (l *Lambda) Retval() *types.LambdishType {
 	return l.retval
 }
 
+func (l *Lambda) Id() string {
+	return l.id
+}
+
 func (l *Lambda) Params() []*types.LambdishType {
 	params := make([]*types.LambdishType, 0)
 
@@ -219,6 +224,10 @@ func (l *Lambda) CreateVarDir() (*dir.VarDirectory, bool) {
 		}
 	}
 	return vd, true
+}
+
+func (l *Lambda) SetId(id string) {
+	l.id = id
 }
 
 // Constant represents a constant value which can be either a num, bool, char or a list of these

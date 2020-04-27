@@ -1,7 +1,10 @@
-
-func apply :: num x, (num => (bool => char) ) f => (num => char) (
-    (# num x, (char => bool) g => bool (
-        g(x)
+func test :: char c, char c2 => num (
+    (# num x => num (
+        (# char y => char (
+            (# bool z => bool (
+                testy(z)
+            ))
+        ))
     ))
 )
 

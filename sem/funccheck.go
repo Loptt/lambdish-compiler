@@ -57,9 +57,12 @@ func buildFuncDirStatement(statement ast.Statement, fe *dir.FuncEntry) error {
 			return errutil.Newf("Multiple parameter declaration in lambda")
 		}
 
-		lamdbaEntry := fe.AddLambda(lambda.Retval(), lambda.Params(), vardir)
+		lambdaEntry := fe.AddLambda(lambda.Retval(), lambda.Params(), vardir)
 
-		if err := buildFuncDirStatement(lambda.Statement(), lamdbaEntry); err != nil {
+		// Add ID to lambda ast so that its func entry can be retreived later
+		lambda.SetId(lambdaEntry.Id())
+
+		if err := buildFuncDirStatement(lambda.Statement(), lambdaEntry); err != nil {
 			return err
 		}
 		return nil

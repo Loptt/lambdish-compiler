@@ -278,7 +278,7 @@ func NewLambda(params, retval, statement interface{}) (*Lambda, error) {
 	}
 
 
-	return &Lambda{p, s, t}, nil
+	return &Lambda{p, s, t, ""}, nil
 }
 
 // NewConstantBool

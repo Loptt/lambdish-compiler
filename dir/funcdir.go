@@ -30,6 +30,11 @@ func (fe *FuncEntry) Lambdas() []*FuncEntry {
 	return fe.lambdas
 }
 
+// Id returns the name of the funcentry
+func (fe *FuncEntry) Id() string {
+	return fe.id
+}
+
 // AddLambda adds a new lambda func entry to the current func entry
 func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
 	id := string(len(fe.lambdas))
@@ -41,6 +46,17 @@ func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.Lambd
 // VarDir returns the Var Directory of the FuncEntry
 func (fe *FuncEntry) VarDir() *VarDirectory {
 	return fe.vardir
+}
+
+// VarDir returns the Var Directory of the FuncEntry
+func (fe *FuncEntry) GetLambdaEntryById(id string) *FuncEntry {
+	for _, l := range fe.lambdas {
+		if l.Id() == id {
+			return l
+		}
+	}
+
+	return nil
 }
 
 // NewFuncEntry creates a new FuncEntry struct
@@ -89,7 +105,19 @@ func (fd *FuncDirectory) Exists(key string) bool {
 	return ok
 }
 
+func (fd *FuncDirectory) FuncIdExists(id string) bool {
+	for _, fe := range fd.table {
+		if fe.Id() == id {
+			return true
+		}
+	}
+
+	return false
+}
+
+
 func NewFuncDirectory() *FuncDirectory {
 	return &FuncDirectory{make(map[string]*FuncEntry)}
 }
+
 
