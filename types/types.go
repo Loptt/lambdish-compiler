@@ -126,6 +126,21 @@ func (lt *LambdishType) Retval() *LambdishType {
 	return lt.retval
 }
 
+// List
+func (lt *LambdishType) DecreaseList() {
+	lt.list = lt.list-1
+}
+
+// List
+func (lt *LambdishType) IncreaseList() {
+	lt.list = lt.list+1
+}
+
+//Equal
+func(lt *LambdishType) Equal(lt2 *LambdishType) bool {
+	return lt.String() == lt2.String()
+}
+
 // NewDataLambdishType
 func NewDataLambdishType(b BasicType, list int) *LambdishType {
 	return &LambdishType{b, nil, nil, false, list}

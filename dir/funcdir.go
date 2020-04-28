@@ -35,6 +35,11 @@ func (fe *FuncEntry) Id() string {
 	return fe.id
 }
 
+// ReturnVal returns the name of the funcentry
+func (fe *FuncEntry) ReturnVal() *types.LambdishType {
+	return fe.returnval
+}
+
 // AddLambda adds a new lambda func entry to the current func entry
 func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
 	id := string(len(fe.lambdas))

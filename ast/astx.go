@@ -260,6 +260,23 @@ func NewFunctionCall(id, args interface{}) (*FunctionCall, error) {
 	return &FunctionCall{i, a}, nil
 }
 
+func NewFunctionReservedCall(id, args interface{}) (*FunctionCall, error) {
+	i, ok := id.(*token.Token)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for id. Expected statement")
+	}
+
+	v := string(i.Lit)
+	idstruct := Id(v)
+	
+	a, ok := args.([]Statement)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for args. Expected []Statement, got %v", args)
+	}
+
+	return &FunctionCall{&idstruct, a}, nil
+}
+
 // NewLambda
 func NewLambda(params, retval, statement interface{}) (*Lambda, error) {
 	p, ok := params.([]*dir.VarEntry)

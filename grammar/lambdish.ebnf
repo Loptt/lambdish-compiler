@@ -70,8 +70,8 @@ Statement
 
 FunctionCall 
     : Statement "(" Args ")"       << ast.NewFunctionCall($0, $2) >>
-    | operations "(" Args ")"      << ast.NewFunctionCall($0, $2) >>
-    | relop "(" Args ")"           << ast.NewFunctionCall($0, $2) >>
+    | operations "(" Args ")"      << ast.NewFunctionReservedCall($0, $2) >>
+    | relop "(" Args ")"           << ast.NewFunctionReservedCall($0, $2) >>
     ;
 
 Lambda 

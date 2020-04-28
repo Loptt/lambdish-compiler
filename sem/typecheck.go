@@ -3,8 +3,111 @@ package sem
 import (
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/dir"
+	"github.com/mewkiz/pkg/errutil"
 )
 
-func typeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory) error {
+//typeCheckProgram: of the program
+func typeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
+	for _, f := range program.Functions() {
+		if err := typeCheckFunction(f, funcdir,semcube); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+//typeCheckFunction: Verifies 
+func typeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory,semcube *SemanticCube) error {
+	
+	fe := funcdir.Get(function.Key())
+	if fe == nil {
+		return errutil.Newf("Cannot get function %s from Func Directory", function.Id())
+	}
+
+	rv := fe.ReturnVal()
+	fes := dir.NewFuncEntryStack()
+	fes.Push(fe)
+
+	statementType, err := getTypeStatement(function.Statement(),fes, funcdir, semcube)
+	if err != nil {
+		return err
+	}
+
+	if !rv.Equal(statementType){
+		return errutil.Newf("Statement type does not match return type in function %s", function.Id())
+	}
+	
+	if err := typeCheckStatement(function.Statement(),fes, funcdir, semcube); err != nil {
+		return err
+	}	
+
+	fes.Pop()
+	return nil
+}
+//typeCheckStatement
+func typeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
+	if _, ok := statement.(*ast.Id); ok {
+		return nil
+	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
+		return typeCheckFunctionCall(fcall, fes, funcdir,semcube)
+	} else if lambda, ok := statement.(*ast.Lambda); ok {
+		return typeCheckLambda(lambda, fes, funcdir,semcube)
+	} else if cl, ok := statement.(*ast.ConstantList); ok {
+		return typeCheckConstantList(cl, fes, funcdir,semcube)
+	} else if _, ok := statement.(*ast.ConstantValue); ok {
+		return nil
+	}
+
+	return errutil.Newf("Statement cannot be casted to any valid form")
+}
+
+//typeCheckFunctionCall
+func typeCheckFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
+	if _, err := getTypeFunctionCall(fcall, fes, funcdir,semcube); err != nil {
+		return err
+	}
+
+	for _, s := range fcall.Args() {
+		if err := typeCheckStatement(s, fes, funcdir,semcube); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+//typeCheckLambda
+func typeCheckLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
+	if lambdaEntry := fes.Top().GetLambdaEntryById(lambda.Id()); lambdaEntry != nil {
+		fes.Push(lambdaEntry)
+
+		t, err := getTypeStatement(lambda.Statement(),fes, funcdir, semcube)
+		if err != nil {
+			return err
+		}
+
+		if !(t.Equal(lambdaEntry.ReturnVal())) {
+			return errutil.Newf("Return type of lambda statement does not match lambda definition")
+		}
+
+		if err := typeCheckStatement(lambda.Statement(), fes, funcdir, semcube); err != nil {
+			return err
+		}
+
+		fes.Pop()
+
+		return nil
+	}
+	return errutil.Newf("Id could not be found in the fun entry stack.")
+}
+//typeCheckConstantList
+func typeCheckConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
+	if _, err := getTypeConstantList(cl, fes, funcdir, semcube); err != nil {
+		return err
+	}
+	
+	for _, s := range cl.Contents() {
+		if err := typeCheckStatement(s, fes, funcdir,semcube); err != nil {
+			return err
+		} 
+	}
 	return nil
 }

@@ -9,9 +9,14 @@ import (
 	"testing"
 )
 
-func TestScopeCheckProgram(t *testing.T) {
+func TestTypeCheckProgram(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
+		"tests/test1.lsh",
+		"tests/test2.lsh",
+		"tests/test3.lsh",
+		"tests/test4.lsh",
+		"tests/test5.lsh",
 		"tests/test6.lsh",
 	}
 
@@ -30,7 +35,7 @@ func TestScopeCheckProgram(t *testing.T) {
 
 		program, ok := pro.(*ast.Program)
 		if !ok {
-			t.Fatalf("Cannot cast to Program")
+			t.Fatalf("%s: Cannot cast to Program", test)
 		}
 
 		funcdir := dir.NewFuncDirectory()
@@ -38,14 +43,19 @@ func TestScopeCheckProgram(t *testing.T) {
 
 		err = buildFuncDirProgram(program, funcdir)
 		if err != nil {
-			t.Errorf("buildFuncDirProgram: %v", err)
+			t.Errorf("%s: buildFuncDirProgram: %v", test, err)
 		}
 
 		err = scopeCheckProgram(program, funcdir, semcube)
 		if err != nil {
-			t.Errorf("scopeCheckProgram: %v", err)
+			t.Errorf("%s: scopeCheckProgram: %v", test, err)
 		}
 
-		//spew.Dump(funcdir)
+		err = typeCheckProgram(program, funcdir, semcube)
+		if err != nil {
+			t.Errorf("%s: typeCheckProgram: %v", test, err)
+		}
+		
+		//spew.Dump(program)
 	}
 }

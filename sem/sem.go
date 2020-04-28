@@ -7,7 +7,8 @@ import (
 
 // SemanticCheck: Construcción
 func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
-	funcdir := dir.NewFuncDirectory()
+    funcdir := dir.NewFuncDirectory()
+    semcube := NewSemanticCube()
 
     // Build the function directory and their corresponding Var directiories
     // Errors to check:
@@ -23,7 +24,7 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
     //  * If a function is called that does not exist
     //  * If a variable is used and it has not been declared in the parameters
     //
-    if err := scopeCheckProgram(program, funcdir); err != nil {
+    if err := scopeCheckProgram(program, funcdir, semcube); err != nil {
         return funcdir, err
     }
 
@@ -32,12 +33,16 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
     //  * If a function is called and no function in the funcdir match the argument types
     //  * If the value in the statement of a function does not match its return value
     //  * Illegal use of use of built-in functions
-    //      - Arithmetic operators: +, -, *, /
+    //      - Arithmetic operators: +, -, *, /,%
     //      - Relational operators: < , >, equal
     //      - Logical operatios: (only to be used with bools) and, or, !
+    //  * If statements:
+    //      - Check that first argument is of type bool
+    //      - Check that second and third arguments are of the same type
+    //      - The type of the second and third argument will define the type of the if statement
     //  * To check whether a combination of params for an operator is valid, the semantic cube must be consulted
     //
-    if err := typeCheckProgram(program, funcdir); err != nil {
+    if err := typeCheckProgram(program, funcdir, semcube); err != nil {
         return funcdir, err
     }
 

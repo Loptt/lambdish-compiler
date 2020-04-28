@@ -6,7 +6,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/types"
 	"github.com/mewkiz/pkg/errutil"
 )
-
+//buildFuncDirProgram: Receives the program and the function directory
 func buildFuncDirProgram(program *ast.Program, funcdir *dir.FuncDirectory) error {
 	for _, f := range program.Functions() {
 		if err := buildFuncDirFunction(f, funcdir); err != nil {
@@ -15,19 +15,26 @@ func buildFuncDirProgram(program *ast.Program, funcdir *dir.FuncDirectory) error
 	}
 	return nil
 }
-
+//buildFuncDirFunction: 
 func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) error {
 	id := function.Id()
 	t := function.Type()
 	vardir := dir.NewVarDirectory()
 	params := make([]*types.LambdishType, 0)
 
+	if idIsReserved(id) {
+		return errutil.Newf("Cannot declare a function with reserved keyword %s", id)
+	}
+
 	for _, p := range function.Params() {
 		params = append(params, p.Type())
 		if err := buildVarDirFunction(p, vardir); err != nil {
 			return err
 		}
+	}
 
+	if err := checkVarDirReserved(vardir); err != nil {
+		return err
 	}
 	
 	fe := dir.NewFuncEntry(id, t, params, vardir)
@@ -42,19 +49,23 @@ func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) er
 
 	return nil
 }
-
+//buildVarDirFunction
 func buildVarDirFunction(ve *dir.VarEntry, vardir *dir.VarDirectory) error {
 	if ok := vardir.Add(ve); !ok {
 		return errutil.Newf("Invalid VarEntry. This VarEntry already exists.")
 	}
 	return nil
 }
-
+//buildFuncDirStatement
 func buildFuncDirStatement(statement ast.Statement, fe *dir.FuncEntry) error {
 	if lambda, ok := statement.(*ast.Lambda); ok {
 		vardir, ok := lambda.CreateVarDir()
 		if !ok {
 			return errutil.Newf("Multiple parameter declaration in lambda")
+		}
+
+		if err := checkVarDirReserved(vardir); err != nil {
+			return err
 		}
 
 		lambdaEntry := fe.AddLambda(lambda.Retval(), lambda.Params(), vardir)

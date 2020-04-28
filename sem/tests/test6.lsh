@@ -1,11 +1,7 @@
-func test :: char c, char c2 => num (
-    (# num x => num (
-        (# char y => char (
-            (# bool z => bool (
-                testy(z)
-            ))
-        ))
-    ))
+
+
+func give2 :: [num] n => num (
+    head( [ 1 , 2 ] )
 )
 
-map([])
+give2([1])

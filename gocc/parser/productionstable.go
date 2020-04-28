@@ -244,23 +244,23 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `FunctionCall : operations "(" Args ")"	<< ast.NewFunctionCall(X[0], X[2]) >>`,
+		String: `FunctionCall : operations "(" Args ")"	<< ast.NewFunctionReservedCall(X[0], X[2]) >>`,
 		Id:         "FunctionCall",
 		NTType:     9,
 		Index:      22,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewFunctionCall(X[0], X[2])
+			return ast.NewFunctionReservedCall(X[0], X[2])
 		},
 	},
 	ProdTabEntry{
-		String: `FunctionCall : relop "(" Args ")"	<< ast.NewFunctionCall(X[0], X[2]) >>`,
+		String: `FunctionCall : relop "(" Args ")"	<< ast.NewFunctionReservedCall(X[0], X[2]) >>`,
 		Id:         "FunctionCall",
 		NTType:     9,
 		Index:      23,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewFunctionCall(X[0], X[2])
+			return ast.NewFunctionReservedCall(X[0], X[2])
 		},
 	},
 	ProdTabEntry{
