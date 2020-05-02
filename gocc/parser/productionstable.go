@@ -264,13 +264,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Lambda : "(" "#" Params "=>" Type "(" Statement ")" ")"	<< ast.NewLambda(X[2],X[4],X[6]) >>`,
+		String: `Lambda : "(" "#" Params "=>" Type "(" Statement ")" ")"	<< ast.NewLambda(X[1],X[2],X[4],X[6]) >>`,
 		Id:         "Lambda",
 		NTType:     10,
 		Index:      24,
 		NumSymbols: 9,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewLambda(X[2],X[4],X[6])
+			return ast.NewLambda(X[1],X[2],X[4],X[6])
 		},
 	},
 	ProdTabEntry{
@@ -334,13 +334,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Constant : "[" Args "]"	<< ast.AppendConstant(X[1]) >>`,
+		String: `Constant : "[" Args "]"	<< ast.AppendConstant(X[0], X[1]) >>`,
 		Id:         "Constant",
 		NTType:     12,
 		Index:      31,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.AppendConstant(X[1])
+			return ast.AppendConstant(X[0], X[1])
 		},
 	},
 }

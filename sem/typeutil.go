@@ -23,6 +23,7 @@ func getIdTypeFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (*types.Lambdis
 
 	return nil, errutil.Newf("Id %s not declared in this scope", id.String())
 }
+
 //isReservedFunction
 func isReservedFunction(s string) bool {
 	for _, f := range reservedFunctions {
@@ -69,7 +70,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			// If the type returned is not a function, then we cannot call the function and we
 			// return an error
 			if !t.Function() {
-				return nil, errutil.Newf("Cannot call %s as a function in this scope", id)
+				return nil, errutil.Newf("%+v: Cannot call %s as a function in this scope", fcall.Token(), id)
 			}
 
 			// Otherwise we return the return type of this function type
@@ -88,23 +89,22 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 				argTypes = append(argTypes, t)
 			}
 
-
 			// Once we got the info to query, we get the function entry and we return its return type
 			if fe := funcdir.Get(dir.FuncEntryKey(id.String(), argTypes)); fe != nil {
 				return fe.ReturnVal(), nil
-			// If it is not in the func directory, we must check if the function is an operation
+				// If it is not in the func directory, we must check if the function is an operation
 			} else if isOperationFromSemanticCube(id.String()) {
 				key := dir.FuncEntryKey(id.String(), argTypes)
 				if basic, ok := semcube.Get(key); ok {
 					return types.NewDataLambdishType(basic, 0), nil
 				} else {
-					return nil, errutil.Newf("Cannot perform operation %s on arguments %+v", id.String(), argTypes)
+					return nil, errutil.Newf("%+v: Cannot perform operation %s on arguments %+v", fcall.Token(), id.String(), argTypes)
 				}
-			// If it is not an operation, we must check if it is a reserverd function
+				// If it is not an operation, we must check if it is a reserverd function
 			} else if isReservedFunction(id.String()) {
 				return getReservedFunctionType(id.String(), argTypes)
 			} else {
-				return nil, errutil.Newf("Function %s not declared on local or global scope", id)
+				return nil, errutil.Newf("%+v: Function %s not declared on local or global scope", fcall.Token(), id)
 			}
 		}
 	} else {
@@ -113,7 +113,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			return nil, err
 		}
 		if !t.Function() {
-			return nil, errutil.Newf("Cannot call as a function in this scope")
+			return nil, errutil.Newf("%+v: Cannot call as a function in this scope", fcall.Token())
 		}
 
 		return t.Retval(), nil
@@ -121,10 +121,10 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 
 	return nil, nil
 }
+
 //getTypeConstantList
 func getTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 	ts := make([]*types.LambdishType, 0)
-
 
 	if len(cl.Contents()) == 0 {
 		return nil, errutil.Newf("Empty list delcaration currently not supported")
@@ -150,6 +150,7 @@ func getTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 
 	return &listType, nil
 }
+
 //getTypeStatement
 func getTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 	if id, ok := statement.(*ast.Id); ok {

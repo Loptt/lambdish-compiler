@@ -32,7 +32,6 @@ func (t BasicType) convert() rune {
 	if t == Bool {
 		return '3'
 	}
-
 	return 'n'
 }
 
@@ -50,7 +49,7 @@ func (t BasicType) convert() rune {
 //		-basic: non null, the corresponing type
 //
 // Additional to this, the type might represent a list. If that is the case, all rules set above will
-// remain true, and list will be set to a non-zero value, indicating the levels of nesting of the type 
+// remain true, and list will be set to a non-zero value, indicating the levels of nesting of the type
 // in the list.
 //
 // For example, a value of list = 1 for a basic type num will consists of a list as following
@@ -58,7 +57,7 @@ func (t BasicType) convert() rune {
 //
 // And a value of list = 3 for a function type could then look like this
 // 		- [[[(num, num => bool)]]]
-// 
+//
 // Nontheless external users of this package should only construct Lambdishtype structs using the
 // predefined constructors provided below. When a function type is needed, the NewFuncLambdishType
 // function should be called, and NewDataLambdishType with the basic type accordingly.
@@ -128,16 +127,16 @@ func (lt *LambdishType) Retval() *LambdishType {
 
 // List
 func (lt *LambdishType) DecreaseList() {
-	lt.list = lt.list-1
+	lt.list = lt.list - 1
 }
 
 // List
 func (lt *LambdishType) IncreaseList() {
-	lt.list = lt.list+1
+	lt.list = lt.list + 1
 }
 
 //Equal
-func(lt *LambdishType) Equal(lt2 *LambdishType) bool {
+func (lt *LambdishType) Equal(lt2 *LambdishType) bool {
 	return lt.String() == lt2.String()
 }
 

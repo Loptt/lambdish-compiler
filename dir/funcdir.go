@@ -7,11 +7,11 @@ import (
 )
 
 type FuncEntry struct {
-	id         string
-	returnval  *types.LambdishType
-	params     []*types.LambdishType
-	vardir     *VarDirectory
-	lambdas    []*FuncEntry
+	id        string
+	returnval *types.LambdishType
+	params    []*types.LambdishType
+	vardir    *VarDirectory
+	lambdas   []*FuncEntry
 }
 
 // Key returns the key of the FuncEntry used for the FuncDirectory
@@ -66,7 +66,7 @@ func (fe *FuncEntry) GetLambdaEntryById(id string) *FuncEntry {
 
 // NewFuncEntry creates a new FuncEntry struct
 func NewFuncEntry(id string, returnval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
-	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry,0)}
+	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry, 0)}
 }
 
 func FuncEntryKey(id string, params []*types.LambdishType) string {
@@ -82,6 +82,10 @@ func FuncEntryKey(id string, params []*types.LambdishType) string {
 // FuncDirectory represents a table of FuncEntry structs used to store all the function declarations
 type FuncDirectory struct {
 	table map[string]*FuncEntry
+}
+
+func (fd *FuncDirectory) Table() map[string]*FuncEntry {
+	return fd.table
 }
 
 // Add function adds a new funcentry to the table. If the addition is successful
@@ -120,9 +124,6 @@ func (fd *FuncDirectory) FuncIdExists(id string) bool {
 	return false
 }
 
-
 func NewFuncDirectory() *FuncDirectory {
 	return &FuncDirectory{make(map[string]*FuncEntry)}
 }
-
-

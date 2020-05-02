@@ -1,14 +1,14 @@
 package dir
 
-// Node is a data container
-type Node struct {
+// node is a data container
+type node struct {
 	val  *FuncEntry
-	next *Node
+	next *node
 }
 
 // FuncEntryStack implements a stack for the FuncEntry data type
 type FuncEntryStack struct {
-	head *Node
+	head *node
 }
 
 // Empty returns true if FuncEntryStack is empty
@@ -35,7 +35,7 @@ func (s *FuncEntryStack) Top() *FuncEntry {
 
 // Push adds an element to the top of the container
 func (s *FuncEntryStack) Push(val *FuncEntry) {
-	newHead := &Node{val, s.head}
+	newHead := &node{val, s.head}
 	s.head = newHead
 }
 

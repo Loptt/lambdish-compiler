@@ -5,7 +5,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/dir"
 )
 
-// idExistsInFuncStack checks if the given id exists at any parameter declaration in the stack of 
+// idExistsInFuncStack checks if the given id exists at any parameter declaration in the stack of
 // FuncEntry. If it exist, it means that the id has been declared and is in scope
 func idExistsInFuncStack(id *ast.Id, fes *dir.FuncEntryStack) bool {
 	fescpy := *fes
@@ -21,9 +21,8 @@ func idExistsInFuncStack(id *ast.Id, fes *dir.FuncEntryStack) bool {
 	return false
 }
 
-// idExistsInFuncDir checks if the given id is the name of a function declared in the 
-// function directory. 
+// idExistsInFuncDir checks if the given id is the name of a function declared in the
+// function directory.
 func idExistsInFuncDir(id *ast.Id, funcdir *dir.FuncDirectory) bool {
 	return funcdir.FuncIdExists(id.String())
 }
-

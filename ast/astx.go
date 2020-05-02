@@ -71,7 +71,7 @@ func NewFunction(id, params, typ, statement interface{}) (*Function, error) {
 		return nil, errutil.Newf("Invalid type for statement. Expected Statement")
 	}
 
-	f := &Function{d, "", p, t, s}
+	f := &Function{d, "", p, t, s, i}
 	f.CreateKey()
 
 	return f, nil
@@ -96,9 +96,9 @@ func AppendStatementList(statement, list interface{}) ([]Statement, error) {
 
 	// Check if the value is an id and cast it fist to a token
 	if s, ok := statement.(*token.Token); ok {
-		id :=  Id(s.Lit)
-		return append([]Statement{&id}, l...), nil
-	// If not, cast the value to a statement interface
+		id := &Id{string(s.Lit), s}
+		return append([]Statement{id}, l...), nil
+		// If not, cast the value to a statement interface
 	} else if s, ok := statement.(Statement); ok {
 		return append([]Statement{s}, l...), nil
 	}
@@ -110,9 +110,8 @@ func AppendStatementList(statement, list interface{}) ([]Statement, error) {
 func NewStatement(value interface{}) (Statement, error) {
 	// Check if the value is an id and cast it fist to a token
 	if t, ok := value.(*token.Token); ok {
-		id :=  Id(t.Lit)
-		return &id, nil
-	// If not, cast the value to a statement interface
+		return &Id{string(t.Lit), t}, nil
+		// If not, cast the value to a statement interface
 	} else if s, ok := value.(Statement); ok {
 		return s, nil
 	}
@@ -134,7 +133,7 @@ func AppendParamsList(typ, id, list interface{}) ([]*dir.VarEntry, error) {
 		return nil, errutil.Newf("Invalid type for typ. Expected *types.LambdishType")
 	}
 
-	v := dir.NewVarEntry(d, t)
+	v := dir.NewVarEntry(d, t, i)
 
 	vlist, ok := list.([]*dir.VarEntry)
 	if !ok {
@@ -159,7 +158,7 @@ func NewParamsList(typ, id interface{}) ([]*dir.VarEntry, error) {
 		return nil, errutil.Newf("Invalid type for typ. Expected *types.LambdishType")
 	}
 
-	v := dir.NewVarEntry(d, t)
+	v := dir.NewVarEntry(d, t, i)
 
 	return []*dir.VarEntry{v}, nil
 }
@@ -251,7 +250,7 @@ func NewFunctionCall(id, args interface{}) (*FunctionCall, error) {
 	if !ok {
 		return nil, errutil.Newf("Invalid type for id. Expected statement")
 	}
-	
+
 	a, ok := args.([]Statement)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for args. Expected []Statement, got %v", args)
@@ -267,8 +266,8 @@ func NewFunctionReservedCall(id, args interface{}) (*FunctionCall, error) {
 	}
 
 	v := string(i.Lit)
-	idstruct := Id(v)
-	
+	idstruct := Id{v, i}
+
 	a, ok := args.([]Statement)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for args. Expected []Statement, got %v", args)
@@ -278,7 +277,12 @@ func NewFunctionReservedCall(id, args interface{}) (*FunctionCall, error) {
 }
 
 // NewLambda
-func NewLambda(params, retval, statement interface{}) (*Lambda, error) {
+func NewLambda(tok, params, retval, statement interface{}) (*Lambda, error) {
+	tk, ok := tok.(*token.Token)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for paratkms. Expected *token.Token")
+	}
+
 	p, ok := params.([]*dir.VarEntry)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for params. Expected []*dir.VarEntry]")
@@ -289,13 +293,12 @@ func NewLambda(params, retval, statement interface{}) (*Lambda, error) {
 		return nil, errutil.Newf("Invalid type for params. Expected Statement")
 	}
 
-	t,ok := retval.(*types.LambdishType)
+	t, ok := retval.(*types.LambdishType)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for type. Expected *types.LambdishType")
 	}
 
-
-	return &Lambda{p, s, t, ""}, nil
+	return &Lambda{p, s, t, "", tk}, nil
 }
 
 // NewConstantBool
@@ -307,7 +310,7 @@ func NewConstantBool(value interface{}) (Constant, error) {
 
 	v := string(val.Lit)
 
-	return &ConstantValue{types.NewDataLambdishType(types.Bool, 0), v}, nil
+	return &ConstantValue{types.NewDataLambdishType(types.Bool, 0), v, val}, nil
 }
 
 // NewConstantNum
@@ -319,7 +322,7 @@ func NewConstantNum(value interface{}) (Constant, error) {
 
 	v := string(val.Lit)
 
-	return &ConstantValue{types.NewDataLambdishType(types.Num, 0), v}, nil
+	return &ConstantValue{types.NewDataLambdishType(types.Num, 0), v, val}, nil
 }
 
 // NewConstantChar
@@ -331,16 +334,19 @@ func NewConstantChar(value interface{}) (Constant, error) {
 
 	v := string(val.Lit)
 
-	return &ConstantValue{types.NewDataLambdishType(types.Char, 0), v}, nil
+	return &ConstantValue{types.NewDataLambdishType(types.Char, 0), v, val}, nil
 }
 
 // AppendConstant
-func AppendConstant(list interface{}) (*ConstantList, error) {
-
+func AppendConstant(start, list interface{}) (*ConstantList, error) {
+	val, ok := start.(*token.Token)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for start. Expected token")
+	}
 	l, ok := list.([]Statement)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for statement list. Expected []Statement")
 	}
 
-	return &ConstantList{l}, nil
+	return &ConstantList{l, val}, nil
 }

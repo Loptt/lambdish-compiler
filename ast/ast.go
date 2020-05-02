@@ -3,6 +3,7 @@ package ast
 import (
 	"fmt"
 	"github.com/Loptt/lambdish-compiler/dir"
+	"github.com/Loptt/lambdish-compiler/gocc/token"
 	"github.com/Loptt/lambdish-compiler/types"
 	"strings"
 )
@@ -39,6 +40,7 @@ type Function struct {
 	params    []*dir.VarEntry
 	t         *types.LambdishType
 	statement Statement
+	tok       *token.Token
 }
 
 func (f *Function) Id() string {
@@ -71,6 +73,10 @@ func (f *Function) CreateKey() {
 	f.key = fmt.Sprintf("%s@%s", f.id, b.String())
 }
 
+func (f *Function) Token() *token.Token {
+	return f.tok
+}
+
 // Statement interface represents the body of the function
 type Statement interface {
 	IsId() bool
@@ -78,12 +84,16 @@ type Statement interface {
 	IsLambda() bool
 	IsLambdaCall() bool
 	IsFunctionCall() bool
+	Token() *token.Token
 }
 
 // TODO: Remove IsLambdaCall from interface statement
 
 // Id is a wrapper for a string to represent an id for a variable as a statement
-type Id string
+type Id struct {
+	id  string
+	tok *token.Token
+}
 
 // IsId conforms to the Statement interface to determine if object is Id
 func (i *Id) IsId() bool {
@@ -112,7 +122,11 @@ func (i *Id) IsFunctionCall() bool {
 
 // String returns the string casting of Id
 func (i *Id) String() string {
-	return string(*i)
+	return i.id
+}
+
+func (i *Id) Token() *token.Token {
+	return i.tok
 }
 
 // FunctionCall represents a call to a function either in the body of a function or as
@@ -159,13 +173,18 @@ func (fc *FunctionCall) IsFunctionCall() bool {
 	return true
 }
 
+func (fc *FunctionCall) Token() *token.Token {
+	return fc.s.Token()
+}
+
 // Lambda represents the definition of a lambda function without its corresponding call. This it
 // should be treated as a variable
 type Lambda struct {
 	params    []*dir.VarEntry
 	statement Statement
 	retval    *types.LambdishType
-	id string
+	id        string
+	tok       *token.Token
 }
 
 // IsId conforms to the Statement interface to determine if object is Id
@@ -199,6 +218,10 @@ func (l *Lambda) Retval() *types.LambdishType {
 
 func (l *Lambda) Id() string {
 	return l.id
+}
+
+func (l *Lambda) Token() *token.Token {
+	return l.tok
 }
 
 func (l *Lambda) Params() []*types.LambdishType {
@@ -242,6 +265,7 @@ type Constant interface {
 type ConstantValue struct {
 	t     *types.LambdishType
 	value string
+	tok   *token.Token
 }
 
 // IsList conforms to the constant interface to determine is the object is a list
@@ -283,11 +307,15 @@ func (c *ConstantValue) Type() *types.LambdishType {
 	return c.t
 }
 
+func (c *ConstantValue) Token() *token.Token {
+	return c.tok
+}
 
 // ConstantList implements the Constant interface and defines a list which is a collection of
 // statements
 type ConstantList struct {
 	contents []Statement
+	tok      *token.Token
 }
 
 // IsList conforms to the constant interface to determine is the object is a list
@@ -327,4 +355,8 @@ func (cl *ConstantList) IsFunctionCall() bool {
 
 func (cl *ConstantList) Contents() []Statement {
 	return cl.contents
+}
+
+func (cl *ConstantList) Token() *token.Token {
+	return cl.tok
 }

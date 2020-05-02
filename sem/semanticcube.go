@@ -5,7 +5,7 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-var reservedFunctions = []string {"if", "append", "empty", "head", "tail", "insert", "and", "or", "equal", "+", "-", "*", "/", "%", "<", ">", "!"}
+var reservedFunctions = []string{"if", "append", "empty", "head", "tail", "insert", "and", "or", "equal", "+", "-", "*", "/", "%", "<", ">", "!"}
 
 type Operation int
 
@@ -81,34 +81,32 @@ func GetOperation(s string) Operation {
 	return Add
 }
 
-
 type SemanticCube struct {
 	operations map[string]types.BasicType
 }
 
 func NewSemanticCube() *SemanticCube {
 
-		
 	return &SemanticCube{
-		map[string]types.BasicType {
+		map[string]types.BasicType{
 			//Arithmetical Operators
-			"+@11" : types.Num,
-			"-@11" : types.Num,
-			"/@11" : types.Num,
-			"*@11" : types.Num,
-			"%@11" : types.Num,
+			"+@11": types.Num,
+			"-@11": types.Num,
+			"/@11": types.Num,
+			"*@11": types.Num,
+			"%@11": types.Num,
 			//Relational Operators
-			"<@11" : types.Bool,
-			">@11" : types.Bool,
-			">@22" : types.Bool,
-			"<@22" : types.Bool,
-			"equal@11" : types.Bool,
-			"equal@22" : types.Bool,
-			"equal@33" : types.Bool,
+			"<@11":     types.Bool,
+			">@11":     types.Bool,
+			">@22":     types.Bool,
+			"<@22":     types.Bool,
+			"equal@11": types.Bool,
+			"equal@22": types.Bool,
+			"equal@33": types.Bool,
 			//Logical Operators
-			"and@33" : types.Bool,
-			"or@33" : types.Bool,
-			"!@3" : types.Bool,
+			"and@33": types.Bool,
+			"or@33":  types.Bool,
+			"!@3":    types.Bool,
 		},
 	}
 }
@@ -120,6 +118,7 @@ func (c *SemanticCube) Get(key string) (types.BasicType, bool) {
 	}
 	return typ, true
 }
+
 //isOperationFromSemanticCube
 func isOperationFromSemanticCube(s string) bool {
 	switch s {
@@ -159,7 +158,7 @@ func checkAndGetIfType(id string, args []*types.LambdishType) (*types.LambdishTy
 	}
 	if !args[1].Equal(args[2]) {
 		return nil, errutil.Newf("The second and third arguments for if must be of the same type. Got %s and %s", args[1], args[2])
-	} 
+	}
 	return args[1], nil
 }
 
@@ -172,7 +171,7 @@ func checkAndGetAppendType(id string, args []*types.LambdishType) (*types.Lambdi
 	}
 	if !args[0].Equal(args[1]) {
 		return nil, errutil.Newf("Arguments for append must be lists of the same type")
-	} 
+	}
 
 	return args[0], nil
 }
@@ -184,7 +183,7 @@ func checkAndGetEmptyType(id string, args []*types.LambdishType) (*types.Lambdis
 	if args[0].List() < 1 {
 		return nil, errutil.Newf("Arguments for empty must be a list")
 	}
-	
+
 	return types.NewDataLambdishType(types.Bool, 0), nil
 }
 
@@ -195,7 +194,7 @@ func checkAndGetHeadType(id string, args []*types.LambdishType) (*types.Lambdish
 	if args[0].List() < 1 {
 		return nil, errutil.Newf("Arguments for head must be a list")
 	}
-	
+
 	t := *args[0]
 	t.DecreaseList()
 	return &t, nil

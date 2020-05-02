@@ -30,7 +30,7 @@ func TestTypeCheckProgram(t *testing.T) {
 		s := lexer.NewLexer(input)
 		pro, err := p.Parse(s)
 		if err != nil {
-			t.Errorf("%s: %v", test, err)
+			t.Fatalf("%s: %v", test, err)
 		}
 
 		program, ok := pro.(*ast.Program)
@@ -43,19 +43,19 @@ func TestTypeCheckProgram(t *testing.T) {
 
 		err = buildFuncDirProgram(program, funcdir)
 		if err != nil {
-			t.Errorf("%s: buildFuncDirProgram: %v", test, err)
+			t.Fatalf("%s: buildFuncDirProgram: %v", test, err)
 		}
 
 		err = scopeCheckProgram(program, funcdir, semcube)
 		if err != nil {
-			t.Errorf("%s: scopeCheckProgram: %v", test, err)
+			t.Fatalf("%s: scopeCheckProgram: %v", test, err)
 		}
 
 		err = typeCheckProgram(program, funcdir, semcube)
 		if err != nil {
-			t.Errorf("%s: typeCheckProgram: %v", test, err)
+			t.Fatalf("%s: typeCheckProgram: %v", test, err)
 		}
-		
+
 		//spew.Dump(program)
 	}
 }

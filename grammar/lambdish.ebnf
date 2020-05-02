@@ -75,7 +75,7 @@ FunctionCall
     ;
 
 Lambda 
-    : "(" "#" Params "=>" Type "(" Statement ")" ")" << ast.NewLambda($2,$4,$6) >>
+    : "(" "#" Params "=>" Type "(" Statement ")" ")" << ast.NewLambda($1,$2,$4,$6) >>
     ;
 
 Args 
@@ -88,5 +88,5 @@ Constant
     : boolean                       << ast.NewConstantBool($0) >>
     | number                        << ast.NewConstantNum($0) >>
     | charac                        << ast.NewConstantChar($0) >>
-    | "[" Args "]"                  << ast.AppendConstant($1) >>
+    | "[" Args "]"                  << ast.AppendConstant($0, $1) >>
     ;

@@ -1,0 +1,12 @@
+func countEven :: [num] l => num (
+    if( empty(l), 
+        0,
+        if( 
+            equal( %(head(l),2) , 0 ),
+            +( countEven(tail(l))  , 1 ),
+            countEven(tail(l))
+        )
+    )
+)
+
+countEven([4, 3, 4, 6, 5, 4])

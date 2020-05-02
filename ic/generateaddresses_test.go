@@ -1,15 +1,16 @@
-package sem
+package ic
 
 import (
 	"github.com/Loptt/lambdish-compiler/ast"
-	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
-	//"github.com/davecgh/go-spew/spew"
+	"github.com/Loptt/lambdish-compiler/mem"
+	"github.com/Loptt/lambdish-compiler/sem"
+	"github.com/davecgh/go-spew/spew"
 	"testing"
 )
 
-func TestBuildFuncDirProgram(t *testing.T) {
+func TestGenerateAddressesProgram(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
 		"tests/test5.lsh",
@@ -33,13 +34,15 @@ func TestBuildFuncDirProgram(t *testing.T) {
 			t.Fatalf("Cannot cast to Program")
 		}
 
-		funcdir := dir.NewFuncDirectory()
-
-		err = buildFuncDirProgram(program, funcdir)
+		funcdir, err := sem.SemanticCheck(program)
 		if err != nil {
-			t.Errorf("buildFuncDirProgram: %v", err)
+			t.Errorf("Error from semantic: %v", err)
+		}
+		err = generateAddressesProgram(program, funcdir, mem.NewVirtualMemory())
+		if err != nil {
+			t.Errorf("Error from generate code: %v", err)
 		}
 
-		//spew.Dump(funcdir)
+		spew.Dump(funcdir)
 	}
 }

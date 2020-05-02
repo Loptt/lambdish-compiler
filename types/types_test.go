@@ -22,7 +22,7 @@ func TestConvert(t *testing.T) {
 			want: '3',
 		},
 		{
-			b: Null,
+			b:    Null,
 			want: 'n',
 		},
 	}
@@ -44,7 +44,7 @@ func TestString(t *testing.T) {
 		{
 			l: LambdishType{
 				basic:    Num,
-				list: 0,
+				list:     0,
 				function: false,
 			},
 			want: "1",
@@ -52,7 +52,7 @@ func TestString(t *testing.T) {
 		{
 			l: LambdishType{
 				basic:    Bool,
-				list: 1,
+				list:     1,
 				function: false,
 			},
 			want: "[3]",
@@ -60,7 +60,7 @@ func TestString(t *testing.T) {
 		{
 			l: LambdishType{
 				basic:    Char,
-				list: 2,
+				list:     2,
 				function: false,
 			},
 			want: "[[2]]",
@@ -68,7 +68,7 @@ func TestString(t *testing.T) {
 		{
 			l: LambdishType{
 				basic:    Bool,
-				list: 5,
+				list:     5,
 				function: false,
 			},
 			want: "[[[[[3]]]]]",
@@ -76,8 +76,8 @@ func TestString(t *testing.T) {
 		{
 			l: LambdishType{
 				retval: &LambdishType{
-					basic: Num,
-					list: 0,
+					basic:    Num,
+					list:     0,
 					function: false,
 				},
 				list: 0,
@@ -91,8 +91,8 @@ func TestString(t *testing.T) {
 		{
 			l: LambdishType{
 				retval: &LambdishType{
-					basic: Bool,
-					list: 0,
+					basic:    Bool,
+					list:     0,
 					function: false,
 				},
 				list: 0,
@@ -107,20 +107,20 @@ func TestString(t *testing.T) {
 		{
 			l: LambdishType{
 				retval: &LambdishType{
-					basic: Bool,
-					list: 0,
+					basic:    Bool,
+					list:     0,
 					function: false,
 				},
 				list: 0,
 				params: []*LambdishType{
 					{
 						retval: &LambdishType{
-							basic: Num,
-							list: 0,
+							basic:    Num,
+							list:     0,
 							function: false,
 						},
-						list: 0, 
-						function: true, 
+						list:     0,
+						function: true,
 						params: []*LambdishType{
 							{basic: Num, list: 0, function: false},
 							{basic: Num, list: 0, function: false},
@@ -136,11 +136,11 @@ func TestString(t *testing.T) {
 			l: LambdishType{
 				retval: &LambdishType{
 					retval: &LambdishType{
-						basic: Char, 
-						list: 0, 
+						basic:    Char,
+						list:     0,
 						function: false,
 					},
-					list: 0,
+					list:     0,
 					function: true,
 					params: []*LambdishType{
 						{basic: Num, list: 0, function: false},
@@ -150,12 +150,12 @@ func TestString(t *testing.T) {
 				params: []*LambdishType{
 					{
 						retval: &LambdishType{
-							basic: Num, 
-							list: 0, 
+							basic:    Num,
+							list:     0,
 							function: false,
-						}, 
-						list: 0, 
-						function: true, 
+						},
+						list:     0,
+						function: true,
 						params: []*LambdishType{
 							{basic: Num, list: 0, function: false},
 							{basic: Num, list: 0, function: false},
