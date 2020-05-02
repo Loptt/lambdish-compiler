@@ -5,14 +5,14 @@ import (
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
-	//"github.com/davecgh/go-spew/spew"
+	"github.com/davecgh/go-spew/spew"
 	"testing"
 )
 
 func TestBuildFuncDirProgram(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
-		"tests/test5.lsh",
+		"tests/test6.lsh",
 	}
 
 	for _, test := range tests {
@@ -40,6 +40,6 @@ func TestBuildFuncDirProgram(t *testing.T) {
 			t.Errorf("buildFuncDirProgram: %v", err)
 		}
 
-		//spew.Dump(funcdir)
+		spew.Dump(funcdir)
 	}
 }

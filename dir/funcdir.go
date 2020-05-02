@@ -1,9 +1,7 @@
 package dir
 
 import (
-	"fmt"
 	"github.com/Loptt/lambdish-compiler/types"
-	"strings"
 )
 
 type FuncEntry struct {
@@ -16,13 +14,7 @@ type FuncEntry struct {
 
 // Key returns the key of the FuncEntry used for the FuncDirectory
 func (fe *FuncEntry) Key() string {
-	var b strings.Builder
-
-	for _, p := range fe.params {
-		b.WriteString(p.String())
-	}
-
-	return fmt.Sprintf("%s@%s", fe.id, b.String())
+	return fe.id
 }
 
 // Lambdas returns the array of FuncEntry which represents the lambdas inside this FuncEntry
@@ -69,14 +61,8 @@ func NewFuncEntry(id string, returnval *types.LambdishType, params []*types.Lamb
 	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry, 0)}
 }
 
-func FuncEntryKey(id string, params []*types.LambdishType) string {
-	var b strings.Builder
-
-	for _, p := range params {
-		b.WriteString(p.String())
-	}
-
-	return fmt.Sprintf("%s@%s", id, b.String())
+func FuncEntryKey(id string) string {
+	return id
 }
 
 // FuncDirectory represents a table of FuncEntry structs used to store all the function declarations
@@ -109,19 +95,8 @@ func (fd *FuncDirectory) Get(key string) *FuncEntry {
 }
 
 func (fd *FuncDirectory) Exists(key string) bool {
-
 	_, ok := fd.table[key]
 	return ok
-}
-
-func (fd *FuncDirectory) FuncIdExists(id string) bool {
-	for _, fe := range fd.table {
-		if fe.Id() == id {
-			return true
-		}
-	}
-
-	return false
 }
 
 func NewFuncDirectory() *FuncDirectory {

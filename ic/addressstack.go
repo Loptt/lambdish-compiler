@@ -3,26 +3,27 @@ package ic
 import (
 	"fmt"
 	"strings"
+	"github.com/Loptt/lambdish-compiler/mem"
 )
 
-// nodeint is a data container
-type nodeint struct {
-	val  int
-	next *nodeint
+// node is a data container
+type node struct {
+	val  mem.Address
+	next *node
 }
 
 // FuncEntryStack implements a stack for the FuncEntry data type
-type JumpStack struct {
-	head *nodeint
+type AddressStack struct {
+	head *node
 }
 
-// Empty returns true if JumpStack is empty
-func (s *JumpStack) Empty() bool {
+// Empty returns true if AddressStack is empty
+func (s *AddressStack) Empty() bool {
 	return s.head == nil
 }
 
 // String returns the string representation of the stack
-func (s *JumpStack) String() string {
+func (s *AddressStack) String() string {
 	if s.Empty() {
 		return "<Empty Stack>"
 	}
@@ -48,7 +49,7 @@ func (s *JumpStack) String() string {
 }
 
 // Pop removes the first element in the container
-func (s *JumpStack) Pop() {
+func (s *AddressStack) Pop() {
 	if s.Empty() {
 		return
 	}
@@ -57,7 +58,7 @@ func (s *JumpStack) Pop() {
 }
 
 // Top returns the first element in the container
-func (s *JumpStack) Top() int {
+func (s *AddressStack) Top() mem.Address {
 	if s.Empty() {
 		return 0
 	}
@@ -65,11 +66,11 @@ func (s *JumpStack) Top() int {
 }
 
 // Push adds an element to the top of the container
-func (s *JumpStack) Push(val int) {
-	newHead := &nodeint{val, s.head}
+func (s *AddressStack) Push(val mem.Address) {
+	newHead := &node{val, s.head}
 	s.head = newHead
 }
 
-func NewJumpStack() *JumpStack {
-	return &JumpStack{nil}
+func NewAddressStack() *AddressStack {
+	return &AddressStack{nil}
 }

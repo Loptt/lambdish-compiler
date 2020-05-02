@@ -1,7 +1,5 @@
-
-
 func give2 :: [num] n => num (
-    head( [ 1 , 2 ] )
+    head([1, 2])
 )
 
 func give1 :: [num] n, char x => (num, num => num) (

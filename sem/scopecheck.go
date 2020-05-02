@@ -61,7 +61,7 @@ func scopeCheckId(id *ast.Id, fes *dir.FuncEntryStack, funcdir *dir.FuncDirector
 	if idExistsInFuncDir(id, funcdir) {
 		return nil
 	}
-	if isReservedFunction(id.String()) {
+	if IsReservedFunction(id.String()) {
 		return nil
 	}
 	return errutil.Newf("%+v: Id %s not declared in this scope", id.Token(), id.String())

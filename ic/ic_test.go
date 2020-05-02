@@ -4,9 +4,8 @@ import (
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
-	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/sem"
-	//"github.com/davecgh/go-spew/spew"
+	"fmt"
 	"os"
 	"testing"
 )
@@ -35,10 +34,10 @@ func readFile(path string) ([]byte, error) {
 	return buffer, nil
 }
 
-func TestGenerateCodeProgram(t *testing.T) {
+func TestGenerateIntermediateCode(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
-		"tests/test5.lsh",
+		"tests/test2.lsh",
 	}
 
 	for _, test := range tests {
@@ -51,7 +50,7 @@ func TestGenerateCodeProgram(t *testing.T) {
 		s := lexer.NewLexer(input)
 		pro, err := p.Parse(s)
 		if err != nil {
-			t.Errorf("%s: %v", test, err)
+			t.Fatalf("%s: %v", test, err)
 		}
 
 		program, ok := pro.(*ast.Program)
@@ -61,16 +60,14 @@ func TestGenerateCodeProgram(t *testing.T) {
 
 		funcdir, err := sem.SemanticCheck(program)
 		if err != nil {
-			t.Errorf("Error from semantic: %v", err)
+			t.Fatalf("Error from semantic: %v", err)
 		}
 
-		semcube := sem.NewSemanticCube()
-		vm := mem.NewVirtualMemory()
-
-		err = generateCodeProgram(program, funcdir, semcube, NewGenerator(), vm)
+		gen, err := GenerateIntermediateCode(program, funcdir)
 		if err != nil {
-			t.Errorf("Error from generate code: %v", err)
+			t.Fatalf("Error from generate code: %v", err)
 		}
 
+		fmt.Printf("%s\n", gen)
 	}
 }

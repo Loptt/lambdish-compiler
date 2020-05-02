@@ -1,8 +1,9 @@
-func sum :: [num] l => num (
-	if( empty(l) , 
-        0,
-        +(head(l), sum(tail(l)))
-    )
+func sum :: num x, num y => num (
+    1
+)
+
+func sum2 :: num x, num y => bool (
+    !(<(*(x, /(y, -(y, y))),*(x,y)))
 )
 
 sum([3, 2, 4, 6, 7])

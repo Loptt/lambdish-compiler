@@ -24,5 +24,5 @@ func idExistsInFuncStack(id *ast.Id, fes *dir.FuncEntryStack) bool {
 // idExistsInFuncDir checks if the given id is the name of a function declared in the
 // function directory.
 func idExistsInFuncDir(id *ast.Id, funcdir *dir.FuncDirectory) bool {
-	return funcdir.FuncIdExists(id.String())
+	return funcdir.Exists(id.String())
 }

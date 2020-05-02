@@ -1,15 +1,21 @@
+func doSomething :: ([num] => num) f, num => char (
+    'c'
+)
 
+func doSomething :: ([char] => num) f, num => char (
+    'c'
+)
 
 func give2 :: [num] n => num (
     head( [ 1 , 2 ] )
 )
 
-func give1 :: [num] n, char x => (num, num => num) (
-    (# num x, num y => num (
-        (# char y, char z => num (
-            3
-        )) ('a', 'b')
-    ))
+func give2 :: [char] n => num (
+    head( [ 1 , 2 ] )
+)
+
+func give1 :: [num] n, char x => num (
+    doSomething(give2, x)
 )
 
 

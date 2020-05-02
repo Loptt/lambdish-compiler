@@ -38,7 +38,8 @@ func TestGenerateAddressesProgram(t *testing.T) {
 		if err != nil {
 			t.Errorf("Error from semantic: %v", err)
 		}
-		err = generateAddressesProgram(program, funcdir, mem.NewVirtualMemory())
+		ctx := &GenerationContext{funcdir, sem.NewSemanticCube(), NewGenerator(), mem.NewVirtualMemory()}
+		err = generateAddressesProgram(program,ctx)
 		if err != nil {
 			t.Errorf("Error from generate code: %v", err)
 		}

@@ -2,6 +2,7 @@ package ic
 
 import (
 	"github.com/Loptt/lambdish-compiler/mem"
+	"fmt"
 )
 
 type Operation int
@@ -21,6 +22,7 @@ const (
 	GotoT
 	GotoF
 	Goto
+	Invalid
 )
 
 func (o Operation) String() string {
@@ -52,6 +54,35 @@ func (o Operation) String() string {
 	return ""
 }
 
+func GetOperation(s string) Operation {
+	switch s {
+	case "+":
+		return Add
+	case "-":
+		return Sub
+	case "*":
+		return Mult
+	case "/":
+		return Div
+	case "%":
+		return Mod
+	case "<":
+		return Lt
+	case ">":
+		return Gt
+	case "equal":
+		return Equal
+	case "and":
+		return And
+	case "or":
+		return Or
+	case "!":
+		return Not
+	}
+
+	return Invalid
+}
+
 /*
 Exceptions:
 – Unary operators: no arg2
@@ -68,4 +99,8 @@ type Quadruple struct {
 
 func NewQuadruple(op Operation, a1, a2, r mem.Address) *Quadruple {
 	return &Quadruple{op, a1, a2, r}
+}
+
+func (q Quadruple) String() string {
+	return fmt.Sprintf("%s %d %d %d", q.op, q.a1, q.a2, q.r)
 }

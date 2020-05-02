@@ -24,8 +24,8 @@ func getIdTypeFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (*types.Lambdis
 	return nil, errutil.Newf("Id %s not declared in this scope", id.String())
 }
 
-//isReservedFunction
-func isReservedFunction(s string) bool {
+//IsReservedFunction
+func IsReservedFunction(s string) bool {
 	for _, f := range reservedFunctions {
 		if s == f {
 			return true
@@ -90,18 +90,18 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			}
 
 			// Once we got the info to query, we get the function entry and we return its return type
-			if fe := funcdir.Get(dir.FuncEntryKey(id.String(), argTypes)); fe != nil {
+			if fe := funcdir.Get(id.String()); fe != nil {
 				return fe.ReturnVal(), nil
 				// If it is not in the func directory, we must check if the function is an operation
 			} else if isOperationFromSemanticCube(id.String()) {
-				key := dir.FuncEntryKey(id.String(), argTypes)
+				key := getSemanticCubeKey(id.String(), argTypes)
 				if basic, ok := semcube.Get(key); ok {
 					return types.NewDataLambdishType(basic, 0), nil
 				} else {
 					return nil, errutil.Newf("%+v: Cannot perform operation %s on arguments %+v", fcall.Token(), id.String(), argTypes)
 				}
 				// If it is not an operation, we must check if it is a reserverd function
-			} else if isReservedFunction(id.String()) {
+			} else if IsReservedFunction(id.String()) {
 				return getReservedFunctionType(id.String(), argTypes)
 			} else {
 				return nil, errutil.Newf("%+v: Function %s not declared on local or global scope", fcall.Token(), id)
@@ -142,7 +142,7 @@ func getTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 
 	for _, t := range ts {
 		if !t.Equal(&listType) {
-			return nil, errutil.Newf("Cannot create list of multiple types")
+			return nil, errutil.Newf("%+v: Cannot create list of multiple types", cl.Token())
 		}
 	}
 

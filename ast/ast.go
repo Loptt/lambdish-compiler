@@ -1,11 +1,9 @@
 package ast
 
 import (
-	"fmt"
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/gocc/token"
 	"github.com/Loptt/lambdish-compiler/types"
-	"strings"
 )
 
 // Program defines the root of the tree
@@ -64,13 +62,7 @@ func (f *Function) Key() string {
 }
 
 func (f *Function) CreateKey() {
-	var b strings.Builder
-
-	for _, p := range f.params {
-		b.WriteString(p.Type().String())
-	}
-
-	f.key = fmt.Sprintf("%s@%s", f.id, b.String())
+	f.key = f.id
 }
 
 func (f *Function) Token() *token.Token {

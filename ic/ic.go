@@ -14,7 +14,20 @@ type GenerationContext struct {
 	vm *mem.VirtualMemory
 }
 
-func CodeGeneration(program *ast.Program, funcdir *dir.FuncDirectory) (*Generator, error) {
+func(ctx *GenerationContext) FuncDir() *dir.FuncDirectory{
+	return ctx.funcdir
+}
+func(ctx *GenerationContext) SemCube() *sem.SemanticCube{
+	return ctx.semcube
+}
+func(ctx *GenerationContext) Generator() *Generator{
+	return ctx.gen
+}
+func(ctx *GenerationContext) VM() *mem.VirtualMemory{
+	return ctx.vm
+}
+
+func GenerateIntermediateCode(program *ast.Program, funcdir *dir.FuncDirectory) (*Generator, error) {
 	ctx := &GenerationContext{funcdir, sem.NewSemanticCube(), NewGenerator(), mem.NewVirtualMemory()}
 
 	// GenerateAddresses intilializes all entries in every VarDirectory with an address
@@ -30,5 +43,5 @@ func CodeGeneration(program *ast.Program, funcdir *dir.FuncDirectory) (*Generato
 		return nil, err
 	}
 
-	return gen, nil
+	return ctx.gen, nil
 }

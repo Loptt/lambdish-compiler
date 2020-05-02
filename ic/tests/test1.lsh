@@ -1,4 +1,6 @@
-func give1 :: num n => num (1)
+func sum :: num n => num (
+    +()
+)
 
 func give2 :: [num] n => num (23)
 

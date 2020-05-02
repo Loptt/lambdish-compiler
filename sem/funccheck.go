@@ -24,6 +24,10 @@ func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) er
 	vardir := dir.NewVarDirectory()
 	params := make([]*types.LambdishType, 0)
 
+	if funcdir.Exists(id) {
+		return errutil.Newf("%+v: Redeclaration of function %s", function.Token(), id)
+	}
+
 	if idIsReserved(id) {
 		return errutil.Newf("%+v: Cannot declare a function with reserved keyword %s", function.Token(), id)
 	}
@@ -40,15 +44,15 @@ func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) er
 	}
 
 	fe := dir.NewFuncEntry(id, t, params, vardir)
-
-	if err := buildFuncDirStatement(function.Statement(), fe); err != nil {
-		return err
-	}
-
+	
 	if ok := funcdir.Add(fe); !ok {
 		return errutil.Newf("%+v: Invalid Function. This Function already exists.", function.Token())
 	}
-
+	
+	if err := buildFuncDirStatement(function.Statement(), fe); err != nil {
+		return err
+	}
+	
 	return nil
 }
 

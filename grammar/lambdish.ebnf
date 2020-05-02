@@ -12,7 +12,7 @@ _false : 'f' 'a' 'l' 's' 'e';
 
 operations : '+' | '-' | '*' | '/' | '%';
 
-relop : '<' | '>' | '=' '=' | '<' '=' | '>' '=' | '!' '='; 
+relop : '<' | '>' | '!'; 
 
 number : _integer | _float;
 charac : '\'' (_alpha | _digit) '\'';

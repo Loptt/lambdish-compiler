@@ -3,6 +3,8 @@ package sem
 import (
 	"github.com/Loptt/lambdish-compiler/types"
 	"github.com/mewkiz/pkg/errutil"
+	"strings"
+	"fmt"
 )
 
 var reservedFunctions = []string{"if", "append", "empty", "head", "tail", "insert", "and", "or", "equal", "+", "-", "*", "/", "%", "<", ">", "!"}
@@ -226,4 +228,14 @@ func checkAndGetInsertType(id string, args []*types.LambdishType) (*types.Lambdi
 	}
 
 	return args[1], nil
+}
+
+func getSemanticCubeKey(id string, params []*types.LambdishType) string {
+	var b strings.Builder
+
+	for _, p := range params {
+		b.WriteString(p.String())
+	}
+
+	return fmt.Sprintf("%s@%s", id, b.String())
 }
