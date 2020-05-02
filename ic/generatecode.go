@@ -83,7 +83,7 @@ func generateCodeReservedFunctionCall(id *ast.Id, fcall *ast.FunctionCall, fes *
 		if err := generateLogicalOperators(id.String() ,fcall, fes, ctx); err != nil {
 			return err
 		}
-	case: "if":
+	case "if":
 		if err := generateIf(fcall, fes, ctx); err != nil {
 			return err
 		}
@@ -226,20 +226,28 @@ func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *Generatio
 		return err
 	}
 
-	ctx
-	ctx.gen.Generate()
+	ctx.gen.PushToJumpStack(mem.Address(ctx.gen.Counter()))
+	ctx.gen.Generate(GotoF, caddr, mem.Address(-1), mem.Address(-1))
 
-	taddr := getArgumentAddress(args[1], fes, ctx)
+	_, err = getArgumentAddress(args[1], fes, ctx)
 	if err != nil {
 		return err
 	}
 
-	faddr := getArgumentAddress(args[2], fes, ctx)
+	ctx.gen.Generate(Goto, mem.Address(-1), mem.Address(-1), mem.Address(-1))
+	fjump := ctx.gen.GetFromJumpStack()
+	ctx.gen.PushToJumpStack(mem.Address(ctx.gen.Counter()))
+	ctx.gen.FillJumpQuadruple(fjump, mem.Address(ctx.gen.Counter()))
+
+	_, err = getArgumentAddress(args[2], fes, ctx)
 	if err != nil {
 		return err
 	}
 
+	endjump := ctx.gen.GetFromJumpStack()
+	ctx.gen.FillJumpQuadruple(endjump, mem.Address(ctx.gen.Counter()))
 
+	return nil
 }
 
 func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *GenerationContext) (mem.Address, error) {

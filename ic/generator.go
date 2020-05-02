@@ -7,17 +7,17 @@ import (
 )
 
 type Generator struct {
-	jumpStack *JumpStack
+	jumpStack *AddressStack
 	addrStack *AddressStack
 	icounter  int
 	quads     []*Quadruple
 }
 
 func NewGenerator() *Generator {
-	return &Generator{NewJumpStack(), NewAddressStack(), 0, make([]*Quadruple, 0)}
+	return &Generator{NewAddressStack(), NewAddressStack(), 0, make([]*Quadruple, 0)}
 }
 
-func (g *Generator) JumpStack() *JumpStack {
+func (g *Generator) JumpStack() *AddressStack {
 	return g.jumpStack
 }
 
@@ -44,17 +44,19 @@ func (g *Generator) GetFromAddrStack() mem.Address {
 	return val
 }
 
-func (g *Generator) PushToJumpStack(a int) {
+func (g *Generator) PushToJumpStack(a mem.Address) {
 	g.addrStack.Push(a)
 }
 
-func (g *Generator) GetFromJumpStack() int {
-	val := g.JumpStack.Top()
-	g.JumpStack.Pop()
+func (g *Generator) GetFromJumpStack() mem.Address {
+	val := g.jumpStack.Top()
+	g.jumpStack.Pop()
 	return val
 }
 
-func (g *Generator) FillQuadruple(location int, jump int)
+func (g *Generator) FillJumpQuadruple(location mem.Address, jump mem.Address) {
+	g.quads[int(location)].r = jump
+}
 
 func (g *Generator) String() string {
 	var builder strings.Builder
