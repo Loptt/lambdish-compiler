@@ -49,6 +49,12 @@ func (o Operation) String() string {
 		return "or"
 	case Not:
 		return "!"
+	case GotoT:
+		return "GotoT"
+	case GotoF:
+		return "GotoF"
+	case Goto:
+		return "Goto"
 	}
 
 	return ""
