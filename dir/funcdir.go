@@ -27,6 +27,11 @@ func (fe *FuncEntry) Id() string {
 	return fe.id
 }
 
+// Params returns the name of the funcentry
+func (fe *FuncEntry) Params() []*types.LambdishType {
+	return fe.params
+}
+
 // ReturnVal returns the name of the funcentry
 func (fe *FuncEntry) ReturnVal() *types.LambdishType {
 	return fe.returnval

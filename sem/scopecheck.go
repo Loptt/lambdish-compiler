@@ -14,6 +14,12 @@ func scopeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube
 		}
 	}
 
+	fes := dir.NewFuncEntryStack()
+
+	if err := scopeCheckFunctionCall(program.Call(), fes, funcdir, semcube); err != nil {
+		return err
+	}
+
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (g *Generator) GetFromAddrStack() mem.Address {
 }
 
 func (g *Generator) PushToJumpStack(a mem.Address) {
-	g.addrStack.Push(a)
+	g.jumpStack.Push(a)
 }
 
 func (g *Generator) GetFromJumpStack() mem.Address {
@@ -62,11 +62,12 @@ func (g *Generator) String() string {
 	var builder strings.Builder
 	builder.WriteString("Generator:\n")
 	builder.WriteString(fmt.Sprintf("  JumpStack: %s\n", g.jumpStack))
+	builder.WriteString(fmt.Sprintf("  AddrStack: %s\n", g.addrStack))
 	builder.WriteString(fmt.Sprintf("  Instruction Counter: %d\n", g.icounter))
 	builder.WriteString("  Quads:\n")
 
-	for _, q := range g.quads {
-		builder.WriteString(fmt.Sprintf("    %s\n", q))
+	for i, q := range g.quads {
+		builder.WriteString(fmt.Sprintf("    %d: %s\n", i, q))
 	}
 
 	return builder.String()

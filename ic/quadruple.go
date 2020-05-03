@@ -22,6 +22,7 @@ const (
 	GotoT
 	GotoF
 	Goto
+	Ret
 	Invalid
 )
 
@@ -55,6 +56,8 @@ func (o Operation) String() string {
 		return "GotoF"
 	case Goto:
 		return "Goto"
+	case Ret:
+		return "Ret"
 	}
 
 	return ""

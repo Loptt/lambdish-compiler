@@ -13,6 +13,13 @@ func typeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube 
 			return err
 		}
 	}
+
+	fes := dir.NewFuncEntryStack()
+
+	if err := typeCheckFunctionCall(program.Call(), fes, funcdir, semcube); err != nil {
+		return err
+	}
+
 	return nil
 }
 

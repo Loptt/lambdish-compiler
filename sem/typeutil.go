@@ -88,9 +88,11 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 				}
 				argTypes = append(argTypes, t)
 			}
-
 			// Once we got the info to query, we get the function entry and we return its return type
 			if fe := funcdir.Get(id.String()); fe != nil {
+				if err := argumentsMatchParameters(fcall, argTypes, fe.Params(), fes, funcdir, semcube); err != nil {
+					return nil, err
+				}
 				return fe.ReturnVal(), nil
 				// If it is not in the func directory, we must check if the function is an operation
 			} else if isOperationFromSemanticCube(id.String()) {
@@ -165,4 +167,18 @@ func getTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir 
 		return types.NewFuncLambdishType(l.Retval(), l.Params(), 0), nil
 	}
 	return nil, errutil.Newf("Statement cannot be casted to any valid form")
+}
+
+func argumentsMatchParameters(fcall *ast.FunctionCall, args []*types.LambdishType, params []*types.LambdishType, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
+	if len(args) != len(params) {
+		return errutil.Newf("%+v: function expects %d arguments, got %d", fcall.Token(), len(params), len(args))
+	}
+
+	for i, p := range params {
+		if !(p.Equal(args[i])) {
+			return errutil.Newf("%+v: Function call arguments do not match its parameters", fcall.Token())
+		}
+	}
+
+	return nil
 }

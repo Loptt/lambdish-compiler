@@ -229,24 +229,22 @@ func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *Generatio
 	ctx.gen.PushToJumpStack(mem.Address(ctx.gen.Counter()))
 	ctx.gen.Generate(GotoF, caddr, mem.Address(-1), mem.Address(-1))
 
-	_, err = getArgumentAddress(args[1], fes, ctx)
+	laddr, err := getArgumentAddress(args[1], fes, ctx)
 	if err != nil {
 		return err
 	}
 
-	ctx.gen.Generate(Goto, mem.Address(-1), mem.Address(-1), mem.Address(-1))
 	fjump := ctx.gen.GetFromJumpStack()
-	ctx.gen.PushToJumpStack(mem.Address(ctx.gen.Counter()))
+	ctx.gen.Generate(Ret, laddr, mem.Address(-1), mem.Address(-1))
 	ctx.gen.FillJumpQuadruple(fjump, mem.Address(ctx.gen.Counter()))
 
-	_, err = getArgumentAddress(args[2], fes, ctx)
+	raddr, err := getArgumentAddress(args[2], fes, ctx)
 	if err != nil {
 		return err
 	}
 
-	endjump := ctx.gen.GetFromJumpStack()
-	ctx.gen.FillJumpQuadruple(endjump, mem.Address(ctx.gen.Counter()))
-
+	ctx.gen.Generate(Ret, raddr, mem.Address(-1), mem.Address(-1))
+	
 	return nil
 }
 
