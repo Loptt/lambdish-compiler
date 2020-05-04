@@ -1,3 +1,4 @@
+//Package ic provides the generation of intermediate code
 package ic
 
 import (
@@ -7,23 +8,29 @@ import (
 	"github.com/Loptt/lambdish-compiler/sem"
 )
 
+//GenerationContext djsknfkjsdfkj
 type GenerationContext struct {
 	funcdir *dir.FuncDirectory
 	semcube *sem.SemanticCube
-	gen *Generator
-	vm *mem.VirtualMemory
+	gen     *Generator
+	vm      *mem.VirtualMemory
 }
 
-func(ctx *GenerationContext) FuncDir() *dir.FuncDirectory{
+// FuncDir ...
+func (ctx *GenerationContext) FuncDir() *dir.FuncDirectory {
 	return ctx.funcdir
 }
-func(ctx *GenerationContext) SemCube() *sem.SemanticCube{
+
+// SemCube ...
+func (ctx *GenerationContext) SemCube() *sem.SemanticCube {
 	return ctx.semcube
 }
-func(ctx *GenerationContext) Generator() *Generator{
+
+// Generator ...
+func (ctx *GenerationContext) Generator() *Generator {
 	return ctx.gen
 }
-func(ctx *GenerationContext) VM() *mem.VirtualMemory{
+func (ctx *GenerationContext) VM() *mem.VirtualMemory {
 	return ctx.vm
 }
 

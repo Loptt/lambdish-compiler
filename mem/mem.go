@@ -83,6 +83,10 @@ func (vm *VirtualMemory) ResetLocal() {
 	vm.localcount = localstart
 }
 
+func (vm *VirtualMemory) ResetTemp() {
+	vm.tempcount = tempstart
+}
+
 func (vm *VirtualMemory) ConstantExists(c string) bool {
 	_, ok := vm.constantmap[c]
 	return ok

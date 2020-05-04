@@ -1,6 +1,7 @@
 package dir
 
 import (
+	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/types"
 )
 
@@ -10,6 +11,7 @@ type FuncEntry struct {
 	params    []*types.LambdishType
 	vardir    *VarDirectory
 	lambdas   []*FuncEntry
+	loc       mem.Address
 }
 
 // Key returns the key of the FuncEntry used for the FuncDirectory
@@ -40,7 +42,7 @@ func (fe *FuncEntry) ReturnVal() *types.LambdishType {
 // AddLambda adds a new lambda func entry to the current func entry
 func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
 	id := string(len(fe.lambdas))
-	lambda := &FuncEntry{id, retval, params, vardir, make([]*FuncEntry, 0)}
+	lambda := &FuncEntry{id, retval, params, vardir, make([]*FuncEntry, 0), mem.Address(-1)}
 	fe.lambdas = append([]*FuncEntry{lambda}, fe.lambdas...)
 	return lambda
 }
@@ -50,7 +52,7 @@ func (fe *FuncEntry) VarDir() *VarDirectory {
 	return fe.vardir
 }
 
-// VarDir returns the Var Directory of the FuncEntry
+//
 func (fe *FuncEntry) GetLambdaEntryById(id string) *FuncEntry {
 	for _, l := range fe.lambdas {
 		if l.Id() == id {
@@ -61,9 +63,17 @@ func (fe *FuncEntry) GetLambdaEntryById(id string) *FuncEntry {
 	return nil
 }
 
+func (fe *FuncEntry) SetLocation(loc int) {
+	fe.loc = mem.Address(loc)
+}
+
+func (fe *FuncEntry) Loc() mem.Address {
+	return fe.loc
+}
+
 // NewFuncEntry creates a new FuncEntry struct
 func NewFuncEntry(id string, returnval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
-	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry, 0)}
+	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry, 0), mem.Address(-1)}
 }
 
 func FuncEntryKey(id string) string {
@@ -109,5 +119,5 @@ func NewFuncDirectory() *FuncDirectory {
 }
 
 func MainFuncEntry() *FuncEntry {
-	return &FuncEntry{"main", types.NewDataLambdishType(types.Num, 0), make([]*types.LambdishType, 0), NewVarDirectory(), make([]*FuncEntry, 0)}
+	return &FuncEntry{"main", types.NewDataLambdishType(types.Num, 0), make([]*types.LambdishType, 0), NewVarDirectory(), make([]*FuncEntry, 0), mem.Address(-1)}
 }

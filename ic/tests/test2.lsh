@@ -1,12 +1,12 @@
 func sum :: num x, num y => num (
-    1
+    +(x, y)
 )
 
 func sum2 :: bool x, num y, num z => num (
     if (or(x, <(y, z)),
         if (and(x, >(11, y)),
             +(z, 23),
-            /(2, y)
+            /(1, y)
         ),
         -(
             +(3, y),
@@ -15,4 +15,4 @@ func sum2 :: bool x, num y, num z => num (
     )
 )
 
-sum(1,2)
+sum(sum2(<(2,3),4,7),2)

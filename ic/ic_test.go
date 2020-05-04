@@ -1,13 +1,14 @@
 package ic
 
 import (
+	"fmt"
+	"os"
+	"testing"
+
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
 	"github.com/Loptt/lambdish-compiler/sem"
-	"fmt"
-	"os"
-	"testing"
 )
 
 func readFile(path string) ([]byte, error) {
@@ -38,6 +39,9 @@ func TestGenerateIntermediateCode(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
 		"tests/test2.lsh",
+		"tests/test3.lsh",
+		"tests/test4.lsh",
+		"tests/test5.lsh",
 	}
 
 	for _, test := range tests {

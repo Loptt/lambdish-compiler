@@ -21,6 +21,10 @@ func generateAddressesProgram(program *ast.Program, ctx *GenerationContext) erro
 		}
 	}
 
+	if err := generateAddressesFunctionCall(program.Call(), ctx); err != nil {
+		return err
+	}
+
 	return nil
 }
 

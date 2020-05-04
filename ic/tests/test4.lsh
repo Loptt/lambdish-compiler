@@ -1,12 +1,7 @@
 func countEven :: [num] l => num (
-    if( empty(l), 
-        0,
-        if( 
-            equal( %(head(l),2) , 0 ),
-            +( countEven(tail(l))  , 1 ),
-            countEven(tail(l))
-        )
-    )
+    (# num x, num y => num (
+        +(x, y)
+    )) (3, 4)
 )
 
-countEven([4, 3, 4, 6, 5, 4])
+countEven([1,2,3,4])

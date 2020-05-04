@@ -25,6 +25,14 @@ const (
 	GotoF
 	Goto
 	Ret
+	Era
+	Param
+	Call
+	Emp
+	Head
+	Tail
+	Ins
+	App
 	Invalid
 )
 
@@ -60,6 +68,22 @@ func (o Operation) String() string {
 		return "Goto"
 	case Ret:
 		return "Ret"
+	case Call:
+		return "Call"
+	case Era:
+		return "Era"
+	case Param:
+		return "Param"
+	case Emp:
+		return "Emp"
+	case Head:
+		return "Head"
+	case Tail:
+		return "Tail"
+	case Ins:
+		return "Ins"
+	case App:
+		return "App"
 	}
 
 	return ""
@@ -89,6 +113,16 @@ func GetOperation(s string) Operation {
 		return Or
 	case "!":
 		return Not
+	case "empty":
+		return Emp
+	case "head":
+		return Head
+	case "tail":
+		return Tail
+	case "insert":
+		return Ins
+	case "append":
+		return App
 	}
 
 	return Invalid

@@ -1,3 +1,4 @@
+//Package ic provides the generation of intermediate code
 package ic
 
 import (
