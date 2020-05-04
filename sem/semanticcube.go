@@ -1,13 +1,14 @@
 package sem
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/Loptt/lambdish-compiler/types"
 	"github.com/mewkiz/pkg/errutil"
-	"strings"
-	"fmt"
 )
 
-var reservedFunctions = []string{"if", "append", "empty", "head", "tail", "insert", "and", "or", "equal", "+", "-", "*", "/", "%", "<", ">", "!"}
+var reservedFunctions = []string{"if", "append", "empty", "head", "tail", "insert", "and", "or", "equal", "+", "-", "*", "/", "%", "<", ">", "!", "main"}
 
 type Operation int
 
@@ -54,6 +55,7 @@ func (o Operation) convert() string {
 	return ""
 }
 
+// GetOperation ...
 func GetOperation(s string) Operation {
 	switch s {
 	case "+":
@@ -83,10 +85,12 @@ func GetOperation(s string) Operation {
 	return Add
 }
 
+// SemanticCube ...
 type SemanticCube struct {
 	operations map[string]types.BasicType
 }
 
+// NewSemanticCube ...
 func NewSemanticCube() *SemanticCube {
 
 	return &SemanticCube{
@@ -220,11 +224,12 @@ func checkAndGetInsertType(id string, args []*types.LambdishType) (*types.Lambdi
 	if args[1].List() < 1 {
 		return nil, errutil.Newf("Second argument for insert must be a list")
 	}
-	t := args[0]
-	t.IncreaseList()
+	t1 := *args[0]
+	t2 := &t1
+	t2.IncreaseList()
 
-	if !t.Equal(args[1]) {
-		return nil, errutil.Newf("Second argument for insert must be a list of the first argument")
+	if !t2.Equal(args[1]) {
+		return nil, errutil.Newf("Second argument for insert must be a list of the first argument %s %s", t2, args[1])
 	}
 
 	return args[1], nil

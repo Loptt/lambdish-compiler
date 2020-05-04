@@ -3,6 +3,7 @@ package ic
 import (
 	"fmt"
 	"strings"
+
 	"github.com/Loptt/lambdish-compiler/mem"
 )
 
@@ -12,7 +13,7 @@ type node struct {
 	next *node
 }
 
-// FuncEntryStack implements a stack for the FuncEntry data type
+// AddressStack implements a stack for the FuncEntry data type
 type AddressStack struct {
 	head *node
 }
@@ -71,6 +72,7 @@ func (s *AddressStack) Push(val mem.Address) {
 	s.head = newHead
 }
 
+// NewAddressStack ...
 func NewAddressStack() *AddressStack {
 	return &AddressStack{nil}
 }

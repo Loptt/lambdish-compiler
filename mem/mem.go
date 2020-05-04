@@ -67,7 +67,7 @@ func (vm *VirtualMemory) GetNextTemp() Address {
 	return Address(result)
 }
 
-func (vm *VirtualMemory) GetNextConstant() Address {
+func (vm *VirtualMemory) getNextConstant() Address {
 	result := vm.constantcount
 	vm.constantcount += 1
 	return Address(result)
@@ -89,14 +89,14 @@ func (vm *VirtualMemory) ConstantExists(c string) bool {
 }
 
 func (vm *VirtualMemory) AddConstant(c string) Address {
-	if vm.ConstantExists(c string) {
+	if vm.ConstantExists(c) {
 		addr := Address(vm.constantmap[c])
 		return addr
 	}
 
 	// TODO: Determine the type of the constant and address accordingly
-	nextAddr := vm.GetNextConstant()
-	vm.constantmap[c] = nextAddr
+	nextAddr := vm.getNextConstant()
+	vm.constantmap[c] = int(nextAddr)
 
 	return Address(nextAddr)
 }

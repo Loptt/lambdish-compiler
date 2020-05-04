@@ -107,3 +107,7 @@ func (fd *FuncDirectory) Exists(key string) bool {
 func NewFuncDirectory() *FuncDirectory {
 	return &FuncDirectory{make(map[string]*FuncEntry)}
 }
+
+func MainFuncEntry() *FuncEntry {
+	return &FuncEntry{"main", types.NewDataLambdishType(types.Num, 0), make([]*types.LambdishType, 0), NewVarDirectory(), make([]*FuncEntry, 0)}
+}

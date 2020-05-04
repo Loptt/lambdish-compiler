@@ -303,6 +303,10 @@ func (c *ConstantValue) Token() *token.Token {
 	return c.tok
 }
 
+func (c *ConstantValue) Value() string {
+	return c.value
+}
+
 // ConstantList implements the Constant interface and defines a list which is a collection of
 // statements
 type ConstantList struct {

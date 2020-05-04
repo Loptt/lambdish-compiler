@@ -5,7 +5,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/dir"
 )
 
-// SemanticCheck: Construcción
+// SemanticCheck Construcción
 func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
 	funcdir := dir.NewFuncDirectory()
 	semcube := NewSemanticCube()

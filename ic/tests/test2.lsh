@@ -3,7 +3,16 @@ func sum :: num x, num y => num (
 )
 
 func sum2 :: bool x, num y, num z => num (
-    if(or(x, <(y,z)), +(*(z,y),z), -(+(y,z),y))
+    if (or(x, <(y, z)),
+        if (and(x, >(11, y)),
+            +(z, 23),
+            /(2, y)
+        ),
+        -(
+            +(3, y),
+            123
+        )
+    )
 )
 
-sum([3, 2, 4, 6, 7])
+sum(1,2)

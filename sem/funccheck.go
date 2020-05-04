@@ -14,6 +14,11 @@ func buildFuncDirProgram(program *ast.Program, funcdir *dir.FuncDirectory) error
 			return err
 		}
 	}
+
+	if err := buildFuncDirCall(program.Call(), funcdir); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -44,15 +49,31 @@ func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) er
 	}
 
 	fe := dir.NewFuncEntry(id, t, params, vardir)
-	
+
 	if ok := funcdir.Add(fe); !ok {
 		return errutil.Newf("%+v: Invalid Function. This Function already exists.", function.Token())
 	}
-	
+
 	if err := buildFuncDirStatement(function.Statement(), fe); err != nil {
 		return err
 	}
-	
+
+	return nil
+}
+
+func buildFuncDirCall(fcall *ast.FunctionCall, funcdir *dir.FuncDirectory) error {
+	fe := dir.MainFuncEntry()
+
+	for _, arg := range fcall.Args() {
+		if err := buildFuncDirStatement(arg, fe); err != nil {
+			return err
+		}
+	}
+
+	if ok := funcdir.Add(fe); !ok {
+		return errutil.Newf("%+v: Cannot initialize main function call", fcall.Token())
+	}
+
 	return nil
 }
 

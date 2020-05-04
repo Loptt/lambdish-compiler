@@ -1,11 +1,10 @@
-func filterOdd :: [num] l, char x => (num, num => [num]) (
-    (# num x, num y => [num] (
-        [1,2,3]
-    ))
+func map :: [char] l, (char => char) f => [char] (
+    if (empty(l), 
+        ['e'],
+        insert(f(head(l)), map(tail(l), f))
+    )
 )
 
-func map :: [char] l, (num, [char] => [char]) f => [char] (
-    append( f('c',head(l)) ,  ['c'] )
-)
-
-map([1,2,3,4], filterOdd)
+map(['h','e','l','l','o'], (# char x => char (
+    'c'
+)))

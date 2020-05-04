@@ -1,10 +1,12 @@
 package ic
 
 import (
-	"github.com/Loptt/lambdish-compiler/mem"
 	"fmt"
+
+	"github.com/Loptt/lambdish-compiler/mem"
 )
 
+// Operation ...
 type Operation int
 
 const (

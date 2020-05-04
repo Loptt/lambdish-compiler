@@ -15,7 +15,7 @@ func scopeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube
 	}
 
 	fes := dir.NewFuncEntryStack()
-
+	fes.Push(funcdir.Get("main"))
 	if err := scopeCheckFunctionCall(program.Call(), fes, funcdir, semcube); err != nil {
 		return err
 	}
@@ -45,7 +45,7 @@ func scopeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semc
 //scopeCheckStatement
 func scopeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	if id, ok := statement.(*ast.Id); ok {
-		return scopeCheckId(id, fes, funcdir)
+		return scopeCheckID(id, fes, funcdir)
 	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
 		return scopeCheckFunctionCall(fcall, fes, funcdir, semcube)
 	} else if lambda, ok := statement.(*ast.Lambda); ok {
@@ -59,8 +59,8 @@ func scopeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcd
 	return errutil.Newf("Statement cannot be casted to any valid form")
 }
 
-//scopeCheckId
-func scopeCheckId(id *ast.Id, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory) error {
+//scopeCheckID
+func scopeCheckID(id *ast.Id, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory) error {
 	if idExistsInFuncStack(id, fes) {
 		return nil
 	}

@@ -10,7 +10,7 @@ import (
 // getIdTypeFromFuncStack returns the type of the given id by checking in the FuncEntry stack
 // for its declaration, and once found, returns its type. If it is not found, the function
 // returns a nil pointer.
-func getIdTypeFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (*types.LambdishType, error) {
+func getIDTypeFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (*types.LambdishType, error) {
 	fescpy := *fes
 	for !fescpy.Empty() {
 		fe := fescpy.Top()
@@ -24,7 +24,7 @@ func getIdTypeFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (*types.Lambdis
 	return nil, errutil.Newf("Id %s not declared in this scope", id.String())
 }
 
-//IsReservedFunction
+// IsReservedFunction ...
 func IsReservedFunction(s string) bool {
 	for _, f := range reservedFunctions {
 		if s == f {
@@ -53,7 +53,7 @@ func getReservedFunctionType(id string, args []*types.LambdishType) (*types.Lamb
 	return nil, errutil.Newf("Cannot find reserved function")
 }
 
-//  getTypeFunctionCall
+// getTypeFunctionCall
 func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 
 	// First we check if the statement of the call is an ID
@@ -62,7 +62,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 		if idExistsInFuncStack(id, fes) {
 			// If it is declared in the function stack, we get its type from the stack and check for
 			// any errors
-			t, err := getIdTypeFromFuncStack(id, fes)
+			t, err := getIDTypeFromFuncStack(id, fes)
 			if err != nil {
 				return nil, err
 			}
@@ -78,50 +78,47 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			// If the id is not in the function stack, we must check the global function directory for its definition
 			// To do this we must fist get the types of all of its arguments in order to construct the
 			// key so that we can query the Func Directory
+		}
+		argTypes := make([]*types.LambdishType, 0)
+
+		for _, arg := range fcall.Args() {
+			t, err := getTypeStatement(arg, fes, funcdir, semcube)
+			if err != nil {
+				return nil, err
+			}
+			argTypes = append(argTypes, t)
+		}
+		// Once we got the info to query, we get the function entry and we return its return type
+		if fe := funcdir.Get(id.String()); fe != nil {
+			if err := argumentsMatchParameters(fcall, argTypes, fe.Params(), fes, funcdir, semcube); err != nil {
+				return nil, err
+			}
+			return fe.ReturnVal(), nil
+			// If it is not in the func directory, we must check if the function is an operation
+		} else if isOperationFromSemanticCube(id.String()) {
+			key := getSemanticCubeKey(id.String(), argTypes)
+			if basic, ok := semcube.Get(key); ok {
+				return types.NewDataLambdishType(basic, 0), nil
+			}
+			return nil, errutil.Newf("%+v: Cannot perform operation %s on arguments %+v", fcall.Token(), id.String(), argTypes)
+
+			// If it is not an operation, we must check if it is a reserverd function
+		} else if IsReservedFunction(id.String()) {
+			return getReservedFunctionType(id.String(), argTypes)
 		} else {
-			argTypes := make([]*types.LambdishType, 0)
-
-			for _, arg := range fcall.Args() {
-				t, err := getTypeStatement(arg, fes, funcdir, semcube)
-				if err != nil {
-					return nil, err
-				}
-				argTypes = append(argTypes, t)
-			}
-			// Once we got the info to query, we get the function entry and we return its return type
-			if fe := funcdir.Get(id.String()); fe != nil {
-				if err := argumentsMatchParameters(fcall, argTypes, fe.Params(), fes, funcdir, semcube); err != nil {
-					return nil, err
-				}
-				return fe.ReturnVal(), nil
-				// If it is not in the func directory, we must check if the function is an operation
-			} else if isOperationFromSemanticCube(id.String()) {
-				key := getSemanticCubeKey(id.String(), argTypes)
-				if basic, ok := semcube.Get(key); ok {
-					return types.NewDataLambdishType(basic, 0), nil
-				} else {
-					return nil, errutil.Newf("%+v: Cannot perform operation %s on arguments %+v", fcall.Token(), id.String(), argTypes)
-				}
-				// If it is not an operation, we must check if it is a reserverd function
-			} else if IsReservedFunction(id.String()) {
-				return getReservedFunctionType(id.String(), argTypes)
-			} else {
-				return nil, errutil.Newf("%+v: Function %s not declared on local or global scope", fcall.Token(), id)
-			}
-		}
-	} else {
-		t, err := getTypeStatement(fcall.Statement(), fes, funcdir, semcube)
-		if err != nil {
-			return nil, err
-		}
-		if !t.Function() {
-			return nil, errutil.Newf("%+v: Cannot call as a function in this scope", fcall.Token())
+			return nil, errutil.Newf("%+v: Function %s not declared on local or global scope", fcall.Token(), id)
 		}
 
-		return t.Retval(), nil
+	}
+	t, err := getTypeStatement(fcall.Statement(), fes, funcdir, semcube)
+	if err != nil {
+		return nil, err
+	}
+	if !t.Function() {
+		return nil, errutil.Newf("%+v: Cannot call as a function in this scope", fcall.Token())
 	}
 
-	return nil, nil
+	return t.Retval(), nil
 }
 
 //getTypeConstantList
@@ -156,7 +153,12 @@ func getTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 //getTypeStatement
 func getTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 	if id, ok := statement.(*ast.Id); ok {
-		return getIdTypeFromFuncStack(id, fes)
+		if t, err := getIDTypeFromFuncStack(id, fes); err == nil {
+			return t, nil
+		} else if fe := funcdir.Get(id.String()); fe != nil {
+			return fe.ReturnVal(), nil
+		}
+		return nil, errutil.Newf("%+v: Id %s not declared in local or global scope", id.Token(), id.String())
 	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
 		return getTypeFunctionCall(fcall, fes, funcdir, semcube)
 	} else if cv, ok := statement.(*ast.ConstantValue); ok {

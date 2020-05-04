@@ -1,13 +1,13 @@
 package ic
 
 import (
+	"testing"
+
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/sem"
-	"github.com/davecgh/go-spew/spew"
-	"testing"
 )
 
 func TestGenerateAddressesProgram(t *testing.T) {
@@ -39,11 +39,11 @@ func TestGenerateAddressesProgram(t *testing.T) {
 			t.Errorf("Error from semantic: %v", err)
 		}
 		ctx := &GenerationContext{funcdir, sem.NewSemanticCube(), NewGenerator(), mem.NewVirtualMemory()}
-		err = generateAddressesProgram(program,ctx)
+		err = generateAddressesProgram(program, ctx)
 		if err != nil {
 			t.Errorf("Error from generate code: %v", err)
 		}
 
-		spew.Dump(funcdir)
+		//spew.Dump(funcdir)
 	}
 }

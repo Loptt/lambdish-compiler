@@ -3,14 +3,14 @@ package ic
 import (
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/dir"
-	"github.com/Loptt/lambdish-compiler/sem"
 	"github.com/Loptt/lambdish-compiler/mem"
+	"github.com/Loptt/lambdish-compiler/sem"
 	"github.com/mewkiz/pkg/errutil"
 )
 
 func generateCodeProgram(program *ast.Program, ctx *GenerationContext) error {
 	for _, function := range program.Functions() {
-		if err := generateCodeFunction(function,ctx); err != nil {
+		if err := generateCodeFunction(function, ctx); err != nil {
 			return err
 		}
 	}
@@ -71,16 +71,16 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 
 func generateCodeReservedFunctionCall(id *ast.Id, fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
 	switch id.String() {
-	case "+","-","/","*","%":
-		if err := generateArithmeticalOperators(id.String() ,fcall, fes, ctx); err != nil {
+	case "+", "-", "/", "*", "%":
+		if err := generateArithmeticalOperators(id.String(), fcall, fes, ctx); err != nil {
 			return err
 		}
-	case "<",">","equal":
-		if err := generateRelationalOperators(id.String() ,fcall, fes, ctx); err != nil {
+	case "<", ">", "equal":
+		if err := generateRelationalOperators(id.String(), fcall, fes, ctx); err != nil {
 			return err
 		}
-	case "and","or","!":
-		if err := generateLogicalOperators(id.String() ,fcall, fes, ctx); err != nil {
+	case "and", "or", "!":
+		if err := generateLogicalOperators(id.String(), fcall, fes, ctx); err != nil {
 			return err
 		}
 	case "if":
@@ -98,8 +98,8 @@ func generateArithmeticalOperators(id string, fcall *ast.FunctionCall, fes *dir.
 	// TODO: Check if they are in the right order to ensure left associativity
 	lop := args[0]
 	rop := args[1]
-	
-	//Receive 
+
+	//Receive
 	op := GetOperation(id)
 	if op == Invalid {
 		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
@@ -133,8 +133,8 @@ func generateRelationalOperators(id string, fcall *ast.FunctionCall, fes *dir.Fu
 	// TODO: Check if they are in the right order to ensure left associativity
 	lop := args[0]
 	rop := args[1]
-	
-	//Receive 
+
+	//Receive
 	op := GetOperation(id)
 	if op == Invalid {
 		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
@@ -167,7 +167,7 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 	if len(args) == 1 {
 		lop := args[0]
 
-		//Receive 
+		//Receive
 		op := GetOperation(id)
 		if op == Invalid {
 			return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
@@ -190,8 +190,8 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 	// TODO: Check if they are in the right order to ensure left associativity
 	lop := args[0]
 	rop := args[1]
-	
-	//Receive 
+
+	//Receive
 	op := GetOperation(id)
 	if op == Invalid {
 		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
@@ -244,7 +244,7 @@ func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *Generatio
 	}
 
 	ctx.gen.Generate(Ret, raddr, mem.Address(-1), mem.Address(-1))
-	
+
 	return nil
 }
 
@@ -252,18 +252,19 @@ func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *Generatio
 	if id, ok := s.(*ast.Id); ok {
 		if addr, ok := getAddressFromFuncStack(id, fes); ok {
 			return addr, nil
-		} else {
-			// TODO: Check if it refers to a function in the global scope
-			return mem.Address(-1), errutil.Newf("%+v: id %s not found in this scope", s.Token(), id.String())
 		}
+		// TODO: Check if it refers to a function in the global scope
+		return mem.Address(-1), errutil.Newf("%+v: id %s not found in this scope", s.Token(), id.String())
+
 	} else if fcall, ok := s.(*ast.FunctionCall); ok {
 		if err := generateCodeFunctionCall(fcall, fes, ctx); err != nil {
 			return mem.Address(-1), nil
 		}
 		return ctx.gen.GetFromAddrStack(), nil
-	} else {
-		//TODO: Generate code for regular function call
+	} else if cv, ok := s.(*ast.ConstantValue); ok {
+		return ctx.vm.GetConstantAddress(cv.Value()), nil
 	}
+	//TODO: Generate code for regular function call
 
 	return mem.Address(-1), nil
 }
