@@ -2,7 +2,7 @@ func countEven :: (num => char) l => num (
     if( empty(l), 
         0,
         if( 
-            equal(mod(head(l),2),0),
+            equal(%(head(l),2),0),
             sum(countEven(tail(l)),1
         ),
             countEven(tail(l))

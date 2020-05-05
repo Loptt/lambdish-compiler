@@ -63,10 +63,10 @@ func generateCodeStatement(statement ast.Statement, fes *dir.FuncEntryStack, ctx
 	} else if lambda, ok := statement.(*ast.Lambda); ok {
 		return generateCodeLambda(lambda, fes, ctx)
 	} else if _, ok := statement.(*ast.ConstantList); ok {
-		// TOOD: Implement code generation for Id
+		// TODO: Implement code generation for Id
 		return nil
 	} else if _, ok := statement.(*ast.ConstantValue); ok {
-		// TOOD: Implement code generation for Id
+		// TODO: Implement code generation for Id
 		return nil
 	}
 
