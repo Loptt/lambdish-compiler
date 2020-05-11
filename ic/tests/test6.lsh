@@ -1,22 +1,9 @@
-func doSomething :: ([num] => num) f, num => char (
-    'c'
+func random :: => num (
+    3
 )
 
-func doSomething :: ([char] => num) f, num => char (
-    'c'
+func matrix :: [[num]] m => num (
+    head(head(m))
 )
 
-func give2 :: [num] n => num (
-    head( [ 1 , 2 ] )
-)
-
-func give2 :: [char] n => num (
-    head( [ 1 , 2 ] )
-)
-
-func give1 :: [num] n, char x => num (
-    doSomething(give2, x)
-)
-
-
-give2([1])
+matrix([[1, random()], [3,4]])

@@ -1,3 +1,7 @@
+func genNum :: char x => num (
+	3
+)
+
 func maxAux :: [num] l, num biggest => num (
 	if(empty(l),
 		biggest,
@@ -12,5 +16,5 @@ func max :: [num] l => num (
 	maxAux(l, head(l))
 )
 
-max([2,3,4,2,3])
+max([2, 3, 45, 2, 3])
 

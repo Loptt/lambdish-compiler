@@ -63,9 +63,8 @@ func generateCodeStatement(statement ast.Statement, fes *dir.FuncEntryStack, ctx
 		return generateCodeFunctionCall(fcall, fes, ctx)
 	} else if lambda, ok := statement.(*ast.Lambda); ok {
 		return generateCodeLambda(lambda, fes, ctx)
-	} else if _, ok := statement.(*ast.ConstantList); ok {
-		// TODO: Implement code generation for Id
-		return nil
+	} else if cl, ok := statement.(*ast.ConstantList); ok {
+		return generateCodeConstantList(cl, fes, ctx)
 	} else if cv, ok := statement.(*ast.ConstantValue); ok {
 		return generateCodeConstantValue(cv, fes, ctx)
 	}
@@ -494,10 +493,41 @@ func generateBuiltInTwoArgs(id string, fcall *ast.FunctionCall, fes *dir.FuncEnt
 	return nil
 }
 
+func generateCodeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
+	t, err := sem.GetTypeConstantList(cl, fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+
+	listaddr := ctx.vm.GetNextTemp(t)
+	ctx.gen.Generate(Lst, mem.Address(-1), mem.Address(-1), mem.Address(len(cl.Contents())))
+
+	listcount := 0
+
+	for _, arg := range cl.Contents() {
+		addr, err := getArgumentAddress(arg, fes, ctx)
+		if err != nil {
+			return err
+		}
+
+		ctx.gen.Generate(PaLst, addr, mem.Address(-1), mem.Address(listcount))
+		listcount++
+	}
+
+	ctx.gen.Generate(GeLst, mem.Address(-1), mem.Address(-1), listaddr)
+	ctx.gen.PushToAddrStack(listaddr)
+
+	return nil
+}
+
 func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *GenerationContext) (mem.Address, error) {
 	if id, ok := s.(*ast.Id); ok {
 		if addr, ok := getAddressFromFuncStack(id, fes); ok {
-			return addr, nil
+			if isOnTopOfFuncStack(id, fes) {
+				return addr, nil
+			} else {
+				return mem.ConvertLocalToOutScope(addr), nil
+			}
 		}
 		// TODO: Check if it refers to a function in the global scope
 		return mem.Address(-1), errutil.Newf("%+v: id %s not found in this scope", s.Token(), id.String())
@@ -514,8 +544,12 @@ func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *Generatio
 			return mem.Address(-1), err
 		}
 		return ctx.gen.GetFromAddrStack(), nil
+	} else if cl, ok := s.(*ast.ConstantList); ok {
+		if err := generateCodeConstantList(cl, fes, ctx); err != nil {
+			return mem.Address(-1), err
+		}
+		return ctx.gen.GetFromAddrStack(), nil
 	}
-	//TODO: Generate code for regular function call
 
 	return mem.Address(-1), nil
 }

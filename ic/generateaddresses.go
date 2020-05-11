@@ -102,6 +102,10 @@ func generateAddressesFunctionCall(fcall *ast.FunctionCall, ctx *GenerationConte
 }
 
 func generateAddressesConstantList(cl *ast.ConstantList, ctx *GenerationContext) error {
-	// TODO: Figure out how to store declared lists
+	for _, arg := range cl.Contents() {
+		if err := generateAddressesStatement(arg, ctx); err != nil {
+			return err
+		}
+	}
 	return nil
 }

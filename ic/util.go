@@ -18,3 +18,7 @@ func getAddressFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (mem.Address, 
 
 	return mem.Address(-1), false
 }
+
+func isOnTopOfFuncStack(id *ast.Id, fes *dir.FuncEntryStack) bool {
+	return fes.Top().VarDir().Exists(id.String())
+}

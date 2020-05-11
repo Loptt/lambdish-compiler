@@ -33,6 +33,9 @@ const (
 	Tail
 	Ins
 	App
+	Lst
+	GeLst
+	PaLst
 	Invalid
 )
 
@@ -84,6 +87,12 @@ func (o Operation) String() string {
 		return "Ins"
 	case App:
 		return "App"
+	case GeLst:
+		return "GeLst"
+	case Lst:
+		return "Lst"
+	case PaLst:
+		return "PaLst"
 	}
 
 	return ""
@@ -147,5 +156,5 @@ func NewQuadruple(op Operation, a1, a2, r mem.Address) *Quadruple {
 }
 
 func (q Quadruple) String() string {
-	return fmt.Sprintf("%s %d %d %d", q.op, q.a1, q.a2, q.r)
+	return fmt.Sprintf("%s %s %s %s", q.op, q.a1, q.a2, q.r)
 }
