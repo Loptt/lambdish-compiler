@@ -16,11 +16,12 @@ type Generator struct {
 	pcounter        int
 	quads           []*Quadruple
 	pendingFuncAddr map[int]string
+	pendingEraSize  map[int]string
 }
 
 // NewGenerator
 func NewGenerator() *Generator {
-	return &Generator{NewAddressStack(), NewAddressStack(), 0, 0, make([]*Quadruple, 0), make(map[int]string)}
+	return &Generator{NewAddressStack(), NewAddressStack(), 0, 0, make([]*Quadruple, 0), make(map[int]string), make(map[int]string)}
 }
 
 // JumpStacks
@@ -60,16 +61,19 @@ func (g *Generator) PushToAddrStack(a mem.Address) {
 	g.addrStack.Push(a)
 }
 
+//GetFromAddrStack
 func (g *Generator) GetFromAddrStack() mem.Address {
 	val := g.addrStack.Top()
 	g.addrStack.Pop()
 	return val
 }
 
+//PushToJumpStack
 func (g *Generator) PushToJumpStack(a mem.Address) {
 	g.jumpStack.Push(a)
 }
 
+//GetFromJumpStack
 func (g *Generator) GetFromJumpStack() mem.Address {
 	val := g.jumpStack.Top()
 	g.jumpStack.Pop()
@@ -83,11 +87,30 @@ func (g *Generator) FillJumpQuadruple(location mem.Address, jump mem.Address) {
 func (g *Generator) AddPendingFuncAddr(loc int, id string) {
 	g.pendingFuncAddr[loc] = id
 }
+func (g *Generator) GetPendingFuncAddr() *map[int]string {
+	return &g.pendingFuncAddr
+}
+
+func (g *Generator) AddPendingEra(loc int, id string) {
+	g.pendingEraSize[loc] = id
+}
+
+func (g *Generator) GetPendingEraSize() *map[int]string {
+	return &g.pendingEraSize
+}
 
 func (g *Generator) FillPendingFuncAddr(funcdir *dir.FuncDirectory) {
 	for loc, id := range g.pendingFuncAddr {
 		fe := funcdir.Get(id)
 		g.quads[loc].a1 = fe.Loc()
+	}
+}
+
+func (g *Generator) FillPendingEra(funcdir *dir.FuncDirectory) {
+	for loc, id := range g.pendingEraSize {
+		fe := funcdir.Get(id)
+
+		g.quads[loc].a1 = mem.Address(fe.Era())
 	}
 }
 

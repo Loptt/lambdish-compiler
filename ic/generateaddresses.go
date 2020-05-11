@@ -32,6 +32,7 @@ func generateAddressesFuncEntry(fe *dir.FuncEntry, ctx *GenerationContext) error
 	ctx.vm.ResetLocal()
 	for _, ve := range fe.VarDir().Table() {
 		ve.SetAddress(ctx.vm.GetNextLocal(ve.Type()))
+		fe.SetEra(fe.Era() + 1)
 	}
 
 	for _, l := range fe.Lambdas() {
