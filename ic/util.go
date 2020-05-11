@@ -1,9 +1,9 @@
 package ic
 
 import (
-	"github.com/Loptt/lambdish-compiler/mem"
-	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/ast"
+	"github.com/Loptt/lambdish-compiler/dir"
+	"github.com/Loptt/lambdish-compiler/mem"
 )
 
 func getAddressFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (mem.Address, bool) {

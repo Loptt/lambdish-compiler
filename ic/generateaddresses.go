@@ -31,7 +31,7 @@ func generateAddressesProgram(program *ast.Program, ctx *GenerationContext) erro
 func generateAddressesFuncEntry(fe *dir.FuncEntry, ctx *GenerationContext) error {
 	ctx.vm.ResetLocal()
 	for _, ve := range fe.VarDir().Table() {
-		ve.SetAddress(ctx.vm.GetNextLocal())
+		ve.SetAddress(ctx.vm.GetNextLocal(ve.Type()))
 	}
 
 	for _, l := range fe.Lambdas() {
@@ -81,7 +81,7 @@ func generateAddressesStatement(statement ast.Statement, ctx *GenerationContext)
 
 func generateAddressesConstantValue(cv *ast.ConstantValue, ctx *GenerationContext) error {
 	if !ctx.vm.ConstantExists(cv.Value()) {
-		ctx.vm.AddConstant(cv.Value())
+		ctx.vm.AddConstant(cv.Value(), cv.Type())
 	}
 
 	return nil

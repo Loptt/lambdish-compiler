@@ -5,6 +5,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/sem"
+	"github.com/Loptt/lambdish-compiler/types"
 	"github.com/mewkiz/pkg/errutil"
 )
 
@@ -65,9 +66,8 @@ func generateCodeStatement(statement ast.Statement, fes *dir.FuncEntryStack, ctx
 	} else if _, ok := statement.(*ast.ConstantList); ok {
 		// TODO: Implement code generation for Id
 		return nil
-	} else if _, ok := statement.(*ast.ConstantValue); ok {
-		// TODO: Implement code generation for Id
-		return nil
+	} else if cv, ok := statement.(*ast.ConstantValue); ok {
+		return generateCodeConstantValue(cv, fes, ctx)
 	}
 
 	return errutil.Newf("Statement cannot be casted to any valid form")
@@ -84,6 +84,12 @@ func generateCodeId(id *ast.Id, fes *dir.FuncEntryStack, ctx *GenerationContext)
 	}
 
 	return errutil.Newf("%+v: Cannot find id %s in local or global scope", id.Token(), id.String())
+}
+
+func generateCodeConstantValue(cv *ast.ConstantValue, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
+	addr := ctx.vm.GetConstantAddress(cv.Value())
+	ctx.gen.PushToAddrStack(addr)
+	return nil
 }
 
 func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
@@ -114,7 +120,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 				return err
 			}
 
-			tmp := ctx.vm.GetNextTemp()
+			tmp := ctx.vm.GetNextTemp(ctx.funcdir.Get(id.String()).ReturnVal())
 			calladdr := ctx.gen.GetFromAddrStack()
 
 			ctx.gen.Generate(Call, calladdr, mem.Address(-1), tmp)
@@ -143,7 +149,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 			pcounter++
 		}
 
-		tmp := ctx.vm.GetNextTemp()
+		tmp := ctx.vm.GetNextTemp(l.Retval())
 		ctx.gen.Generate(Call, lambdaaddr, mem.Address(-1), tmp)
 		ctx.gen.PushToAddrStack(tmp)
 	}
@@ -234,8 +240,23 @@ func generateArithmeticalOperators(id string, fcall *ast.FunctionCall, fes *dir.
 		return err
 	}
 
-	// Get the address of the next available temp to store the result of the operation
-	nextTemp := ctx.vm.GetNextTemp()
+	lopt, err := sem.GetTypeStatement(lop, fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+	ropt, err := sem.GetTypeStatement(rop, fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+
+	params := []*types.LambdishType{lopt, ropt}
+
+	t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
+	if !ok {
+		return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
+	}
+
+	nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
 
 	// Generate the quadruple
 	ctx.gen.Generate(op, laddr, raddr, nextTemp)
@@ -269,8 +290,24 @@ func generateRelationalOperators(id string, fcall *ast.FunctionCall, fes *dir.Fu
 		return err
 	}
 
+	lopt, err := sem.GetTypeStatement(lop, fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+	ropt, err := sem.GetTypeStatement(rop, fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+
+	params := []*types.LambdishType{lopt, ropt}
+
+	t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
+	if !ok {
+		return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
+	}
+
 	// Get the address of the next available temp to store the result of the operation
-	nextTemp := ctx.vm.GetNextTemp()
+	nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
 
 	// Generate the quadruple
 	ctx.gen.Generate(op, laddr, raddr, nextTemp)
@@ -296,7 +333,21 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 		if err != nil {
 			return err
 		}
-		nextTemp := ctx.vm.GetNextTemp()
+
+		lopt, err := sem.GetTypeStatement(lop, fes, ctx.funcdir, ctx.semcube)
+		if err != nil {
+			return err
+		}
+
+		params := []*types.LambdishType{lopt}
+
+		t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
+		if !ok {
+			return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s", fcall.Token(), id, lopt)
+		}
+
+		// Get the address of the next available temp to store the result of the operation
+		nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
 
 		// Generate the quadruple
 		ctx.gen.Generate(op, laddr, mem.Address(-1), nextTemp)
@@ -326,8 +377,24 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 		return err
 	}
 
+	lopt, err := sem.GetTypeStatement(lop, fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+	ropt, err := sem.GetTypeStatement(rop, fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+
+	params := []*types.LambdishType{lopt, ropt}
+
+	t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
+	if !ok {
+		return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
+	}
+
 	// Get the address of the next available temp to store the result of the operation
-	nextTemp := ctx.vm.GetNextTemp()
+	nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
 
 	// Generate the quadruple
 	ctx.gen.Generate(op, laddr, raddr, nextTemp)
@@ -376,7 +443,17 @@ func generateBuiltInOneArg(id string, fcall *ast.FunctionCall, fes *dir.FuncEntr
 	}
 
 	op := GetOperation(id)
-	tmp := ctx.vm.GetNextTemp()
+	argtypes, err := sem.GetTypesFromArgs(fcall.Args(), fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+
+	t, err := sem.GetBuiltInType(id, argtypes)
+	if err != nil {
+		return err
+	}
+
+	tmp := ctx.vm.GetNextTemp(t)
 
 	ctx.gen.Generate(op, addr, mem.Address(-1), tmp)
 
@@ -399,7 +476,16 @@ func generateBuiltInTwoArgs(id string, fcall *ast.FunctionCall, fes *dir.FuncEnt
 	}
 
 	op := GetOperation(id)
-	tmp := ctx.vm.GetNextTemp()
+	argtypes, err := sem.GetTypesFromArgs(fcall.Args(), fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+
+	t, err := sem.GetBuiltInType(id, argtypes)
+	if err != nil {
+		return err
+	}
+	tmp := ctx.vm.GetNextTemp(t)
 
 	ctx.gen.Generate(op, laddr, raddr, tmp)
 
