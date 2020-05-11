@@ -235,7 +235,7 @@ func checkAndGetInsertType(id string, args []*types.LambdishType) (*types.Lambdi
 	return args[1], nil
 }
 
-func getSemanticCubeKey(id string, params []*types.LambdishType) string {
+func GetSemanticCubeKey(id string, params []*types.LambdishType) string {
 	var b strings.Builder
 
 	for _, p := range params {
@@ -243,4 +243,17 @@ func getSemanticCubeKey(id string, params []*types.LambdishType) string {
 	}
 
 	return fmt.Sprintf("%s@%s", id, b.String())
+}
+
+func GetBuiltInType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
+	switch id {
+	case "append", "insert", "tail":
+		return types.NewDataLambdishType(types.Null, 1), nil
+	case "head":
+		return checkAndGetHeadType(id, args)
+	case "empty":
+		return types.NewDataLambdishType(types.Bool, 0), nil
+	}
+
+	return nil, errutil.Newf("Cannot get built in type")
 }

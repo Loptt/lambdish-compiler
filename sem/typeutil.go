@@ -79,14 +79,10 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			// To do this we must fist get the types of all of its arguments in order to construct the
 			// key so that we can query the Func Directory
 		}
-		argTypes := make([]*types.LambdishType, 0)
 
-		for _, arg := range fcall.Args() {
-			t, err := getTypeStatement(arg, fes, funcdir, semcube)
-			if err != nil {
-				return nil, err
-			}
-			argTypes = append(argTypes, t)
+		argTypes, err := GetTypesFromArgs(fcall.Args(), fes, funcdir, semcube)
+		if err != nil {
+			return nil, err
 		}
 		// Once we got the info to query, we get the function entry and we return its return type
 		if fe := funcdir.Get(id.String()); fe != nil {
@@ -96,7 +92,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			return fe.ReturnVal(), nil
 			// If it is not in the func directory, we must check if the function is an operation
 		} else if isOperationFromSemanticCube(id.String()) {
-			key := getSemanticCubeKey(id.String(), argTypes)
+			key := GetSemanticCubeKey(id.String(), argTypes)
 			if basic, ok := semcube.Get(key); ok {
 				return types.NewDataLambdishType(basic, 0), nil
 			}
@@ -110,7 +106,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 		}
 
 	}
-	t, err := getTypeStatement(fcall.Statement(), fes, funcdir, semcube)
+	t, err := GetTypeStatement(fcall.Statement(), fes, funcdir, semcube)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +118,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 }
 
 //getTypeConstantList
-func getTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
+func GetTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 	ts := make([]*types.LambdishType, 0)
 
 	if len(cl.Contents()) == 0 {
@@ -130,7 +126,7 @@ func getTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 	}
 
 	for _, s := range cl.Contents() {
-		if typ, err := getTypeStatement(s, fes, funcdir, semcube); err == nil {
+		if typ, err := GetTypeStatement(s, fes, funcdir, semcube); err == nil {
 			ts = append(ts, typ)
 		} else {
 			return nil, err
@@ -150,8 +146,8 @@ func getTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 	return &listType, nil
 }
 
-//getTypeStatement
-func getTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
+//GetTypeStatement
+func GetTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 	if id, ok := statement.(*ast.Id); ok {
 		if t, err := getIDTypeFromFuncStack(id, fes); err == nil {
 			return t, nil
@@ -164,7 +160,7 @@ func getTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir 
 	} else if cv, ok := statement.(*ast.ConstantValue); ok {
 		return cv.Type(), nil
 	} else if cl, ok := statement.(*ast.ConstantList); ok {
-		return getTypeConstantList(cl, fes, funcdir, semcube)
+		return GetTypeConstantList(cl, fes, funcdir, semcube)
 	} else if l, ok := statement.(*ast.Lambda); ok {
 		return types.NewFuncLambdishType(l.Retval(), l.Params(), 0), nil
 	}
@@ -183,4 +179,18 @@ func argumentsMatchParameters(fcall *ast.FunctionCall, args []*types.LambdishTyp
 	}
 
 	return nil
+}
+
+func GetTypesFromArgs(args []ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) ([]*types.LambdishType, error) {
+	ts := make([]*types.LambdishType, 0)
+
+	for _, arg := range args {
+		if t, err := GetTypeStatement(arg, fes, funcdir, semcube); err == nil {
+			ts = append(ts, t)
+		} else {
+			return nil, err
+		}
+	}
+
+	return ts, nil
 }

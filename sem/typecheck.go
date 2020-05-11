@@ -35,7 +35,7 @@ func typeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semcu
 	fes := dir.NewFuncEntryStack()
 	fes.Push(fe)
 
-	statementType, err := getTypeStatement(function.Statement(), fes, funcdir, semcube)
+	statementType, err := GetTypeStatement(function.Statement(), fes, funcdir, semcube)
 	if err != nil {
 		return err
 	}
@@ -89,7 +89,7 @@ func typeCheckLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, funcdir *dir.F
 	if lambdaEntry := fes.Top().GetLambdaEntryById(lambda.Id()); lambdaEntry != nil {
 		fes.Push(lambdaEntry)
 
-		t, err := getTypeStatement(lambda.Statement(), fes, funcdir, semcube)
+		t, err := GetTypeStatement(lambda.Statement(), fes, funcdir, semcube)
 		if err != nil {
 			return err
 		}
@@ -111,7 +111,7 @@ func typeCheckLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, funcdir *dir.F
 
 //typeCheckConstantList
 func typeCheckConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
-	if _, err := getTypeConstantList(cl, fes, funcdir, semcube); err != nil {
+	if _, err := GetTypeConstantList(cl, fes, funcdir, semcube); err != nil {
 		return err
 	}
 
