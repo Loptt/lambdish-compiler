@@ -16,8 +16,8 @@ relop : '<' | '>' | '!';
 
 number : _integer | _float;
 charac : '\'' (_alpha | _digit) '\'';
-id : _id;
 boolean : _true | _false;
+id : _id;
 
 << import (
     "github.com/Loptt/lambdish-compiler/ast" 

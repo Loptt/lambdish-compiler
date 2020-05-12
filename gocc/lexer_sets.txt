@@ -15,9 +15,9 @@ S0{
 	number : _integer | • _float
 	number : • _integer | _float
 	charac : • ''' (_alpha | _digit) '''
-	id : • _id
 	boolean : _true | • _false
 	boolean : • _true | _false
+	id : • _id
 	func : • 'f' 'u' 'n' 'c'
 	:: : • ':' ':'
 	=> : • '=' '>'
@@ -32,9 +32,9 @@ S0{
 	# : • '#'
 	_float : • _digit {_digit} '.' _digit {_digit}
 	_integer : • _digit {_digit}
-	_id : • _alpha {(_digit | _alpha)}
 	_false : • 'f' 'a' 'l' 's' 'e'
 	_true : • 't' 'r' 'u' 'e'
+	_id : • _alpha {(_digit | _alpha)}
 	_digit : •  '0'-'9'
 	_alpha :  'a'-'z' | •  'A'-'Z'
 	_alpha : •  'a'-'z' |  'A'-'Z'
@@ -742,7 +742,7 @@ Transitions:
 	['0','9'] -> S25
 	['A','Z'] -> S12
 	['a','z'] -> S12
-Action: Accept("id")
+Action: Accept("boolean")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
 S45{
@@ -762,6 +762,6 @@ Transitions:
 	['0','9'] -> S25
 	['A','Z'] -> S12
 	['a','z'] -> S12
-Action: Accept("id")
+Action: Accept("boolean")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 

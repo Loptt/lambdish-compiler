@@ -120,7 +120,11 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 				return err
 			}
 
-			tmp, err := ctx.vm.GetNextTemp(ctx.funcdir.Get(id.String()).ReturnVal())
+			fe := ctx.funcdir.Get(id.String())
+			if fe == nil {
+				return errutil.Newf("Cannot find funcentry %s", id.String())
+			}
+			tmp, err := ctx.vm.GetNextTemp(fe.ReturnVal())
 			if err != nil {
 				return err
 			}

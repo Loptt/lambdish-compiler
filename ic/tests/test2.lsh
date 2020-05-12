@@ -3,7 +3,15 @@ func sum :: num x, num y => num (
 )
 
 func sum2 :: bool x, num y, num z => num (
-    sum(sum2(>(3,4), 1, 2), sum(1,2))
+    + (
+        /(
+            -(sum(3, y)),
+            +(sum2(
+                equal(1, y), 3, 1
+            ))
+        ), 
+        *(x, 12)
+    )
 )
 
 sum(sum2(<(2,3),4,7),2)

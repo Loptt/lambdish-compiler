@@ -1,0 +1,22 @@
+func sum :: num x, num y => num (
+    +(x, y)
+)
+
+func sum2 :: bool x, num y, num z => num (
+    + (
+        /(
+            -(sum(3, y), 15),
+            +(sum2(
+                true, 3, 1
+            ), 45)
+        ), 
+        *(z, 12)
+    )
+)
+
+sum(
+    sum2(
+        <(2,3),
+        4,
+        7),
+    2)
