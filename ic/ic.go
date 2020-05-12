@@ -30,10 +30,13 @@ func (ctx *GenerationContext) SemCube() *sem.SemanticCube {
 func (ctx *GenerationContext) Generator() *Generator {
 	return ctx.gen
 }
+
+//VM ...
 func (ctx *GenerationContext) VM() *mem.VirtualMemory {
 	return ctx.vm
 }
 
+//GenerateIntermediateCode ...
 func GenerateIntermediateCode(program *ast.Program, funcdir *dir.FuncDirectory) (*Generator, error) {
 	ctx := &GenerationContext{funcdir, sem.NewSemanticCube(), NewGenerator(), mem.NewVirtualMemory()}
 

@@ -32,7 +32,6 @@ func generateCodeProgram(program *ast.Program, ctx *GenerationContext) error {
 	//spew.Dump(ctx.gen.GetPendingFuncAddr())
 	//spew.Dump(ctx.gen.GetPendingEraSize())
 	ctx.gen.FillPendingFuncAddr(ctx.funcdir)
-	ctx.gen.FillPendingEra(ctx.funcdir)
 
 	return nil
 }
@@ -61,7 +60,7 @@ func generateCodeFunction(function *ast.Function, ctx *GenerationContext) error 
 
 func generateCodeStatement(statement ast.Statement, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
 	if id, ok := statement.(*ast.Id); ok {
-		return generateCodeId(id, fes, ctx)
+		return generateCodeID(id, fes, ctx)
 	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
 		return generateCodeFunctionCall(fcall, fes, ctx)
 	} else if lambda, ok := statement.(*ast.Lambda); ok {
@@ -75,7 +74,7 @@ func generateCodeStatement(statement ast.Statement, fes *dir.FuncEntryStack, ctx
 	return errutil.Newf("Statement cannot be casted to any valid form")
 }
 
-func generateCodeId(id *ast.Id, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
+func generateCodeID(id *ast.Id, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
 	if addr, ok := getAddressFromFuncStack(id, fes); ok {
 		ctx.gen.PushToAddrStack(addr)
 		return nil
@@ -103,7 +102,6 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 		} else {
 			// First we generate the ERA operation
 			// TODO: Change so that arg or ERA is the size of the call
-			ctx.gen.AddPendingEra(ctx.gen.ICounter(), id.String())
 			ctx.gen.Generate(Era, mem.Address(-1), mem.Address(-1), mem.Address(-1))
 			pcounter := 0
 
@@ -118,16 +116,18 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 				pcounter++
 			}
 
-			if err := generateCodeId(id, fes, ctx); err != nil {
+			if err := generateCodeID(id, fes, ctx); err != nil {
 				return err
 			}
 
-			tmp := ctx.vm.GetNextTemp(ctx.funcdir.Get(id.String()).ReturnVal())
+			tmp, err := ctx.vm.GetNextTemp(ctx.funcdir.Get(id.String()).ReturnVal())
+			if err != nil {
+				return err
+			}
 			calladdr := ctx.gen.GetFromAddrStack()
 
 			ctx.gen.Generate(Call, calladdr, mem.Address(-1), tmp)
 			ctx.gen.PushToAddrStack(tmp)
-			fes.Top().SetEra(fes.Top().Era() + 1)
 			return nil
 		}
 	} else if l, ok := fcall.Statement().(*ast.Lambda); ok {
@@ -137,7 +137,6 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 
 		lambdaaddr := ctx.gen.GetFromAddrStack()
 
-		//ctx.gen.AddPendingEra(ctx.gen.ICounter(), fes.Top().Id())
 		ctx.gen.Generate(Era, mem.Address(0), mem.Address(-1), mem.Address(-1))
 		pcounter := 0
 
@@ -152,8 +151,10 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 			pcounter++
 		}
 
-		tmp := ctx.vm.GetNextTemp(l.Retval())
-		fes.Top().SetEra(fes.Top().Era() + 1)
+		tmp, err := ctx.vm.GetNextTemp(l.Retval())
+		if err != nil {
+			return err
+		}
 		ctx.gen.Generate(Call, lambdaaddr, mem.Address(-1), tmp)
 		ctx.gen.PushToAddrStack(tmp)
 
@@ -162,7 +163,6 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 }
 
 func generateCodeLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
-
 	fe := fes.Top().GetLambdaEntryById(lambda.Id())
 	fes.Push(fe)
 
@@ -187,7 +187,6 @@ func generateCodeLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, ctx *Genera
 	ctx.gen.FillJumpQuadruple(jump, mem.Address(ctx.gen.ICounter()))
 
 	ctx.gen.PushToAddrStack(fe.Loc())
-
 	return nil
 }
 
@@ -261,8 +260,10 @@ func generateArithmeticalOperators(id string, fcall *ast.FunctionCall, fes *dir.
 		return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
 	}
 
-	nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
-	fes.Top().SetEra(fes.Top().Era() + 1)
+	nextTemp, err := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
+	if err != nil {
+		return err
+	}
 
 	// Generate the quadruple
 	ctx.gen.Generate(op, laddr, raddr, nextTemp)
@@ -313,8 +314,10 @@ func generateRelationalOperators(id string, fcall *ast.FunctionCall, fes *dir.Fu
 	}
 
 	// Get the address of the next available temp to store the result of the operation
-	nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
-	fes.Top().SetEra(fes.Top().Era() + 1)
+	nextTemp, err := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
+	if err != nil {
+		return err
+	}
 	// Generate the quadruple
 	ctx.gen.Generate(op, laddr, raddr, nextTemp)
 
@@ -353,8 +356,10 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 		}
 
 		// Get the address of the next available temp to store the result of the operation
-		nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
-		fes.Top().SetEra(fes.Top().Era() + 1)
+		nextTemp, err := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
+		if err != nil {
+			return err
+		}
 
 		// Generate the quadruple
 		ctx.gen.Generate(op, laddr, mem.Address(-1), nextTemp)
@@ -401,8 +406,10 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 	}
 
 	// Get the address of the next available temp to store the result of the operation
-	nextTemp := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
-	fes.Top().SetEra(fes.Top().Era() + 1)
+	nextTemp, err := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
+	if err != nil {
+		return err
+	}
 
 	// Generate the quadruple
 	ctx.gen.Generate(op, laddr, raddr, nextTemp)
@@ -461,8 +468,10 @@ func generateBuiltInOneArg(id string, fcall *ast.FunctionCall, fes *dir.FuncEntr
 		return err
 	}
 
-	tmp := ctx.vm.GetNextTemp(t)
-	fes.Top().SetEra(fes.Top().Era() + 1)
+	tmp, err := ctx.vm.GetNextTemp(t)
+	if err != nil {
+		return err
+	}
 
 	ctx.gen.Generate(op, addr, mem.Address(-1), tmp)
 
@@ -494,9 +503,10 @@ func generateBuiltInTwoArgs(id string, fcall *ast.FunctionCall, fes *dir.FuncEnt
 	if err != nil {
 		return err
 	}
-	tmp := ctx.vm.GetNextTemp(t)
-	fes.Top().SetEra(fes.Top().Era() + 1)
-
+	tmp, err := ctx.vm.GetNextTemp(t)
+	if err != nil {
+		return err
+	}
 	ctx.gen.Generate(op, laddr, raddr, tmp)
 
 	ctx.gen.PushToAddrStack(tmp)
@@ -510,8 +520,10 @@ func generateCodeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, ctx
 		return err
 	}
 
-	listaddr := ctx.vm.GetNextTemp(t)
-	fes.Top().SetEra(fes.Top().Era() + 1)
+	listaddr, err := ctx.vm.GetNextTemp(t)
+	if err != nil {
+		return err
+	}
 	ctx.gen.Generate(Lst, mem.Address(-1), mem.Address(-1), mem.Address(len(cl.Contents())))
 
 	listcount := 0
@@ -522,7 +534,6 @@ func generateCodeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, ctx
 			return err
 		}
 		ctx.gen.Generate(PaLst, addr, mem.Address(-1), mem.Address(listcount))
-		fes.Top().SetEra(fes.Top().Era() + 1)
 		listcount++
 	}
 
@@ -537,9 +548,9 @@ func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *Generatio
 		if addr, ok := getAddressFromFuncStack(id, fes); ok {
 			if isOnTopOfFuncStack(id, fes) {
 				return addr, nil
-			} else {
-				return mem.ConvertLocalToOutScope(addr), nil
 			}
+			return mem.ConvertLocalToOutScope(addr), nil
+
 		}
 		// TODO: Check if it refers to a function in the global scope
 		return mem.Address(-1), errutil.Newf("%+v: id %s not found in this scope", s.Token(), id.String())

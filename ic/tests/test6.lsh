@@ -1,9 +1,10 @@
-func random :: => num (
-    3
+map :: [num] l, (num => num) f => (
+    if (empty(l),
+        [],
+        insert(f(head(l)), map(tail(l), f))
+    )
 )
 
-func matrix :: [[num]] m => num (
-    head(head(m))
-)
-
-matrix([[1, random()], [3,4]])
+map([1,2,3,4], (# num x => (
+    +(x, 1)
+)))

@@ -19,13 +19,12 @@ type Generator struct {
 	pendingEraSize  map[int]string
 }
 
-// NewGenerator
+// NewGenerator ...
 func NewGenerator() *Generator {
 	return &Generator{NewAddressStack(), NewAddressStack(), 0, 0, make([]*Quadruple, 0), make(map[int]string), make(map[int]string)}
 }
 
-// JumpStacks
-
+// JumpStack ...
 func (g *Generator) JumpStack() *AddressStack {
 	return g.jumpStack
 }
@@ -35,70 +34,79 @@ func (g *Generator) ICounter() int {
 	return g.icounter
 }
 
+//GetNextPCounter ...
 func (g *Generator) GetNextPCounter() int {
 	val := g.pcounter
-	g.pcounter += 1
+	g.pcounter++
 	return val
 }
 
+//ResetPCounter ...
 func (g *Generator) ResetPCounter() {
 	g.pcounter = 0
 }
 
-// Quadruples
+// Quadruples ...
 func (g *Generator) Quadruples() []*Quadruple {
 	return g.quads
 }
 
-// Generate
+// Generate ...
 func (g *Generator) Generate(op Operation, a1, a2, r mem.Address) {
 	g.quads = append(g.quads, NewQuadruple(op, a1, a2, r))
 	g.icounter++
 }
 
-//PushToAddrStack
+//PushToAddrStack  ...
 func (g *Generator) PushToAddrStack(a mem.Address) {
 	g.addrStack.Push(a)
 }
 
-//GetFromAddrStack
+//GetFromAddrStack ...
 func (g *Generator) GetFromAddrStack() mem.Address {
 	val := g.addrStack.Top()
 	g.addrStack.Pop()
 	return val
 }
 
-//PushToJumpStack
+//PushToJumpStack ...
 func (g *Generator) PushToJumpStack(a mem.Address) {
 	g.jumpStack.Push(a)
 }
 
-//GetFromJumpStack
+//GetFromJumpStack ...
 func (g *Generator) GetFromJumpStack() mem.Address {
 	val := g.jumpStack.Top()
 	g.jumpStack.Pop()
 	return val
 }
 
+//FillJumpQuadruple ...
 func (g *Generator) FillJumpQuadruple(location mem.Address, jump mem.Address) {
 	g.quads[int(location)].r = jump
 }
 
+//AddPendingFuncAddr ...
 func (g *Generator) AddPendingFuncAddr(loc int, id string) {
 	g.pendingFuncAddr[loc] = id
 }
+
+//GetPendingFuncAddr ...
 func (g *Generator) GetPendingFuncAddr() *map[int]string {
 	return &g.pendingFuncAddr
 }
 
+//AddPendingEra ...
 func (g *Generator) AddPendingEra(loc int, id string) {
 	g.pendingEraSize[loc] = id
 }
 
+//GetPendingEraSize ...
 func (g *Generator) GetPendingEraSize() *map[int]string {
 	return &g.pendingEraSize
 }
 
+//FillPendingFuncAddr ...
 func (g *Generator) FillPendingFuncAddr(funcdir *dir.FuncDirectory) {
 	for loc, id := range g.pendingFuncAddr {
 		fe := funcdir.Get(id)
@@ -106,14 +114,16 @@ func (g *Generator) FillPendingFuncAddr(funcdir *dir.FuncDirectory) {
 	}
 }
 
-func (g *Generator) FillPendingEra(funcdir *dir.FuncDirectory) {
+//FillPendingEraFunctions ...
+func (g *Generator) FillPendingEraFunctions(funcdir *dir.FuncDirectory) {
+
 	for loc, id := range g.pendingEraSize {
 		fe := funcdir.Get(id)
-
 		g.quads[loc].a1 = mem.Address(fe.Era())
 	}
 }
 
+//String ...
 func (g *Generator) String() string {
 	var builder strings.Builder
 	builder.WriteString("Generator:\n")

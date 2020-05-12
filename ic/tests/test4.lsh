@@ -3,5 +3,10 @@ func countEven :: [num] l => num (
         +(x, head(l))
     )) (3, 4)
 )
+func countEven2 :: [num] l => num (
+    (# num x, num y => num (
+        +(x, countEven(l))
+    )) (3, 4)
+)
 
 countEven([1,2,3,4])

@@ -31,7 +31,11 @@ func generateAddressesProgram(program *ast.Program, ctx *GenerationContext) erro
 func generateAddressesFuncEntry(fe *dir.FuncEntry, ctx *GenerationContext) error {
 	ctx.vm.ResetLocal()
 	for _, ve := range fe.VarDir().Table() {
-		ve.SetAddress(ctx.vm.GetNextLocal(ve.Type()))
+		addr, err := ctx.vm.GetNextLocal(ve.Type())
+		if err != nil {
+			return err
+		}
+		ve.SetAddress(addr)
 		fe.SetEra(fe.Era() + 1)
 	}
 
