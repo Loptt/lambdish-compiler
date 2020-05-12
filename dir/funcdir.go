@@ -12,11 +12,22 @@ type FuncEntry struct {
 	vardir    *VarDirectory
 	lambdas   []*FuncEntry
 	loc       mem.Address
+	era       int
 }
 
 // Key returns the key of the FuncEntry used for the FuncDirectory
 func (fe *FuncEntry) Key() string {
 	return fe.id
+}
+
+// Key returns the Era size of the FuncEntry used for the FuncDirectory
+func (fe *FuncEntry) Era() int {
+	return fe.era
+}
+
+// Key returns the Era size of the FuncEntry used for the FuncDirectory
+func (fe *FuncEntry) SetEra(size int) {
+	fe.era = size
 }
 
 // Lambdas returns the array of FuncEntry which represents the lambdas inside this FuncEntry
@@ -42,7 +53,7 @@ func (fe *FuncEntry) ReturnVal() *types.LambdishType {
 // AddLambda adds a new lambda func entry to the current func entry
 func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
 	id := string(len(fe.lambdas))
-	lambda := &FuncEntry{id, retval, params, vardir, make([]*FuncEntry, 0), mem.Address(-1)}
+	lambda := &FuncEntry{id, retval, params, vardir, make([]*FuncEntry, 0), mem.Address(-1), 0}
 	fe.lambdas = append([]*FuncEntry{lambda}, fe.lambdas...)
 	return lambda
 }
@@ -73,7 +84,7 @@ func (fe *FuncEntry) Loc() mem.Address {
 
 // NewFuncEntry creates a new FuncEntry struct
 func NewFuncEntry(id string, returnval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
-	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry, 0), mem.Address(-1)}
+	return &FuncEntry{id, returnval, params, vardir, make([]*FuncEntry, 0), mem.Address(-1), 0}
 }
 
 func FuncEntryKey(id string) string {
@@ -119,5 +130,5 @@ func NewFuncDirectory() *FuncDirectory {
 }
 
 func MainFuncEntry() *FuncEntry {
-	return &FuncEntry{"main", types.NewDataLambdishType(types.Num, 0), make([]*types.LambdishType, 0), NewVarDirectory(), make([]*FuncEntry, 0), mem.Address(-1)}
+	return &FuncEntry{"main", types.NewDataLambdishType(types.Num, 0), make([]*types.LambdishType, 0), NewVarDirectory(), make([]*FuncEntry, 0), mem.Address(-1), 0}
 }

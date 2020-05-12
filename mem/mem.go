@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Loptt/lambdish-compiler/types"
+	"github.com/mewkiz/pkg/errutil"
 )
 
 type Address int
@@ -19,6 +20,8 @@ const charOffset = 1000
 const boolOffset = 2000
 const functionOffset = 3000
 const listOffset = 4000
+
+const segmentsize = 1000
 
 func (a Address) String() string {
 	if a < 0 {
@@ -99,183 +102,243 @@ type VirtualMemory struct {
 func NewVirtualMemory() *VirtualMemory {
 
 	return &VirtualMemory{
-		globalstart,
-		globalstart,
-		globalstart,
-		globalstart,
-		globalstart,
-		localstart,
-		localstart,
-		localstart,
-		localstart,
-		localstart,
-		tempstart,
-		tempstart,
-		tempstart,
-		tempstart,
-		tempstart,
-		constantstart,
-		constantstart,
-		constantstart,
-		constantstart,
-		constantstart,
-		scopestart,
-		scopestart,
-		scopestart,
-		scopestart,
-		scopestart,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
 		make(map[string]int),
 	}
 }
 
-func (vm *VirtualMemory) GetNextLocal(t *types.LambdishType) Address {
+func (vm *VirtualMemory) GetNextLocal(t *types.LambdishType) (Address, error) {
 	switch t.String() {
 	// Num
 	case "1":
-		result := vm.localnumcount + numOffset
+		if vm.localnumcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: local variables for numbers exceeded.")
+		}
+		result := vm.localnumcount + numOffset + localstart
 		vm.localnumcount++
-		return Address(result)
+		return Address(result), nil
 	// Char
 	case "2":
-		result := vm.localnumcount + charOffset
+		if vm.localcharcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: local variables for chars exceeded.")
+		}
+		result := vm.localcharcount + charOffset + localstart
 		vm.localcharcount++
-		return Address(result)
+		return Address(result), nil
 	// Bool
 	case "3":
-		result := vm.localnumcount + boolOffset
+		if vm.localboolcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: local variables for bools exceeded.")
+		}
+		result := vm.localboolcount + boolOffset + localstart
 		vm.localboolcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.List() > 0 {
-		result := vm.locallistcount + listOffset
+		if vm.locallistcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: local variables for lists exceeded.")
+		}
+		result := vm.locallistcount + listOffset + localstart
 		vm.locallistcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.Function() {
-		result := vm.localfunctioncount + functionOffset
+		if vm.localfunctioncount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: local variables for function exceeded.")
+		}
+		result := vm.localfunctioncount + functionOffset + localstart
 		vm.localfunctioncount++
-		return Address(result)
+		return Address(result), nil
 	}
 
-	return Address(-1)
+	return Address(-1), errutil.Newf("Error: variable type not identified.")
 }
 
-func (vm *VirtualMemory) GetNextTemp(t *types.LambdishType) Address {
+func (vm *VirtualMemory) GetNextTemp(t *types.LambdishType) (Address, error) {
 	switch t.String() {
 	// Num
 	case "1":
-		result := vm.tempnumcount + numOffset
+		if vm.tempnumcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: temp variables for numbers exceeded.")
+		}
+		result := vm.tempnumcount + numOffset + tempstart
 		vm.tempnumcount++
-		return Address(result)
+		return Address(result), nil
 	// Char
 	case "2":
-		result := vm.tempnumcount + charOffset
+		if vm.tempcharcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: temp variables for chars exceeded.")
+		}
+		result := vm.tempcharcount + charOffset + tempstart
 		vm.tempcharcount++
-		return Address(result)
+		return Address(result), nil
 	// Bool
 	case "3":
-		result := vm.tempnumcount + boolOffset
+		if vm.tempboolcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: temp variables for bools exceeded.")
+		}
+		result := vm.tempboolcount + boolOffset + tempstart
 		vm.tempboolcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.List() > 0 {
-		result := vm.templistcount + listOffset
+		if vm.templistcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: temp variables for lists exceeded.")
+		}
+		result := vm.templistcount + listOffset + tempstart
 		vm.templistcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.Function() {
-		result := vm.tempfunctioncount + functionOffset
+		if vm.tempfunctioncount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: temp variables for functions exceeded.")
+		}
+		result := vm.tempfunctioncount + functionOffset + tempstart
 		vm.tempfunctioncount++
-		return Address(result)
+		return Address(result), nil
 	}
 
-	return Address(-1)
+	return Address(-1), errutil.Newf("Error: variable type not identified.")
 }
 
-func (vm *VirtualMemory) getNextConstant(t *types.LambdishType) Address {
+func (vm *VirtualMemory) getNextConstant(t *types.LambdishType) (Address, error) {
 	switch t.String() {
 	// Num
 	case "1":
-		result := vm.constantnumcount + numOffset
+		if vm.constantnumcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: constant variables for numbers exceeded.")
+		}
+		result := vm.constantnumcount + numOffset + constantstart
 		vm.constantnumcount++
-		return Address(result)
+		return Address(result), nil
 	// Char
 	case "2":
-		result := vm.constantnumcount + charOffset
+		if vm.constantcharcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: constant variables for chars exceeded.")
+		}
+		result := vm.constantcharcount + charOffset + constantstart
 		vm.constantcharcount++
-		return Address(result)
+		return Address(result), nil
 	// Bool
 	case "3":
-		result := vm.constantnumcount + boolOffset
+		if vm.constantboolcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: constant variables for bools exceeded.")
+		}
+		result := vm.constantboolcount + boolOffset + constantstart
 		vm.constantboolcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.List() > 0 {
-		result := vm.constantlistcount + listOffset
+		if vm.constantlistcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: constant variables for lists exceeded.")
+		}
+		result := vm.constantlistcount + listOffset + constantstart
 		vm.constantlistcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.Function() {
-		result := vm.constantfunctioncount + functionOffset
+		if vm.constantfunctioncount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: constant variables for functions exceeded.")
+		}
+		result := vm.constantfunctioncount + functionOffset + constantstart
 		vm.constantfunctioncount++
-		return Address(result)
+		return Address(result), nil
 	}
 
-	return Address(-1)
+	return Address(-1), errutil.Newf("Error: variable type not identified.")
 }
 
-func (vm *VirtualMemory) GetNextScope(t *types.LambdishType) Address {
+func (vm *VirtualMemory) GetNextScope(t *types.LambdishType) (Address, error) {
 	switch t.String() {
 	// Num
 	case "1":
-		result := vm.scopenumcount + numOffset
+		if vm.scopenumcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: scope variables for numbers exceeded.")
+		}
+		result := vm.scopenumcount + numOffset + scopestart
 		vm.scopenumcount++
-		return Address(result)
+		return Address(result), nil
 	// Char
 	case "2":
-		result := vm.scopenumcount + charOffset
+		if vm.scopecharcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: scope variables for chars exceeded.")
+		}
+		result := vm.scopecharcount + charOffset + scopestart
 		vm.scopecharcount++
-		return Address(result)
+		return Address(result), nil
 	// Bool
 	case "3":
-		result := vm.scopenumcount + boolOffset
+		if vm.scopeboolcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: scope variables for bools exceeded.")
+		}
+		result := vm.scopeboolcount + boolOffset + scopestart
 		vm.scopeboolcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.List() > 0 {
-		result := vm.scopelistcount + listOffset
+		if vm.scopelistcount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: scope variables for lists exceeded.")
+		}
+		result := vm.scopelistcount + listOffset + scopestart
 		vm.scopelistcount++
-		return Address(result)
+		return Address(result), nil
 	}
 
 	if t.Function() {
-		result := vm.scopefunctioncount + functionOffset
+		if vm.scopefunctioncount >= segmentsize {
+			return Address(-1), errutil.Newf("Error: scope variables for numbers exceeded.")
+		}
+		result := vm.scopefunctioncount + functionOffset + scopestart
 		vm.scopefunctioncount++
-		return Address(result)
+		return Address(result), nil
 	}
 
-	return Address(-1)
+	return Address(-1), errutil.Newf("Error: variable type not identified.")
 }
 
 func (vm *VirtualMemory) ResetLocal() {
-	vm.localnumcount = localstart
-	vm.localboolcount = localstart
-	vm.localcharcount = localstart
-	vm.locallistcount = localstart
+	vm.localnumcount = 0
+	vm.localboolcount = 0
+	vm.localcharcount = 0
+	vm.locallistcount = 0
 }
 
 func (vm *VirtualMemory) ResetTemp() {
-	vm.tempnumcount = tempstart
-	vm.tempboolcount = tempstart
-	vm.tempcharcount = tempstart
-	vm.templistcount = tempstart
+	vm.tempnumcount = 0
+	vm.tempboolcount = 0
+	vm.tempcharcount = 0
+	vm.templistcount = 0
 }
 
 func (vm *VirtualMemory) ConstantExists(c string) bool {
@@ -283,17 +346,20 @@ func (vm *VirtualMemory) ConstantExists(c string) bool {
 	return ok
 }
 
-func (vm *VirtualMemory) AddConstant(c string, t *types.LambdishType) Address {
+func (vm *VirtualMemory) AddConstant(c string, t *types.LambdishType) (Address, error) {
 	if vm.ConstantExists(c) {
 		addr := Address(vm.constantmap[c])
-		return addr
+		return addr, nil
 	}
 
 	// TODO: Determine the type of the constant and address accordingly
-	nextAddr := vm.getNextConstant(t)
+	nextAddr, err := vm.getNextConstant(t)
+	if err != nil {
+		return Address(-1), err
+	}
 	vm.constantmap[c] = int(nextAddr)
 
-	return Address(nextAddr)
+	return Address(nextAddr), nil
 }
 
 func (vm *VirtualMemory) GetConstantAddress(c string) Address {
