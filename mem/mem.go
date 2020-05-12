@@ -25,7 +25,7 @@ const segmentsize = 1000
 
 func (a Address) String() string {
 	if a < 0 {
-		return "_"
+		return "-1"
 	}
 
 	return fmt.Sprintf("%d", a)

@@ -2,6 +2,7 @@ package ic
 
 import (
 	"fmt"
+	"io/ioutil"
 	"strings"
 
 	"github.com/Loptt/lambdish-compiler/dir"
@@ -137,4 +138,19 @@ func (g *Generator) String() string {
 	}
 
 	return builder.String()
+}
+
+func (g *Generator) CreateFile(file string) error {
+	var builder strings.Builder
+
+	for _, q := range g.quads {
+		builder.WriteString(fmt.Sprintf("%s\n", q))
+	}
+
+	content := []byte(builder.String())
+	path := "./out.obj"
+
+	err := ioutil.WriteFile(path, content, 0644)
+
+	return err
 }
