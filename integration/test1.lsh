@@ -5,6 +5,6 @@ func map :: [num] l, (num => num) f => [num] (
     )
 )
 
-map([1, 2, 3, 4], (# num x => num (
+map([1, -2, 3.234, 4], (# num x => num (
     +(x, 1)
 )))

@@ -14,7 +14,7 @@ operations : '+' | '-' | '*' | '/' | '%';
 
 relop : '<' | '>' | '!'; 
 
-number : _integer | _float;
+number : ['-'] (_integer | _float);
 charac : '\'' (_alpha | _digit) '\'';
 boolean : _true | _false;
 id : _id;
