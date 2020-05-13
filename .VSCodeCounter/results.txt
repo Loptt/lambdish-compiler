@@ -1,90 +1,97 @@
-Date : 2020-05-04 19:13:59
-Directory : /Users/vsapiens/Documents/lambdish-compiler
-Total : 49 files,  14084 codes, 496 comments, 841 blanks, all 15421 lines
+Date : 2020-05-13 14:18:17
+Directory : /mnt/b/Development/GitHub/lambdish-compiler
+Total : 54 files,  15851 codes, 0 comments, 1064 blanks, all 16915 lines
 
 Languages
-+--------------+------------+------------+------------+------------+------------+
-| language     | files      | code       | comment    | blank      | total      |
-+--------------+------------+------------+------------+------------+------------+
-| Go           |         45 |     13,998 |        495 |        816 |     15,309 |
-| EBNF         |          1 |         74 |          0 |         19 |         93 |
-| XML          |          1 |          6 |          0 |          3 |          9 |
-| Markdown     |          1 |          5 |          0 |          2 |          7 |
-| Shell Script |          1 |          1 |          1 |          1 |          3 |
-+--------------+------------+------------+------------+------------+------------+
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Go       |         54 |     15,851 |          0 |      1,064 |     16,915 |
++----------+------------+------------+------------+------------+------------+
 
 Directories
 +-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | path                                                                        | files      | code       | comment    | blank      | total      |
 +-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
-| .                                                                           |         49 |     14,084 |        496 |        841 |     15,421 |
-| ast                                                                         |          3 |        486 |         88 |        146 |        720 |
-| dir                                                                         |          5 |      1,246 |         18 |         71 |      1,335 |
-| gocc                                                                        |         13 |     10,242 |        152 |        134 |     10,528 |
-| gocc/errors                                                                 |          1 |         48 |          1 |          8 |         57 |
-| gocc/lexer                                                                  |          3 |        835 |        113 |         29 |        977 |
-| gocc/parser                                                                 |          5 |      9,107 |          9 |         57 |      9,173 |
-| gocc/token                                                                  |          1 |        131 |         15 |         23 |        169 |
-| gocc/util                                                                   |          2 |        120 |         13 |         16 |        149 |
-| grammar                                                                     |          2 |        118 |          0 |         33 |        151 |
-| ic                                                                          |          9 |        807 |         73 |        208 |      1,088 |
-| mem                                                                         |          1 |         64 |         34 |         18 |        116 |
-| sem                                                                         |         12 |        857 |         85 |        193 |      1,135 |
-| types                                                                       |          2 |        253 |         46 |         33 |        332 |
+| .                                                                           |         54 |     15,851 |          0 |      1,064 |     16,915 |
+| ast                                                                         |          3 |        574 |          0 |        146 |        720 |
+| cmd                                                                         |          2 |        106 |          0 |         35 |        141 |
+| cmd/clamb                                                                   |          1 |         73 |          0 |         24 |         97 |
+| cmd/rlamb                                                                   |          1 |         33 |          0 |         11 |         44 |
+| dir                                                                         |          5 |      1,273 |          0 |         73 |      1,346 |
+| gocc                                                                        |         12 |     10,415 |          0 |        133 |     10,548 |
+| gocc/errors                                                                 |          1 |         49 |          0 |          8 |         57 |
+| gocc/lexer                                                                  |          3 |        961 |          0 |         29 |        990 |
+| gocc/parser                                                                 |          5 |      9,126 |          0 |         57 |      9,183 |
+| gocc/token                                                                  |          1 |        146 |          0 |         23 |        169 |
+| gocc/util                                                                   |          2 |        133 |          0 |         16 |        149 |
+| grammar                                                                     |          1 |         44 |          0 |         14 |         58 |
+| ic                                                                          |          8 |        927 |          0 |        230 |      1,157 |
+| integration                                                                 |          1 |         65 |          0 |         19 |         84 |
+| mem                                                                         |          2 |        339 |          0 |         44 |        383 |
+| quad                                                                        |          1 |        231 |          0 |         22 |        253 |
+| sem                                                                         |         12 |        963 |          0 |        199 |      1,162 |
+| types                                                                       |          2 |        299 |          0 |         33 |        332 |
+| vm                                                                          |          5 |        615 |          0 |        116 |        731 |
 +-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 
 Files
-+-----------------------------------------------------------------------------+--------------+------------+------------+------------+------------+
-| filename                                                                    | language     | code       | comment    | blank      | total      |
-+-----------------------------------------------------------------------------+--------------+------------+------------+------------+------------+
-| /Users/vsapiens/Documents/lambdish-compiler/README.md                       | Markdown     |          5 |          0 |          2 |          7 |
-| /Users/vsapiens/Documents/lambdish-compiler/ast/ast.go                      | Go           |        231 |         59 |         69 |        359 |
-| /Users/vsapiens/Documents/lambdish-compiler/ast/astx.go                     | Go           |        254 |         24 |         75 |        353 |
-| /Users/vsapiens/Documents/lambdish-compiler/ast/astx_test.go                | Go           |          1 |          5 |          2 |          8 |
-| /Users/vsapiens/Documents/lambdish-compiler/dir/festack.go                  | Go           |         30 |          6 |          9 |         45 |
-| /Users/vsapiens/Documents/lambdish-compiler/dir/funcdir.go                  | Go           |         86 |         12 |         26 |        124 |
-| /Users/vsapiens/Documents/lambdish-compiler/dir/funcdir_test.go             | Go           |        780 |          0 |          7 |        787 |
-| /Users/vsapiens/Documents/lambdish-compiler/dir/vardir.go                   | Go           |         60 |          0 |         20 |         80 |
-| /Users/vsapiens/Documents/lambdish-compiler/dir/vardir_test.go              | Go           |        290 |          0 |          9 |        299 |
-| /Users/vsapiens/Documents/lambdish-compiler/go.mod                          | XML          |          6 |          0 |          3 |          9 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/compilegocc.sh             | Shell Script |          1 |          1 |          1 |          3 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/errors/errors.go           | Go           |         48 |          1 |          8 |         57 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/lexer/acttab.go            | Go           |        199 |          1 |          8 |        208 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/lexer/lexer.go             | Go           |         96 |         60 |         17 |        173 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/lexer/transitiontable.go   | Go           |        540 |         52 |          4 |        596 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/parser/action.go           | Go           |         41 |          1 |         10 |         52 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/parser/actiontable.go      | Go           |      5,418 |          1 |          4 |      5,423 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/parser/gototable.go        | Go           |      3,128 |          1 |          5 |      3,134 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/parser/parser.go           | Go           |        180 |          4 |         33 |        217 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/parser/productionstable.go | Go           |        340 |          2 |          5 |        347 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/token/token.go             | Go           |        131 |         15 |         23 |        169 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/util/litconv.go            | Go           |         85 |         12 |         12 |        109 |
-| /Users/vsapiens/Documents/lambdish-compiler/gocc/util/rune.go               | Go           |         35 |          1 |          4 |         40 |
-| /Users/vsapiens/Documents/lambdish-compiler/grammar/grammar_test.go         | Go           |         44 |          0 |         14 |         58 |
-| /Users/vsapiens/Documents/lambdish-compiler/grammar/lambdish.ebnf           | EBNF         |         74 |          0 |         19 |         93 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/addressstack.go              | Go           |         54 |          9 |         17 |         80 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/generateaddresses.go         | Go           |         86 |          2 |         20 |        108 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/generateaddresses_test.go    | Go           |         39 |          2 |         10 |         51 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/generatecode.go              | Go           |        304 |         36 |         96 |        436 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/generator.go                 | Go           |         79 |          7 |         22 |        108 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/ic.go                        | Go           |         35 |         10 |         10 |         55 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/ic_test.go                   | Go           |         61 |          0 |         17 |         78 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/quadruple.go                 | Go           |        132 |          7 |         13 |        152 |
-| /Users/vsapiens/Documents/lambdish-compiler/ic/util.go                      | Go           |         17 |          0 |          3 |         20 |
-| /Users/vsapiens/Documents/lambdish-compiler/mem/mem.go                      | Go           |         64 |         34 |         18 |        116 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/funccheck.go                | Go           |        104 |          5 |         25 |        134 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/funccheck_test.go           | Go           |         36 |          0 |         10 |         46 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/funcutil.go                 | Go           |         15 |          0 |          5 |         20 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/scopecheck.go               | Go           |         88 |         11 |         18 |        117 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/scopecheck_test.go          | Go           |         39 |          2 |         11 |         52 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/scopeutil.go                | Go           |         19 |          4 |          6 |         29 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/sem.go                      | Go           |         19 |         26 |          8 |         53 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/sem_test.go                 | Go           |         51 |          2 |         14 |         67 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/semanticcube.go             | Go           |        209 |          7 |         31 |        247 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/typecheck.go                | Go           |         94 |          6 |         25 |        125 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/typecheck_test.go           | Go           |         43 |          2 |         13 |         58 |
-| /Users/vsapiens/Documents/lambdish-compiler/sem/typeutil.go                 | Go           |        140 |         20 |         27 |        187 |
-| /Users/vsapiens/Documents/lambdish-compiler/types/types.go                  | Go           |         81 |         46 |         25 |        152 |
-| /Users/vsapiens/Documents/lambdish-compiler/types/types_test.go             | Go           |        172 |          0 |          8 |        180 |
-| Total                                                                       |              |     14,084 |        496 |        841 |     15,421 |
-+-----------------------------------------------------------------------------+--------------+------------+------------+------------+------------+
++-----------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                    | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /mnt/b/Development/GitHub/lambdish-compiler/ast/ast.go                      | Go       |        290 |          0 |         69 |        359 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ast/astx.go                     | Go       |        278 |          0 |         75 |        353 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ast/astx_test.go                | Go       |          6 |          0 |          2 |          8 |
+| /mnt/b/Development/GitHub/lambdish-compiler/cmd/clamb/clamb.go              | Go       |         73 |          0 |         24 |         97 |
+| /mnt/b/Development/GitHub/lambdish-compiler/cmd/rlamb/rlamb.go              | Go       |         33 |          0 |         11 |         44 |
+| /mnt/b/Development/GitHub/lambdish-compiler/dir/festack.go                  | Go       |         36 |          0 |          9 |         45 |
+| /mnt/b/Development/GitHub/lambdish-compiler/dir/funcdir.go                  | Go       |        107 |          0 |         28 |        135 |
+| /mnt/b/Development/GitHub/lambdish-compiler/dir/funcdir_test.go             | Go       |        780 |          0 |          7 |        787 |
+| /mnt/b/Development/GitHub/lambdish-compiler/dir/vardir.go                   | Go       |         60 |          0 |         20 |         80 |
+| /mnt/b/Development/GitHub/lambdish-compiler/dir/vardir_test.go              | Go       |        290 |          0 |          9 |        299 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/errors/errors.go           | Go       |         49 |          0 |          8 |         57 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/lexer/acttab.go            | Go       |        204 |          0 |          8 |        212 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/lexer/lexer.go             | Go       |        157 |          0 |         17 |        174 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/lexer/transitiontable.go   | Go       |        600 |          0 |          4 |        604 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/action.go           | Go       |         42 |          0 |         10 |         52 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/actiontable.go      | Go       |      5,419 |          0 |          4 |      5,423 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/gototable.go        | Go       |      3,129 |          0 |          5 |      3,134 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/parser.go           | Go       |        184 |          0 |         33 |        217 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/productionstable.go | Go       |        352 |          0 |          5 |        357 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/token/token.go             | Go       |        146 |          0 |         23 |        169 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/util/litconv.go            | Go       |         97 |          0 |         12 |        109 |
+| /mnt/b/Development/GitHub/lambdish-compiler/gocc/util/rune.go               | Go       |         36 |          0 |          4 |         40 |
+| /mnt/b/Development/GitHub/lambdish-compiler/grammar/grammar_test.go         | Go       |         44 |          0 |         14 |         58 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/addressstack.go              | Go       |         63 |          0 |         17 |         80 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/generateaddresses.go         | Go       |         97 |          0 |         20 |        117 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/generateaddresses_test.go    | Go       |         41 |          0 |         10 |         51 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/generatecode.go              | Go       |        468 |          0 |        116 |        584 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/generator.go                 | Go       |        133 |          0 |         34 |        167 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/ic.go                        | Go       |         47 |          0 |         11 |         58 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/ic_test.go                   | Go       |         58 |          0 |         17 |         75 |
+| /mnt/b/Development/GitHub/lambdish-compiler/ic/util.go                      | Go       |         20 |          0 |          5 |         25 |
+| /mnt/b/Development/GitHub/lambdish-compiler/integration/integration_test.go | Go       |         65 |          0 |         19 |         84 |
+| /mnt/b/Development/GitHub/lambdish-compiler/mem/mem.go                      | Go       |        334 |          0 |         42 |        376 |
+| /mnt/b/Development/GitHub/lambdish-compiler/mem/util.go                     | Go       |          5 |          0 |          2 |          7 |
+| /mnt/b/Development/GitHub/lambdish-compiler/quad/quad.go                    | Go       |        231 |          0 |         22 |        253 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/funccheck.go                | Go       |        109 |          0 |         25 |        134 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/funccheck_test.go           | Go       |         36 |          0 |         10 |         46 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/funcutil.go                 | Go       |         15 |          0 |          5 |         20 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/scopecheck.go               | Go       |         99 |          0 |         18 |        117 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/scopecheck_test.go          | Go       |         41 |          0 |         11 |         52 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/scopeutil.go                | Go       |         23 |          0 |          6 |         29 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/sem.go                      | Go       |         45 |          0 |          8 |         53 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/sem_test.go                 | Go       |         53 |          0 |         14 |         67 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/semanticcube.go             | Go       |        230 |          0 |         34 |        264 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/typecheck.go                | Go       |        100 |          0 |         25 |        125 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/typecheck_test.go           | Go       |         45 |          0 |         13 |         58 |
+| /mnt/b/Development/GitHub/lambdish-compiler/sem/typeutil.go                 | Go       |        167 |          0 |         30 |        197 |
+| /mnt/b/Development/GitHub/lambdish-compiler/types/types.go                  | Go       |        127 |          0 |         25 |        152 |
+| /mnt/b/Development/GitHub/lambdish-compiler/types/types_test.go             | Go       |        172 |          0 |          8 |        180 |
+| /mnt/b/Development/GitHub/lambdish-compiler/vm/mem.go                       | Go       |        282 |          0 |         22 |        304 |
+| /mnt/b/Development/GitHub/lambdish-compiler/vm/operations.go                | Go       |         81 |          0 |         27 |        108 |
+| /mnt/b/Development/GitHub/lambdish-compiler/vm/util.go                      | Go       |         51 |          0 |         17 |         68 |
+| /mnt/b/Development/GitHub/lambdish-compiler/vm/vm.go                        | Go       |        166 |          0 |         39 |        205 |
+| /mnt/b/Development/GitHub/lambdish-compiler/vm/vm_test.go                   | Go       |         35 |          0 |         11 |         46 |
+| Total                                                                       |          |     15,851 |          0 |      1,064 |     16,915 |
++-----------------------------------------------------------------------------+----------+------------+------------+------------+------------+

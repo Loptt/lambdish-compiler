@@ -153,6 +153,31 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 	q := vm.quads[vm.ip]
 
 	switch q.Op() {
+	case quad.Add:
+		if err := vm.operationAdd(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Sub:
+		if err := vm.operationSub(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Mult:
+		if err := vm.operationMult(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Div:
+		if err := vm.operationDiv(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Mod:
+		if err := vm.operationMod(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
 	case quad.And:
 		if err := vm.operationAnd(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err

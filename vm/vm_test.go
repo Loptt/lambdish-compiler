@@ -13,7 +13,7 @@ func TestLoadProgram(t *testing.T) {
 	for _, test := range tests {
 		vm := NewVirtualMachine()
 
-		err := vm.loadProgram(test)
+		err := vm.LoadProgram(test)
 		if err != nil {
 			t.Fatalf("Could not load program: %v", err)
 		}
@@ -30,7 +30,7 @@ func TestRunProgram(t *testing.T) {
 	for _, test := range tests {
 		vm := NewVirtualMachine()
 
-		err := vm.loadProgram(test)
+		err := vm.LoadProgram(test)
 		if err != nil {
 			t.Fatalf("Could not load program: %v", err)
 		}
