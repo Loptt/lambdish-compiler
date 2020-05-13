@@ -43,7 +43,7 @@ func (vm *VirtualMachine) loadProgram(path string) error {
 
 		switch i % 4 {
 		case 0:
-			op = ic.GetOperation(f)
+			op = ic.StringToOperation(f)
 		case 1:
 			addr, err := strconv.Atoi(f)
 			if err != nil {

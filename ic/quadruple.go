@@ -56,11 +56,11 @@ func (o Operation) String() string {
 	case Gt:
 		return ">"
 	case Equal:
-		return "equal"
+		return "Equal"
 	case And:
-		return "and"
+		return "And"
 	case Or:
-		return "or"
+		return "Or"
 	case Not:
 		return "!"
 	case GotoT:
@@ -132,6 +132,65 @@ func GetOperation(s string) Operation {
 		return Ins
 	case "append":
 		return App
+	}
+
+	return Invalid
+}
+
+func StringToOperation(s string) Operation {
+	switch s {
+	case "+":
+		return Add
+	case "-":
+		return Sub
+	case "*":
+		return Mult
+	case "/":
+		return Div
+	case "%":
+		return Mod
+	case "<":
+		return Lt
+	case ">":
+		return Gt
+	case "Equal":
+		return Equal
+	case "And":
+		return And
+	case "Or":
+		return Or
+	case "!":
+		return Not
+	case "GotoT":
+		return GotoT
+	case "GotoF":
+		return GotoF
+	case "Goto":
+		return Goto
+	case "Ret":
+		return Ret
+	case "Call":
+		return Call
+	case "Era":
+		return Era
+	case "Param":
+		return Param
+	case "Emp":
+		return Emp
+	case "Head":
+		return Head
+	case "Tail":
+		return Tail
+	case "Ins":
+		return Ins
+	case "App":
+		return App
+	case "GeLst":
+		return GeLst
+	case "Lst":
+		return Lst
+	case "PaLst":
+		return PaLst
 	}
 
 	return Invalid
