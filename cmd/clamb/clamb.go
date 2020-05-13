@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
@@ -65,12 +66,14 @@ func compile(file string) error {
 		return err
 	}
 
-	gen, err := ic.GenerateIntermediateCode(program, funcdir)
+	gen, vm, err := ic.GenerateIntermediateCode(program, funcdir)
 	if err != nil {
 		return err
 	}
 
-	return gen.CreateFile(file)
+	fileroot := strings.Split(file, ".")
+
+	return gen.CreateFile(fileroot[0], vm)
 }
 
 func main() {
@@ -87,5 +90,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Compilation successful: file out.obj generated\n")
+	fileroot := strings.Split(file, ".")[0]
+
+	fmt.Printf("Compilation successful: file %s.obj generated\n", fileroot)
 }

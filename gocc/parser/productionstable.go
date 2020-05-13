@@ -64,10 +64,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
+		String: `Functions : empty	<< make([]*ast.Function, 0), nil >>`,
+		Id:         "Functions",
+		NTType:     2,
+		Index:      4,
+		NumSymbols: 0,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return make([]*ast.Function, 0), nil
+		},
+	},
+	ProdTabEntry{
 		String: `Function : "func" id "::" Params "=>" Type "(" Statement ")"	<< ast.NewFunction(X[1], X[3], X[5], X[7]) >>`,
 		Id:         "Function",
 		NTType:     3,
-		Index:      4,
+		Index:      5,
 		NumSymbols: 9,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewFunction(X[1], X[3], X[5], X[7])
@@ -77,7 +87,7 @@ var productionsTable = ProdTab{
 		String: `Params : Type id "," Params	<< ast.AppendParamsList(X[0], X[1], X[3]) >>`,
 		Id:         "Params",
 		NTType:     4,
-		Index:      5,
+		Index:      6,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendParamsList(X[0], X[1], X[3])
@@ -87,7 +97,7 @@ var productionsTable = ProdTab{
 		String: `Params : Type id	<< ast.NewParamsList(X[0], X[1]) >>`,
 		Id:         "Params",
 		NTType:     4,
-		Index:      6,
+		Index:      7,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewParamsList(X[0], X[1])
@@ -97,7 +107,7 @@ var productionsTable = ProdTab{
 		String: `Params : empty	<< make([]*dir.VarEntry, 0), nil >>`,
 		Id:         "Params",
 		NTType:     4,
-		Index:      7,
+		Index:      8,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return make([]*dir.VarEntry, 0), nil
@@ -107,7 +117,7 @@ var productionsTable = ProdTab{
 		String: `Type : BasicType	<< X[0], nil >>`,
 		Id:         "Type",
 		NTType:     5,
-		Index:      8,
+		Index:      9,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -117,7 +127,7 @@ var productionsTable = ProdTab{
 		String: `Type : "(" FuncTypes "=>" Type ")"	<< ast.NewFunctionType(X[1], X[3]) >>`,
 		Id:         "Type",
 		NTType:     5,
-		Index:      9,
+		Index:      10,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewFunctionType(X[1], X[3])
@@ -127,7 +137,7 @@ var productionsTable = ProdTab{
 		String: `Type : "[" Type "]"	<< ast.AppendType(X[1]) >>`,
 		Id:         "Type",
 		NTType:     5,
-		Index:      10,
+		Index:      11,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendType(X[1])
@@ -137,7 +147,7 @@ var productionsTable = ProdTab{
 		String: `BasicType : "num"	<< ast.NewType(X[0]) >>`,
 		Id:         "BasicType",
 		NTType:     6,
-		Index:      11,
+		Index:      12,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewType(X[0])
@@ -147,7 +157,7 @@ var productionsTable = ProdTab{
 		String: `BasicType : "bool"	<< ast.NewType(X[0]) >>`,
 		Id:         "BasicType",
 		NTType:     6,
-		Index:      12,
+		Index:      13,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewType(X[0])
@@ -157,7 +167,7 @@ var productionsTable = ProdTab{
 		String: `BasicType : "char"	<< ast.NewType(X[0]) >>`,
 		Id:         "BasicType",
 		NTType:     6,
-		Index:      13,
+		Index:      14,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewType(X[0])
@@ -167,7 +177,7 @@ var productionsTable = ProdTab{
 		String: `FuncTypes : Type "," FuncTypes	<< ast.AppendFuncTypeList(X[0], X[2]) >>`,
 		Id:         "FuncTypes",
 		NTType:     7,
-		Index:      14,
+		Index:      15,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendFuncTypeList(X[0], X[2])
@@ -177,7 +187,7 @@ var productionsTable = ProdTab{
 		String: `FuncTypes : Type	<< ast.NewFuncTypeList(X[0]) >>`,
 		Id:         "FuncTypes",
 		NTType:     7,
-		Index:      15,
+		Index:      16,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewFuncTypeList(X[0])
@@ -187,7 +197,7 @@ var productionsTable = ProdTab{
 		String: `FuncTypes : empty	<< make([]*types.LambdishType, 0 ), nil >>`,
 		Id:         "FuncTypes",
 		NTType:     7,
-		Index:      16,
+		Index:      17,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return make([]*types.LambdishType, 0 ), nil
@@ -197,7 +207,7 @@ var productionsTable = ProdTab{
 		String: `Statement : id	<< ast.NewStatement(X[0]) >>`,
 		Id:         "Statement",
 		NTType:     8,
-		Index:      17,
+		Index:      18,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStatement(X[0])
@@ -207,7 +217,7 @@ var productionsTable = ProdTab{
 		String: `Statement : Constant	<< ast.NewStatement(X[0]) >>`,
 		Id:         "Statement",
 		NTType:     8,
-		Index:      18,
+		Index:      19,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStatement(X[0])
@@ -217,7 +227,7 @@ var productionsTable = ProdTab{
 		String: `Statement : Lambda	<< ast.NewStatement(X[0]) >>`,
 		Id:         "Statement",
 		NTType:     8,
-		Index:      19,
+		Index:      20,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStatement(X[0])
@@ -227,7 +237,7 @@ var productionsTable = ProdTab{
 		String: `Statement : FunctionCall	<< ast.NewStatement(X[0]) >>`,
 		Id:         "Statement",
 		NTType:     8,
-		Index:      20,
+		Index:      21,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStatement(X[0])
@@ -237,7 +247,7 @@ var productionsTable = ProdTab{
 		String: `FunctionCall : Statement "(" Args ")"	<< ast.NewFunctionCall(X[0], X[2]) >>`,
 		Id:         "FunctionCall",
 		NTType:     9,
-		Index:      21,
+		Index:      22,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewFunctionCall(X[0], X[2])
@@ -247,7 +257,7 @@ var productionsTable = ProdTab{
 		String: `FunctionCall : operations "(" Args ")"	<< ast.NewFunctionReservedCall(X[0], X[2]) >>`,
 		Id:         "FunctionCall",
 		NTType:     9,
-		Index:      22,
+		Index:      23,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewFunctionReservedCall(X[0], X[2])
@@ -257,7 +267,7 @@ var productionsTable = ProdTab{
 		String: `FunctionCall : relop "(" Args ")"	<< ast.NewFunctionReservedCall(X[0], X[2]) >>`,
 		Id:         "FunctionCall",
 		NTType:     9,
-		Index:      23,
+		Index:      24,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewFunctionReservedCall(X[0], X[2])
@@ -267,7 +277,7 @@ var productionsTable = ProdTab{
 		String: `Lambda : "(" "#" Params "=>" Type "(" Statement ")" ")"	<< ast.NewLambda(X[1],X[2],X[4],X[6]) >>`,
 		Id:         "Lambda",
 		NTType:     10,
-		Index:      24,
+		Index:      25,
 		NumSymbols: 9,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewLambda(X[1],X[2],X[4],X[6])
@@ -277,7 +287,7 @@ var productionsTable = ProdTab{
 		String: `Args : Statement "," Args	<< ast.AppendStatementList(X[0],X[2]) >>`,
 		Id:         "Args",
 		NTType:     11,
-		Index:      25,
+		Index:      26,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendStatementList(X[0],X[2])
@@ -287,7 +297,7 @@ var productionsTable = ProdTab{
 		String: `Args : Statement	<< ast.NewStatementList(X[0]) >>`,
 		Id:         "Args",
 		NTType:     11,
-		Index:      26,
+		Index:      27,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStatementList(X[0])
@@ -297,7 +307,7 @@ var productionsTable = ProdTab{
 		String: `Args : empty	<< make([]ast.Statement, 0), nil >>`,
 		Id:         "Args",
 		NTType:     11,
-		Index:      27,
+		Index:      28,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return make([]ast.Statement, 0), nil
@@ -307,7 +317,7 @@ var productionsTable = ProdTab{
 		String: `Constant : boolean	<< ast.NewConstantBool(X[0]) >>`,
 		Id:         "Constant",
 		NTType:     12,
-		Index:      28,
+		Index:      29,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewConstantBool(X[0])
@@ -317,7 +327,7 @@ var productionsTable = ProdTab{
 		String: `Constant : number	<< ast.NewConstantNum(X[0]) >>`,
 		Id:         "Constant",
 		NTType:     12,
-		Index:      29,
+		Index:      30,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewConstantNum(X[0])
@@ -327,7 +337,7 @@ var productionsTable = ProdTab{
 		String: `Constant : charac	<< ast.NewConstantChar(X[0]) >>`,
 		Id:         "Constant",
 		NTType:     12,
-		Index:      30,
+		Index:      31,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewConstantChar(X[0])
@@ -337,7 +347,7 @@ var productionsTable = ProdTab{
 		String: `Constant : "[" Args "]"	<< ast.AppendConstant(X[0], X[1]) >>`,
 		Id:         "Constant",
 		NTType:     12,
-		Index:      31,
+		Index:      32,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendConstant(X[0], X[1])

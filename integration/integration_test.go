@@ -72,7 +72,7 @@ func TestGenerateIntermediateCode(t *testing.T) {
 		fmt.Printf("\n======FUNCTION DIRECTORY=======\n")
 		spew.Dump(funcdir)
 
-		gen, err := ic.GenerateIntermediateCode(program, funcdir)
+		gen, _, err := ic.GenerateIntermediateCode(program, funcdir)
 		if err != nil {
 			t.Fatalf("Error from generate code: %v", err)
 		}

@@ -38,7 +38,7 @@ func readFile(path string) ([]byte, error) {
 func TestGenerateIntermediateCode(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
-		"tests/test4.lsh",
+		"tests/test7_fake.lsh",
 	}
 
 	for _, test := range tests {
@@ -64,7 +64,7 @@ func TestGenerateIntermediateCode(t *testing.T) {
 			t.Fatalf("Error from semantic: %v", err)
 		}
 
-		gen, err := GenerateIntermediateCode(program, funcdir)
+		gen, _, err := GenerateIntermediateCode(program, funcdir)
 		if err != nil {
 			t.Fatalf("Error from generate code: %v", err)
 		}

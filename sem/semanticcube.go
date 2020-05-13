@@ -106,12 +106,12 @@ func NewSemanticCube() *SemanticCube {
 			">@11":     types.Bool,
 			">@22":     types.Bool,
 			"<@22":     types.Bool,
-			"equal@11": types.Bool,
-			"equal@22": types.Bool,
-			"equal@33": types.Bool,
+			"Equal@11": types.Bool,
+			"Equal@22": types.Bool,
+			"Equal@33": types.Bool,
 			//Logical Operators
-			"and@33": types.Bool,
-			"or@33":  types.Bool,
+			"And@33": types.Bool,
+			"Or@33":  types.Bool,
 			"!@3":    types.Bool,
 		},
 	}
@@ -240,6 +240,10 @@ func GetSemanticCubeKey(id string, params []*types.LambdishType) string {
 
 	for _, p := range params {
 		b.WriteString(p.String())
+	}
+
+	if id == "and" || id == "or" || id == "equal" {
+		id = strings.Title(id)
 	}
 
 	return fmt.Sprintf("%s@%s", id, b.String())

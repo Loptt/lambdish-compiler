@@ -1,6 +1,6 @@
 package mem
 
 func ConvertLocalToOutScope(local Address) Address {
-	base := local - localstart
-	return base + scopestart
+	base := local - Localstart
+	return base + Scopestart
 }

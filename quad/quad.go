@@ -1,4 +1,4 @@
-package ic
+package quad
 
 import (
 	"fmt"
@@ -36,6 +36,7 @@ const (
 	Lst
 	GeLst
 	PaLst
+	Print
 	Invalid
 )
 
@@ -93,6 +94,8 @@ func (o Operation) String() string {
 		return "Lst"
 	case PaLst:
 		return "PaLst"
+	case Print:
+		return "Print"
 	}
 
 	return ""
@@ -191,6 +194,8 @@ func StringToOperation(s string) Operation {
 		return Lst
 	case "PaLst":
 		return PaLst
+	case "Print":
+		return Print
 	}
 
 	return Invalid
@@ -210,10 +215,38 @@ type Quadruple struct {
 	r  mem.Address
 }
 
-func NewQuadruple(op Operation, a1, a2, r mem.Address) *Quadruple {
-	return &Quadruple{op, a1, a2, r}
+func (q *Quadruple) SetR(addr mem.Address) {
+	q.r = addr
+}
+
+func (q *Quadruple) SetLop(addr mem.Address) {
+	q.a1 = addr
+}
+
+func (q *Quadruple) SetRop(addr mem.Address) {
+	q.a2 = addr
+}
+
+func (q *Quadruple) Op() Operation {
+	return q.op
+}
+
+func (q *Quadruple) Lop() mem.Address {
+	return q.a1
+}
+
+func (q *Quadruple) Rop() mem.Address {
+	return q.a2
+}
+
+func (q *Quadruple) R() mem.Address {
+	return q.r
 }
 
 func (q Quadruple) String() string {
 	return fmt.Sprintf("%s %s %s %s", q.op, q.a1, q.a2, q.r)
+}
+
+func NewQuadruple(op Operation, a1, a2, r mem.Address) *Quadruple {
+	return &Quadruple{op, a1, a2, r}
 }

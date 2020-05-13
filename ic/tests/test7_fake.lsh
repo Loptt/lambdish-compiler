@@ -1,26 +1,2 @@
-func countEven :: (num => char) l => num (
-    if( empty(l), 
-        0,
-        if( 
-            equal(%(head(l),2),0),
-            sum(countEven(tail(l)),1
-        ),
-            countEven(tail(l))
-        )
-    )
-)
++(1,2)
 
-func countEven :: (num => num) l => num (
-    if( empty(l), 
-        0,
-        if( 
-            equal(mod(head(l),2),0),
-            sum(countEven(tail(l)),1
-        ),
-            countEven(tail(l))
-        )
-    )
-)
-
-
-countEven([4, 3, 4, 6, 5, 4])

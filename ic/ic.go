@@ -37,7 +37,7 @@ func (ctx *GenerationContext) VM() *mem.VirtualMemory {
 }
 
 //GenerateIntermediateCode ...
-func GenerateIntermediateCode(program *ast.Program, funcdir *dir.FuncDirectory) (*Generator, error) {
+func GenerateIntermediateCode(program *ast.Program, funcdir *dir.FuncDirectory) (*Generator, *mem.VirtualMemory, error) {
 	ctx := &GenerationContext{funcdir, sem.NewSemanticCube(), NewGenerator(), mem.NewVirtualMemory()}
 
 	// GenerateAddresses intilializes all entries in every VarDirectory with an address
@@ -45,13 +45,13 @@ func GenerateIntermediateCode(program *ast.Program, funcdir *dir.FuncDirectory) 
 	// This function must be called before the generateCode function to ensure every
 	// variable and constant has a valid address
 	if err := generateAddressesProgram(program, ctx); err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	// GenerateCodeProgram
 	if err := generateCodeProgram(program, ctx); err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return ctx.gen, nil
+	return ctx.gen, ctx.vm, nil
 }

@@ -1,5 +1,26 @@
 1 LR-1 conflicts: 
 	S3
+		symbol: boolean
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
+		symbol: number
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
+		symbol: charac
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
 		symbol: id
-			Reduce(3:Functions : Function	<<  >>)
-			Shift(4)
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
+		symbol: (
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
+		symbol: [
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
+		symbol: operations
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
+		symbol: relop
+			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
+			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)

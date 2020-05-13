@@ -1,10 +1,27 @@
 S': {
+	(
+	[
+	boolean
+	charac
 	func
+	id
+	number
+	operations
+	relop
 }
 Program: {
+	(
+	[
+	boolean
+	charac
 	func
+	id
+	number
+	operations
+	relop
 }
 Functions: {
+	empty
 	func
 }
 Function: {

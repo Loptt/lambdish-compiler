@@ -4,6 +4,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/mem"
+	"github.com/Loptt/lambdish-compiler/quad"
 	"github.com/Loptt/lambdish-compiler/sem"
 	"github.com/Loptt/lambdish-compiler/types"
 	"github.com/mewkiz/pkg/errutil"
@@ -13,7 +14,7 @@ func generateCodeProgram(program *ast.Program, ctx *GenerationContext) error {
 
 	ctx.gen.AddPendingFuncAddr(ctx.gen.ICounter(), "main")
 
-	ctx.gen.Generate(Goto, mem.Address(-1), mem.Address(-1), mem.Address(-1))
+	ctx.gen.Generate(quad.Goto, mem.Address(-1), mem.Address(-1), mem.Address(-1))
 
 	for _, function := range program.Functions() {
 		if err := generateCodeFunction(function, ctx); err != nil {
@@ -29,9 +30,9 @@ func generateCodeProgram(program *ast.Program, ctx *GenerationContext) error {
 	if err := generateCodeFunctionCall(program.Call(), fes, ctx); err != nil {
 		return err
 	}
-	//spew.Dump(ctx.gen.GetPendingFuncAddr())
-	//spew.Dump(ctx.gen.GetPendingEraSize())
+
 	ctx.gen.FillPendingFuncAddr(ctx.funcdir)
+	ctx.gen.Generate(quad.Print, mem.Address(-1), mem.Address(-1), ctx.gen.GetFromAddrStack())
 
 	return nil
 }
@@ -53,7 +54,7 @@ func generateCodeFunction(function *ast.Function, ctx *GenerationContext) error 
 
 	addr := ctx.gen.GetFromAddrStack()
 
-	ctx.gen.Generate(Ret, addr, mem.Address(-1), mem.Address(-1))
+	ctx.gen.Generate(quad.Ret, addr, mem.Address(-1), mem.Address(-1))
 
 	return nil
 }
@@ -102,7 +103,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 		} else {
 			// First we generate the ERA operation
 			// TODO: Change so that arg or ERA is the size of the call
-			ctx.gen.Generate(Era, mem.Address(-1), mem.Address(-1), mem.Address(-1))
+			ctx.gen.Generate(quad.Era, mem.Address(-1), mem.Address(-1), mem.Address(-1))
 			pcounter := 0
 
 			// For each argument we get its address, which will automatically generate
@@ -112,7 +113,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 				if err != nil {
 					return err
 				}
-				ctx.gen.Generate(Param, addr, mem.Address(-1), mem.Address(pcounter))
+				ctx.gen.Generate(quad.Param, addr, mem.Address(-1), mem.Address(pcounter))
 				pcounter++
 			}
 
@@ -130,7 +131,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 			}
 			calladdr := ctx.gen.GetFromAddrStack()
 
-			ctx.gen.Generate(Call, calladdr, mem.Address(-1), tmp)
+			ctx.gen.Generate(quad.Call, calladdr, mem.Address(-1), tmp)
 			ctx.gen.PushToAddrStack(tmp)
 			return nil
 		}
@@ -141,7 +142,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 
 		lambdaaddr := ctx.gen.GetFromAddrStack()
 
-		ctx.gen.Generate(Era, mem.Address(0), mem.Address(-1), mem.Address(-1))
+		ctx.gen.Generate(quad.Era, mem.Address(0), mem.Address(-1), mem.Address(-1))
 		pcounter := 0
 
 		// For each argument we get its address, which will automatically generate
@@ -151,7 +152,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 			if err != nil {
 				return err
 			}
-			ctx.gen.Generate(Param, addr, mem.Address(-1), mem.Address(pcounter))
+			ctx.gen.Generate(quad.Param, addr, mem.Address(-1), mem.Address(pcounter))
 			pcounter++
 		}
 
@@ -159,7 +160,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 		if err != nil {
 			return err
 		}
-		ctx.gen.Generate(Call, lambdaaddr, mem.Address(-1), tmp)
+		ctx.gen.Generate(quad.Call, lambdaaddr, mem.Address(-1), tmp)
 		ctx.gen.PushToAddrStack(tmp)
 
 	}
@@ -173,7 +174,7 @@ func generateCodeLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, ctx *Genera
 	// If we define a lambda, we need to add a goto to prevent the flow from executing
 	// the lambda code without being explicitely called
 	ctx.gen.PushToJumpStack(mem.Address(ctx.gen.ICounter()))
-	ctx.gen.Generate(Goto, mem.Address(-1), mem.Address(-1), mem.Address(-1))
+	ctx.gen.Generate(quad.Goto, mem.Address(-1), mem.Address(-1), mem.Address(-1))
 
 	// After we add the goto, we set the start of the lambda to the current icounter
 	fe.SetLocation(ctx.gen.ICounter())
@@ -183,7 +184,7 @@ func generateCodeLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, ctx *Genera
 	}
 	addr := ctx.gen.GetFromAddrStack()
 
-	ctx.gen.Generate(Ret, addr, mem.Address(-1), mem.Address(-1))
+	ctx.gen.Generate(quad.Ret, addr, mem.Address(-1), mem.Address(-1))
 
 	// Once the lambda has been generated, we fill the pending goto with the
 	// current icounter
@@ -233,8 +234,8 @@ func generateArithmeticalOperators(id string, fcall *ast.FunctionCall, fes *dir.
 	rop := args[1]
 
 	//Receive
-	op := GetOperation(id)
-	if op == Invalid {
+	op := quad.GetOperation(id)
+	if op == quad.Invalid {
 		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 	}
 
@@ -286,8 +287,8 @@ func generateRelationalOperators(id string, fcall *ast.FunctionCall, fes *dir.Fu
 	rop := args[1]
 
 	//Receive
-	op := GetOperation(id)
-	if op == Invalid {
+	op := quad.GetOperation(id)
+	if op == quad.Invalid {
 		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 	}
 
@@ -337,8 +338,8 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 		lop := args[0]
 
 		//Receive
-		op := GetOperation(id)
-		if op == Invalid {
+		op := quad.GetOperation(id)
+		if op == quad.Invalid {
 			return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 		}
 
@@ -378,8 +379,8 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 	rop := args[1]
 
 	//Receive
-	op := GetOperation(id)
-	if op == Invalid {
+	op := quad.GetOperation(id)
+	if op == quad.Invalid {
 		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 	}
 
@@ -432,7 +433,7 @@ func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *Generatio
 	}
 
 	ctx.gen.PushToJumpStack(mem.Address(ctx.gen.ICounter()))
-	ctx.gen.Generate(GotoF, caddr, mem.Address(-1), mem.Address(-1))
+	ctx.gen.Generate(quad.GotoF, caddr, mem.Address(-1), mem.Address(-1))
 
 	laddr, err := getArgumentAddress(args[1], fes, ctx)
 	if err != nil {
@@ -440,7 +441,7 @@ func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *Generatio
 	}
 
 	fjump := ctx.gen.GetFromJumpStack()
-	ctx.gen.Generate(Ret, laddr, mem.Address(-1), mem.Address(-1))
+	ctx.gen.Generate(quad.Ret, laddr, mem.Address(-1), mem.Address(-1))
 	ctx.gen.FillJumpQuadruple(fjump, mem.Address(ctx.gen.ICounter()))
 
 	raddr, err := getArgumentAddress(args[2], fes, ctx)
@@ -461,7 +462,7 @@ func generateBuiltInOneArg(id string, fcall *ast.FunctionCall, fes *dir.FuncEntr
 		return err
 	}
 
-	op := GetOperation(id)
+	op := quad.GetOperation(id)
 	argtypes, err := sem.GetTypesFromArgs(fcall.Args(), fes, ctx.funcdir, ctx.semcube)
 	if err != nil {
 		return err
@@ -497,7 +498,7 @@ func generateBuiltInTwoArgs(id string, fcall *ast.FunctionCall, fes *dir.FuncEnt
 		return err
 	}
 
-	op := GetOperation(id)
+	op := quad.GetOperation(id)
 	argtypes, err := sem.GetTypesFromArgs(fcall.Args(), fes, ctx.funcdir, ctx.semcube)
 	if err != nil {
 		return err
@@ -528,7 +529,7 @@ func generateCodeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, ctx
 	if err != nil {
 		return err
 	}
-	ctx.gen.Generate(Lst, mem.Address(-1), mem.Address(-1), mem.Address(len(cl.Contents())))
+	ctx.gen.Generate(quad.Lst, mem.Address(-1), mem.Address(-1), mem.Address(len(cl.Contents())))
 
 	listcount := 0
 
@@ -537,11 +538,11 @@ func generateCodeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, ctx
 		if err != nil {
 			return err
 		}
-		ctx.gen.Generate(PaLst, addr, mem.Address(-1), mem.Address(listcount))
+		ctx.gen.Generate(quad.PaLst, addr, mem.Address(-1), mem.Address(listcount))
 		listcount++
 	}
 
-	ctx.gen.Generate(GeLst, mem.Address(-1), mem.Address(-1), listaddr)
+	ctx.gen.Generate(quad.GeLst, mem.Address(-1), mem.Address(-1), listaddr)
 	ctx.gen.PushToAddrStack(listaddr)
 
 	return nil

@@ -17,8 +17,16 @@ S0{
 	Functions : •Function «number»
 	Functions : •Function «operations»
 	Functions : •Function «relop»
-	Function : •func id :: Params => Type ( Statement ) «func»
+	Functions : empty• «(»
+	Functions : empty• «[»
+	Functions : empty• «boolean»
+	Functions : empty• «charac»
+	Functions : empty• «id»
+	Functions : empty• «number»
+	Functions : empty• «operations»
+	Functions : empty• «relop»
 	Function : •func id :: Params => Type ( Statement ) «(»
+	Function : •func id :: Params => Type ( Statement ) «func»
 	Function : •func id :: Params => Type ( Statement ) «[»
 	Function : •func id :: Params => Type ( Statement ) «boolean»
 	Function : •func id :: Params => Type ( Statement ) «charac»
@@ -101,22 +109,30 @@ S3{
 	Functions : Function• «relop»
 	Functions : •Function Functions «(»
 	Functions : •Function «(»
+	Functions : empty• «(»
 	Functions : •Function Functions «[»
 	Functions : •Function «[»
+	Functions : empty• «[»
 	Functions : •Function Functions «boolean»
 	Functions : •Function «boolean»
+	Functions : empty• «boolean»
 	Functions : •Function Functions «charac»
 	Functions : •Function «charac»
+	Functions : empty• «charac»
 	Functions : •Function Functions «id»
 	Functions : •Function «id»
+	Functions : empty• «id»
 	Functions : •Function Functions «number»
 	Functions : •Function «number»
+	Functions : empty• «number»
 	Functions : •Function Functions «operations»
 	Functions : •Function «operations»
+	Functions : empty• «operations»
 	Functions : •Function Functions «relop»
 	Functions : •Function «relop»
-	Function : •func id :: Params => Type ( Statement ) «func»
+	Functions : empty• «relop»
 	Function : •func id :: Params => Type ( Statement ) «(»
+	Function : •func id :: Params => Type ( Statement ) «func»
 	Function : •func id :: Params => Type ( Statement ) «[»
 	Function : •func id :: Params => Type ( Statement ) «boolean»
 	Function : •func id :: Params => Type ( Statement ) «charac»
@@ -132,8 +148,8 @@ Transitions:
 
 
 S4{
-	Function : func •id :: Params => Type ( Statement ) «func»
 	Function : func •id :: Params => Type ( Statement ) «(»
+	Function : func •id :: Params => Type ( Statement ) «func»
 	Function : func •id :: Params => Type ( Statement ) «[»
 	Function : func •id :: Params => Type ( Statement ) «boolean»
 	Function : func •id :: Params => Type ( Statement ) «charac»
@@ -301,8 +317,8 @@ Transitions:
 
 
 S18{
-	Function : func id •:: Params => Type ( Statement ) «func»
 	Function : func id •:: Params => Type ( Statement ) «(»
+	Function : func id •:: Params => Type ( Statement ) «func»
 	Function : func id •:: Params => Type ( Statement ) «[»
 	Function : func id •:: Params => Type ( Statement ) «boolean»
 	Function : func id •:: Params => Type ( Statement ) «charac»
@@ -680,8 +696,8 @@ Transitions:
 
 
 S36{
-	Function : func id :: •Params => Type ( Statement ) «func»
 	Function : func id :: •Params => Type ( Statement ) «(»
+	Function : func id :: •Params => Type ( Statement ) «func»
 	Function : func id :: •Params => Type ( Statement ) «[»
 	Function : func id :: •Params => Type ( Statement ) «boolean»
 	Function : func id :: •Params => Type ( Statement ) «charac»
@@ -1257,8 +1273,8 @@ Transitions:
 
 
 S67{
-	Function : func id :: Params •=> Type ( Statement ) «func»
 	Function : func id :: Params •=> Type ( Statement ) «(»
+	Function : func id :: Params •=> Type ( Statement ) «func»
 	Function : func id :: Params •=> Type ( Statement ) «[»
 	Function : func id :: Params •=> Type ( Statement ) «boolean»
 	Function : func id :: Params •=> Type ( Statement ) «charac»
@@ -1815,8 +1831,8 @@ Transitions:
 
 
 S100{
-	Function : func id :: Params => •Type ( Statement ) «func»
 	Function : func id :: Params => •Type ( Statement ) «(»
+	Function : func id :: Params => •Type ( Statement ) «func»
 	Function : func id :: Params => •Type ( Statement ) «[»
 	Function : func id :: Params => •Type ( Statement ) «boolean»
 	Function : func id :: Params => •Type ( Statement ) «charac»
@@ -2124,8 +2140,8 @@ Transitions:
 
 
 S126{
-	Function : func id :: Params => Type •( Statement ) «func»
 	Function : func id :: Params => Type •( Statement ) «(»
+	Function : func id :: Params => Type •( Statement ) «func»
 	Function : func id :: Params => Type •( Statement ) «[»
 	Function : func id :: Params => Type •( Statement ) «boolean»
 	Function : func id :: Params => Type •( Statement ) «charac»
@@ -2393,8 +2409,8 @@ Transitions:
 
 
 S148{
-	Function : func id :: Params => Type ( •Statement ) «func»
 	Function : func id :: Params => Type ( •Statement ) «(»
+	Function : func id :: Params => Type ( •Statement ) «func»
 	Function : func id :: Params => Type ( •Statement ) «[»
 	Function : func id :: Params => Type ( •Statement ) «boolean»
 	Function : func id :: Params => Type ( •Statement ) «charac»
@@ -2699,8 +2715,8 @@ Transitions:
 
 
 S170{
-	Function : func id :: Params => Type ( Statement •) «func»
 	Function : func id :: Params => Type ( Statement •) «(»
+	Function : func id :: Params => Type ( Statement •) «func»
 	Function : func id :: Params => Type ( Statement •) «[»
 	Function : func id :: Params => Type ( Statement •) «boolean»
 	Function : func id :: Params => Type ( Statement •) «charac»
@@ -3035,8 +3051,8 @@ Transitions:
 
 
 S184{
-	Function : func id :: Params => Type ( Statement )• «func»
 	Function : func id :: Params => Type ( Statement )• «(»
+	Function : func id :: Params => Type ( Statement )• «func»
 	Function : func id :: Params => Type ( Statement )• «[»
 	Function : func id :: Params => Type ( Statement )• «boolean»
 	Function : func id :: Params => Type ( Statement )• «charac»

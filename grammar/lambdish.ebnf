@@ -31,6 +31,7 @@ Program
 Functions 
     : Function Functions            << ast.AppendFunctionList($0, $1) >>  
     | Function                      << ast.NewFunctionList($0) >>  
+    | empty                         << make([]*ast.Function, 0), nil >> 
     ;
     
 Function 

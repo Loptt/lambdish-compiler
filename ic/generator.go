@@ -7,6 +7,7 @@ import (
 
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/mem"
+	"github.com/Loptt/lambdish-compiler/quad"
 )
 
 // Generator ...
@@ -15,14 +16,14 @@ type Generator struct {
 	addrStack       *AddressStack
 	icounter        int
 	pcounter        int
-	quads           []*Quadruple
+	quads           []*quad.Quadruple
 	pendingFuncAddr map[int]string
 	pendingEraSize  map[int]string
 }
 
 // NewGenerator ...
 func NewGenerator() *Generator {
-	return &Generator{NewAddressStack(), NewAddressStack(), 0, 0, make([]*Quadruple, 0), make(map[int]string), make(map[int]string)}
+	return &Generator{NewAddressStack(), NewAddressStack(), 0, 0, make([]*quad.Quadruple, 0), make(map[int]string), make(map[int]string)}
 }
 
 // JumpStack ...
@@ -48,13 +49,13 @@ func (g *Generator) ResetPCounter() {
 }
 
 // Quadruples ...
-func (g *Generator) Quadruples() []*Quadruple {
+func (g *Generator) Quadruples() []*quad.Quadruple {
 	return g.quads
 }
 
 // Generate ...
-func (g *Generator) Generate(op Operation, a1, a2, r mem.Address) {
-	g.quads = append(g.quads, NewQuadruple(op, a1, a2, r))
+func (g *Generator) Generate(op quad.Operation, a1, a2, r mem.Address) {
+	g.quads = append(g.quads, quad.NewQuadruple(op, a1, a2, r))
 	g.icounter++
 }
 
@@ -84,7 +85,7 @@ func (g *Generator) GetFromJumpStack() mem.Address {
 
 //FillJumpQuadruple ...
 func (g *Generator) FillJumpQuadruple(location mem.Address, jump mem.Address) {
-	g.quads[int(location)].r = jump
+	g.quads[int(location)].SetR(jump)
 }
 
 //AddPendingFuncAddr ...
@@ -111,7 +112,7 @@ func (g *Generator) GetPendingEraSize() *map[int]string {
 func (g *Generator) FillPendingFuncAddr(funcdir *dir.FuncDirectory) {
 	for loc, id := range g.pendingFuncAddr {
 		fe := funcdir.Get(id)
-		g.quads[loc].a1 = fe.Loc()
+		g.quads[loc].SetLop(fe.Loc())
 	}
 }
 
@@ -120,7 +121,7 @@ func (g *Generator) FillPendingEraFunctions(funcdir *dir.FuncDirectory) {
 
 	for loc, id := range g.pendingEraSize {
 		fe := funcdir.Get(id)
-		g.quads[loc].a1 = mem.Address(fe.Era())
+		g.quads[loc].SetLop(mem.Address(fe.Era()))
 	}
 }
 
@@ -140,15 +141,24 @@ func (g *Generator) String() string {
 	return builder.String()
 }
 
-func (g *Generator) CreateFile(file string) error {
+func (g *Generator) CreateFile(file string, vm *mem.VirtualMemory) error {
 	var builder strings.Builder
+
+	builder.WriteString(fmt.Sprintf("%d\n", len(g.quads)))
 
 	for _, q := range g.quads {
 		builder.WriteString(fmt.Sprintf("%s\n", q))
 	}
 
+	cm := vm.GetConstantMap()
+	builder.WriteString(fmt.Sprintf("%d\n", len(cm)))
+
+	for key, value := range cm {
+		builder.WriteString(fmt.Sprintf("%s %d\n", key, value))
+	}
+
 	content := []byte(builder.String())
-	path := "./out.obj"
+	path := fmt.Sprintf("./%s.obj", file)
 
 	err := ioutil.WriteFile(path, content, 0644)
 

@@ -14,27 +14,27 @@ var actionTab = actionTable{
 	actionRow{ // S0
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,      // INVALID
-			nil,      // $
-			shift(4), // func
-			nil,      // id
-			nil,      // ::
-			nil,      // =>
-			nil,      // (
-			nil,      // )
-			nil,      // ,
-			nil,      // empty
-			nil,      // [
-			nil,      // ]
-			nil,      // num
-			nil,      // bool
-			nil,      // char
-			nil,      // operations
-			nil,      // relop
-			nil,      // #
-			nil,      // boolean
-			nil,      // number
-			nil,      // charac
+			nil,       // INVALID
+			nil,       // $
+			nil,       // empty
+			shift(4),  // func
+			reduce(4), // id, reduce: Functions
+			nil,       // ::
+			nil,       // =>
+			reduce(4), // (, reduce: Functions
+			nil,       // )
+			nil,       // ,
+			reduce(4), // [, reduce: Functions
+			nil,       // ]
+			nil,       // num
+			nil,       // bool
+			nil,       // char
+			reduce(4), // operations, reduce: Functions
+			reduce(4), // relop, reduce: Functions
+			nil,       // #
+			reduce(4), // boolean, reduce: Functions
+			reduce(4), // number, reduce: Functions
+			reduce(4), // charac, reduce: Functions
 		},
 	},
 	actionRow{ // S1
@@ -42,6 +42,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,          // INVALID
 			accept(true), // $
+			nil,          // empty
 			nil,          // func
 			nil,          // id
 			nil,          // ::
@@ -49,7 +50,6 @@ var actionTab = actionTable{
 			nil,          // (
 			nil,          // )
 			nil,          // ,
-			nil,          // empty
 			nil,          // [
 			nil,          // ]
 			nil,          // num
@@ -68,6 +68,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			shift(6),  // id
 			nil,       // ::
@@ -75,7 +76,6 @@ var actionTab = actionTable{
 			shift(7),  // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(8),  // [
 			nil,       // ]
 			nil,       // num
@@ -94,6 +94,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			shift(4),  // func
 			reduce(3), // id, reduce: Functions
 			nil,       // ::
@@ -101,7 +102,6 @@ var actionTab = actionTable{
 			reduce(3), // (, reduce: Functions
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			reduce(3), // [, reduce: Functions
 			nil,       // ]
 			nil,       // num
@@ -120,6 +120,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			shift(18), // id
 			nil,       // ::
@@ -127,7 +128,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -146,6 +146,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			reduce(1), // $, reduce: Program
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -153,7 +154,6 @@ var actionTab = actionTable{
 			shift(19), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -171,15 +171,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(17), // $, reduce: Statement
+			reduce(18), // $, reduce: Statement
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(17), // (, reduce: Statement
+			reduce(18), // (, reduce: Statement
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -198,6 +198,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -205,7 +206,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -224,6 +224,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(22),  // id
 			nil,        // ::
@@ -231,9 +232,8 @@ var actionTab = actionTable{
 			shift(23),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(24),  // [
-			reduce(27), // ], reduce: Args
+			reduce(28), // ], reduce: Args
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -249,15 +249,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(18), // $, reduce: Statement
+			reduce(19), // $, reduce: Statement
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(18), // (, reduce: Statement
+			reduce(19), // (, reduce: Statement
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -275,15 +275,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(19), // $, reduce: Statement
+			reduce(20), // $, reduce: Statement
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(19), // (, reduce: Statement
+			reduce(20), // (, reduce: Statement
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -301,15 +301,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(20), // $, reduce: Statement
+			reduce(21), // $, reduce: Statement
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(20), // (, reduce: Statement
+			reduce(21), // (, reduce: Statement
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -328,6 +328,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -335,7 +336,6 @@ var actionTab = actionTable{
 			shift(34), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -354,6 +354,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -361,7 +362,6 @@ var actionTab = actionTable{
 			shift(35), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -379,15 +379,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(28), // $, reduce: Constant
+			reduce(29), // $, reduce: Constant
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(28), // (, reduce: Constant
+			reduce(29), // (, reduce: Constant
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -405,15 +405,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(29), // $, reduce: Constant
+			reduce(30), // $, reduce: Constant
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(29), // (, reduce: Constant
+			reduce(30), // (, reduce: Constant
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -431,15 +431,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(30), // $, reduce: Constant
+			reduce(31), // $, reduce: Constant
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(30), // (, reduce: Constant
+			reduce(31), // (, reduce: Constant
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -458,6 +458,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			reduce(2), // id, reduce: Functions
 			nil,       // ::
@@ -465,7 +466,6 @@ var actionTab = actionTable{
 			reduce(2), // (, reduce: Functions
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			reduce(2), // [, reduce: Functions
 			nil,       // ]
 			nil,       // num
@@ -484,6 +484,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			shift(36), // ::
@@ -491,7 +492,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -510,14 +510,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -536,14 +536,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(7), // =>, reduce: Params
+			reduce(8), // =>, reduce: Params
 			shift(52), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(54), // [
 			nil,       // ]
 			shift(55), // num
@@ -562,6 +562,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -569,9 +570,8 @@ var actionTab = actionTable{
 			shift(58),  // (
 			nil,        // )
 			shift(59),  // ,
-			nil,        // empty
 			nil,        // [
-			reduce(26), // ], reduce: Args
+			reduce(27), // ], reduce: Args
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -588,16 +588,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(17), // (, reduce: Statement
+			reduce(18), // (, reduce: Statement
 			nil,        // )
-			reduce(17), // ,, reduce: Statement
-			nil,        // empty
+			reduce(18), // ,, reduce: Statement
 			nil,        // [
-			reduce(17), // ], reduce: Statement
+			reduce(18), // ], reduce: Statement
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -614,6 +614,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -621,7 +622,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -640,6 +640,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(22),  // id
 			nil,        // ::
@@ -647,9 +648,8 @@ var actionTab = actionTable{
 			shift(23),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(24),  // [
-			reduce(27), // ], reduce: Args
+			reduce(28), // ], reduce: Args
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -666,16 +666,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(18), // (, reduce: Statement
+			reduce(19), // (, reduce: Statement
 			nil,        // )
-			reduce(18), // ,, reduce: Statement
-			nil,        // empty
+			reduce(19), // ,, reduce: Statement
 			nil,        // [
-			reduce(18), // ], reduce: Statement
+			reduce(19), // ], reduce: Statement
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -692,16 +692,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(19), // (, reduce: Statement
+			reduce(20), // (, reduce: Statement
 			nil,        // )
-			reduce(19), // ,, reduce: Statement
-			nil,        // empty
+			reduce(20), // ,, reduce: Statement
 			nil,        // [
-			reduce(19), // ], reduce: Statement
+			reduce(20), // ], reduce: Statement
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -718,16 +718,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(20), // (, reduce: Statement
+			reduce(21), // (, reduce: Statement
 			nil,        // )
-			reduce(20), // ,, reduce: Statement
-			nil,        // empty
+			reduce(21), // ,, reduce: Statement
 			nil,        // [
-			reduce(20), // ], reduce: Statement
+			reduce(21), // ], reduce: Statement
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -744,6 +744,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -751,7 +752,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			shift(62), // ]
 			nil,       // num
@@ -770,6 +770,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -777,7 +778,6 @@ var actionTab = actionTable{
 			shift(63), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -796,6 +796,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -803,7 +804,6 @@ var actionTab = actionTable{
 			shift(64), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -822,16 +822,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(28), // (, reduce: Constant
+			reduce(29), // (, reduce: Constant
 			nil,        // )
-			reduce(28), // ,, reduce: Constant
-			nil,        // empty
+			reduce(29), // ,, reduce: Constant
 			nil,        // [
-			reduce(28), // ], reduce: Constant
+			reduce(29), // ], reduce: Constant
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -848,16 +848,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(29), // (, reduce: Constant
+			reduce(30), // (, reduce: Constant
 			nil,        // )
-			reduce(29), // ,, reduce: Constant
-			nil,        // empty
+			reduce(30), // ,, reduce: Constant
 			nil,        // [
-			reduce(29), // ], reduce: Constant
+			reduce(30), // ], reduce: Constant
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -874,16 +874,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(30), // (, reduce: Constant
+			reduce(31), // (, reduce: Constant
 			nil,        // )
-			reduce(30), // ,, reduce: Constant
-			nil,        // empty
+			reduce(31), // ,, reduce: Constant
 			nil,        // [
-			reduce(30), // ], reduce: Constant
+			reduce(31), // ], reduce: Constant
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -900,14 +900,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -926,14 +926,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -952,14 +952,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(7), // =>, reduce: Params
+			reduce(8), // =>, reduce: Params
 			shift(52), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(54), // [
 			nil,       // ]
 			shift(55), // num
@@ -978,14 +978,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
 			shift(68),  // (
-			reduce(26), // ), reduce: Args
+			reduce(27), // ), reduce: Args
 			shift(69),  // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1004,14 +1004,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(17), // (, reduce: Statement
-			reduce(17), // ), reduce: Statement
-			reduce(17), // ,, reduce: Statement
-			nil,        // empty
+			reduce(18), // (, reduce: Statement
+			reduce(18), // ), reduce: Statement
+			reduce(18), // ,, reduce: Statement
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1030,6 +1030,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1037,7 +1038,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1056,6 +1056,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(22),  // id
 			nil,        // ::
@@ -1063,9 +1064,8 @@ var actionTab = actionTable{
 			shift(23),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(24),  // [
-			reduce(27), // ], reduce: Args
+			reduce(28), // ], reduce: Args
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -1082,14 +1082,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(18), // (, reduce: Statement
-			reduce(18), // ), reduce: Statement
-			reduce(18), // ,, reduce: Statement
-			nil,        // empty
+			reduce(19), // (, reduce: Statement
+			reduce(19), // ), reduce: Statement
+			reduce(19), // ,, reduce: Statement
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1108,14 +1108,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(19), // (, reduce: Statement
-			reduce(19), // ), reduce: Statement
-			reduce(19), // ,, reduce: Statement
-			nil,        // empty
+			reduce(20), // (, reduce: Statement
+			reduce(20), // ), reduce: Statement
+			reduce(20), // ,, reduce: Statement
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1134,14 +1134,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(20), // (, reduce: Statement
-			reduce(20), // ), reduce: Statement
-			reduce(20), // ,, reduce: Statement
-			nil,        // empty
+			reduce(21), // (, reduce: Statement
+			reduce(21), // ), reduce: Statement
+			reduce(21), // ,, reduce: Statement
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1160,6 +1160,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1167,7 +1168,6 @@ var actionTab = actionTable{
 			nil,       // (
 			shift(72), // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1186,6 +1186,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1193,7 +1194,6 @@ var actionTab = actionTable{
 			shift(73), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1212,6 +1212,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1219,7 +1220,6 @@ var actionTab = actionTable{
 			shift(74), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1238,14 +1238,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(28), // (, reduce: Constant
-			reduce(28), // ), reduce: Constant
-			reduce(28), // ,, reduce: Constant
-			nil,        // empty
+			reduce(29), // (, reduce: Constant
+			reduce(29), // ), reduce: Constant
+			reduce(29), // ,, reduce: Constant
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1264,14 +1264,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(29), // (, reduce: Constant
-			reduce(29), // ), reduce: Constant
-			reduce(29), // ,, reduce: Constant
-			nil,        // empty
+			reduce(30), // (, reduce: Constant
+			reduce(30), // ), reduce: Constant
+			reduce(30), // ,, reduce: Constant
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1290,14 +1290,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(30), // (, reduce: Constant
-			reduce(30), // ), reduce: Constant
-			reduce(30), // ,, reduce: Constant
-			nil,        // empty
+			reduce(31), // (, reduce: Constant
+			reduce(31), // ), reduce: Constant
+			reduce(31), // ,, reduce: Constant
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1316,6 +1316,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1323,7 +1324,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1342,6 +1342,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			shift(76), // id
 			nil,       // ::
@@ -1349,7 +1350,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1368,14 +1368,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(16), // =>, reduce: FuncTypes
+			reduce(17), // =>, reduce: FuncTypes
 			shift(78),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(81),  // [
 			nil,        // ]
 			shift(82),  // num
@@ -1394,14 +1394,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
-			reduce(8), // id, reduce: Type
+			reduce(9), // id, reduce: Type
 			nil,       // ::
 			nil,       // =>
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1420,6 +1420,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1427,7 +1428,6 @@ var actionTab = actionTable{
 			shift(86), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(88), // [
 			nil,       // ]
 			shift(89), // num
@@ -1446,14 +1446,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
-			reduce(11), // id, reduce: BasicType
+			reduce(12), // id, reduce: BasicType
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1472,14 +1472,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
-			reduce(12), // id, reduce: BasicType
+			reduce(13), // id, reduce: BasicType
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1498,14 +1498,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
-			reduce(13), // id, reduce: BasicType
+			reduce(14), // id, reduce: BasicType
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1524,14 +1524,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -1550,6 +1550,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(22),  // id
 			nil,        // ::
@@ -1557,9 +1558,8 @@ var actionTab = actionTable{
 			shift(23),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(24),  // [
-			reduce(27), // ], reduce: Args
+			reduce(28), // ], reduce: Args
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -1576,14 +1576,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(7), // =>, reduce: Params
+			reduce(8), // =>, reduce: Params
 			shift(52), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(54), // [
 			nil,       // ]
 			shift(55), // num
@@ -1602,6 +1602,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1609,7 +1610,6 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			shift(95), // ]
 			nil,       // num
@@ -1627,15 +1627,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(31), // $, reduce: Constant
+			reduce(32), // $, reduce: Constant
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(31), // (, reduce: Constant
+			reduce(32), // (, reduce: Constant
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1654,14 +1654,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -1680,14 +1680,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -1706,6 +1706,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1713,7 +1714,6 @@ var actionTab = actionTable{
 			nil,       // (
 			shift(98), // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1732,6 +1732,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -1739,7 +1740,6 @@ var actionTab = actionTable{
 			nil,       // (
 			shift(99), // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -1758,6 +1758,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -1765,7 +1766,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1784,14 +1784,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -1810,14 +1810,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -1836,14 +1836,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(7), // =>, reduce: Params
+			reduce(8), // =>, reduce: Params
 			shift(52), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(54), // [
 			nil,       // ]
 			shift(55), // num
@@ -1862,6 +1862,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -1869,7 +1870,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			shift(104), // ]
 			nil,        // num
@@ -1887,15 +1887,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(21), // $, reduce: FunctionCall
+			reduce(22), // $, reduce: FunctionCall
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(21), // (, reduce: FunctionCall
+			reduce(22), // (, reduce: FunctionCall
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -1914,14 +1914,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -1940,14 +1940,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -1966,6 +1966,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -1973,7 +1974,6 @@ var actionTab = actionTable{
 			shift(108), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(110), // [
 			nil,        // ]
 			shift(111), // num
@@ -1992,14 +1992,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(6),  // =>, reduce: Params
+			reduce(7),  // =>, reduce: Params
 			nil,        // (
 			nil,        // )
 			shift(114), // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2018,14 +2018,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(15), // =>, reduce: FuncTypes
+			reduce(16), // =>, reduce: FuncTypes
 			nil,        // (
 			nil,        // )
 			shift(115), // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2044,14 +2044,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(16), // =>, reduce: FuncTypes
+			reduce(17), // =>, reduce: FuncTypes
 			shift(78),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(81),  // [
 			nil,        // ]
 			shift(82),  // num
@@ -2070,14 +2070,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(8), // =>, reduce: Type
+			reduce(9), // =>, reduce: Type
 			nil,       // (
 			nil,       // )
-			reduce(8), // ,, reduce: Type
-			nil,       // empty
+			reduce(9), // ,, reduce: Type
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -2096,6 +2096,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2103,7 +2104,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2122,6 +2122,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -2129,7 +2130,6 @@ var actionTab = actionTable{
 			shift(86), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(88), // [
 			nil,       // ]
 			shift(89), // num
@@ -2148,14 +2148,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(11), // =>, reduce: BasicType
+			reduce(12), // =>, reduce: BasicType
 			nil,        // (
 			nil,        // )
-			reduce(11), // ,, reduce: BasicType
-			nil,        // empty
+			reduce(12), // ,, reduce: BasicType
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2174,14 +2174,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(12), // =>, reduce: BasicType
+			reduce(13), // =>, reduce: BasicType
 			nil,        // (
 			nil,        // )
-			reduce(12), // ,, reduce: BasicType
-			nil,        // empty
+			reduce(13), // ,, reduce: BasicType
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2200,14 +2200,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(13), // =>, reduce: BasicType
+			reduce(14), // =>, reduce: BasicType
 			nil,        // (
 			nil,        // )
-			reduce(13), // ,, reduce: BasicType
-			nil,        // empty
+			reduce(14), // ,, reduce: BasicType
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2226,6 +2226,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2233,7 +2234,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			shift(119), // ]
 			nil,        // num
@@ -2252,14 +2252,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(16), // =>, reduce: FuncTypes
+			reduce(17), // =>, reduce: FuncTypes
 			shift(78),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(81),  // [
 			nil,        // ]
 			shift(82),  // num
@@ -2278,6 +2278,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -2285,9 +2286,8 @@ var actionTab = actionTable{
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
-			reduce(8), // ], reduce: Type
+			reduce(9), // ], reduce: Type
 			nil,       // num
 			nil,       // bool
 			nil,       // char
@@ -2304,6 +2304,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -2311,7 +2312,6 @@ var actionTab = actionTable{
 			shift(86), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(88), // [
 			nil,       // ]
 			shift(89), // num
@@ -2330,6 +2330,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2337,9 +2338,8 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
-			reduce(11), // ], reduce: BasicType
+			reduce(12), // ], reduce: BasicType
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -2356,6 +2356,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2363,9 +2364,8 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
-			reduce(12), // ], reduce: BasicType
+			reduce(13), // ], reduce: BasicType
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -2382,6 +2382,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2389,9 +2390,8 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
-			reduce(13), // ], reduce: BasicType
+			reduce(14), // ], reduce: BasicType
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -2408,6 +2408,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2415,7 +2416,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(122), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2434,6 +2434,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2441,9 +2442,8 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
-			reduce(25), // ], reduce: Args
+			reduce(26), // ], reduce: Args
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -2460,6 +2460,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2467,7 +2468,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2486,16 +2486,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(31), // (, reduce: Constant
+			reduce(32), // (, reduce: Constant
 			nil,        // )
-			reduce(31), // ,, reduce: Constant
-			nil,        // empty
+			reduce(32), // ,, reduce: Constant
 			nil,        // [
-			reduce(31), // ], reduce: Constant
+			reduce(32), // ], reduce: Constant
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -2512,6 +2512,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2519,7 +2520,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(124), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2538,6 +2538,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2545,7 +2546,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(125), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2563,15 +2563,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(22), // $, reduce: FunctionCall
+			reduce(23), // $, reduce: FunctionCall
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(22), // (, reduce: FunctionCall
+			reduce(23), // (, reduce: FunctionCall
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2589,15 +2589,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(23), // $, reduce: FunctionCall
+			reduce(24), // $, reduce: FunctionCall
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(23), // (, reduce: FunctionCall
+			reduce(24), // (, reduce: FunctionCall
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2616,6 +2616,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2623,7 +2624,6 @@ var actionTab = actionTable{
 			shift(108), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(110), // [
 			nil,        // ]
 			shift(111), // num
@@ -2642,6 +2642,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2649,7 +2650,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(127), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2668,14 +2668,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
-			reduce(25), // ), reduce: Args
+			reduce(26), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2694,6 +2694,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2701,7 +2702,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2720,14 +2720,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(31), // (, reduce: Constant
-			reduce(31), // ), reduce: Constant
-			reduce(31), // ,, reduce: Constant
-			nil,        // empty
+			reduce(32), // (, reduce: Constant
+			reduce(32), // ), reduce: Constant
+			reduce(32), // ,, reduce: Constant
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2746,6 +2746,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2753,7 +2754,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(129), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2772,6 +2772,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2779,7 +2780,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(130), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2798,6 +2798,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -2805,7 +2806,6 @@ var actionTab = actionTable{
 			shift(131), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2824,14 +2824,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(16), // =>, reduce: FuncTypes
+			reduce(17), // =>, reduce: FuncTypes
 			shift(78),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(81),  // [
 			nil,        // ]
 			shift(82),  // num
@@ -2850,14 +2850,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
 			nil,       // =>
-			reduce(8), // (, reduce: Type
+			reduce(9), // (, reduce: Type
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -2876,6 +2876,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -2883,7 +2884,6 @@ var actionTab = actionTable{
 			shift(86), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(88), // [
 			nil,       // ]
 			shift(89), // num
@@ -2902,14 +2902,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(11), // (, reduce: BasicType
+			reduce(12), // (, reduce: BasicType
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2928,14 +2928,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(12), // (, reduce: BasicType
+			reduce(13), // (, reduce: BasicType
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2954,14 +2954,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(13), // (, reduce: BasicType
+			reduce(14), // (, reduce: BasicType
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -2980,14 +2980,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(7), // =>, reduce: Params
+			reduce(8), // =>, reduce: Params
 			shift(52), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(54), // [
 			nil,       // ]
 			shift(55), // num
@@ -3006,14 +3006,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(16), // =>, reduce: FuncTypes
+			reduce(17), // =>, reduce: FuncTypes
 			shift(78),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(81),  // [
 			nil,        // ]
 			shift(82),  // num
@@ -3032,6 +3032,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3039,7 +3040,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3058,6 +3058,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3065,7 +3066,6 @@ var actionTab = actionTable{
 			shift(138), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(140), // [
 			nil,        // ]
 			shift(141), // num
@@ -3084,6 +3084,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3091,7 +3092,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			shift(144), // ]
 			nil,        // num
@@ -3110,14 +3110,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
-			reduce(10), // id, reduce: Type
+			reduce(11), // id, reduce: Type
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3136,6 +3136,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3143,7 +3144,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3162,6 +3162,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3169,7 +3170,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			shift(146), // ]
 			nil,        // num
@@ -3188,16 +3188,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(21), // (, reduce: FunctionCall
+			reduce(22), // (, reduce: FunctionCall
 			nil,        // )
-			reduce(21), // ,, reduce: FunctionCall
-			nil,        // empty
+			reduce(22), // ,, reduce: FunctionCall
 			nil,        // [
-			reduce(21), // ], reduce: FunctionCall
+			reduce(22), // ], reduce: FunctionCall
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -3214,6 +3214,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3221,7 +3222,6 @@ var actionTab = actionTable{
 			shift(108), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(110), // [
 			nil,        // ]
 			shift(111), // num
@@ -3240,16 +3240,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(22), // (, reduce: FunctionCall
+			reduce(23), // (, reduce: FunctionCall
 			nil,        // )
-			reduce(22), // ,, reduce: FunctionCall
-			nil,        // empty
+			reduce(23), // ,, reduce: FunctionCall
 			nil,        // [
-			reduce(22), // ], reduce: FunctionCall
+			reduce(23), // ], reduce: FunctionCall
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -3266,16 +3266,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(23), // (, reduce: FunctionCall
+			reduce(24), // (, reduce: FunctionCall
 			nil,        // )
-			reduce(23), // ,, reduce: FunctionCall
-			nil,        // empty
+			reduce(24), // ,, reduce: FunctionCall
 			nil,        // [
-			reduce(23), // ], reduce: FunctionCall
+			reduce(24), // ], reduce: FunctionCall
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -3292,6 +3292,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3299,7 +3300,6 @@ var actionTab = actionTable{
 			shift(148), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3318,14 +3318,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(21), // (, reduce: FunctionCall
-			reduce(21), // ), reduce: FunctionCall
-			reduce(21), // ,, reduce: FunctionCall
-			nil,        // empty
+			reduce(22), // (, reduce: FunctionCall
+			reduce(22), // ), reduce: FunctionCall
+			reduce(22), // ,, reduce: FunctionCall
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3344,6 +3344,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3351,7 +3352,6 @@ var actionTab = actionTable{
 			shift(108), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(110), // [
 			nil,        // ]
 			shift(111), // num
@@ -3370,14 +3370,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(22), // (, reduce: FunctionCall
-			reduce(22), // ), reduce: FunctionCall
-			reduce(22), // ,, reduce: FunctionCall
-			nil,        // empty
+			reduce(23), // (, reduce: FunctionCall
+			reduce(23), // ), reduce: FunctionCall
+			reduce(23), // ,, reduce: FunctionCall
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3396,14 +3396,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(23), // (, reduce: FunctionCall
-			reduce(23), // ), reduce: FunctionCall
-			reduce(23), // ,, reduce: FunctionCall
-			nil,        // empty
+			reduce(24), // (, reduce: FunctionCall
+			reduce(24), // ), reduce: FunctionCall
+			reduce(24), // ,, reduce: FunctionCall
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3422,6 +3422,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(151), // id
 			nil,        // ::
@@ -3429,7 +3430,6 @@ var actionTab = actionTable{
 			shift(152), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(153), // [
 			nil,        // ]
 			nil,        // num
@@ -3448,6 +3448,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3455,7 +3456,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3474,6 +3474,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3481,7 +3482,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			shift(163), // ]
 			nil,        // num
@@ -3500,14 +3500,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(5), // =>, reduce: Params
+			reduce(6), // =>, reduce: Params
 			nil,       // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -3526,14 +3526,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(14), // =>, reduce: FuncTypes
+			reduce(15), // =>, reduce: FuncTypes
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3552,6 +3552,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3559,7 +3560,6 @@ var actionTab = actionTable{
 			shift(138), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(140), // [
 			nil,        // ]
 			shift(141), // num
@@ -3578,6 +3578,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3585,7 +3586,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(165), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3604,14 +3604,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(16), // =>, reduce: FuncTypes
+			reduce(17), // =>, reduce: FuncTypes
 			shift(78),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(81),  // [
 			nil,        // ]
 			shift(82),  // num
@@ -3630,14 +3630,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
 			nil,       // =>
 			nil,       // (
-			reduce(8), // ), reduce: Type
+			reduce(9), // ), reduce: Type
 			nil,       // ,
-			nil,       // empty
 			nil,       // [
 			nil,       // ]
 			nil,       // num
@@ -3656,6 +3656,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
@@ -3663,7 +3664,6 @@ var actionTab = actionTable{
 			shift(86), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(88), // [
 			nil,       // ]
 			shift(89), // num
@@ -3682,14 +3682,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
-			reduce(11), // ), reduce: BasicType
+			reduce(12), // ), reduce: BasicType
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3708,14 +3708,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
-			reduce(12), // ), reduce: BasicType
+			reduce(13), // ), reduce: BasicType
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3734,14 +3734,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
-			reduce(13), // ), reduce: BasicType
+			reduce(14), // ), reduce: BasicType
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3760,14 +3760,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
-			reduce(10), // =>, reduce: Type
+			reduce(11), // =>, reduce: Type
 			nil,        // (
 			nil,        // )
-			reduce(10), // ,, reduce: Type
-			nil,        // empty
+			reduce(11), // ,, reduce: Type
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3786,6 +3786,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3793,7 +3794,6 @@ var actionTab = actionTable{
 			shift(138), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(140), // [
 			nil,        // ]
 			shift(141), // num
@@ -3812,6 +3812,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3819,9 +3820,8 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
-			reduce(10), // ], reduce: Type
+			reduce(11), // ], reduce: Type
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -3838,6 +3838,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3845,7 +3846,6 @@ var actionTab = actionTable{
 			shift(169), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3864,6 +3864,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(151), // id
 			nil,        // ::
@@ -3871,7 +3872,6 @@ var actionTab = actionTable{
 			shift(152), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(153), // [
 			nil,        // ]
 			nil,        // num
@@ -3890,6 +3890,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3897,7 +3898,6 @@ var actionTab = actionTable{
 			shift(171), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3916,6 +3916,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3923,7 +3924,6 @@ var actionTab = actionTable{
 			shift(172), // (
 			shift(173), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3942,14 +3942,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(17), // (, reduce: Statement
-			reduce(17), // ), reduce: Statement
+			reduce(18), // (, reduce: Statement
+			reduce(18), // ), reduce: Statement
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3968,6 +3968,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -3975,7 +3976,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -3994,6 +3994,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(22),  // id
 			nil,        // ::
@@ -4001,9 +4002,8 @@ var actionTab = actionTable{
 			shift(23),  // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(24),  // [
-			reduce(27), // ], reduce: Args
+			reduce(28), // ], reduce: Args
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -4020,14 +4020,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(18), // (, reduce: Statement
-			reduce(18), // ), reduce: Statement
+			reduce(19), // (, reduce: Statement
+			reduce(19), // ), reduce: Statement
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4046,14 +4046,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(19), // (, reduce: Statement
-			reduce(19), // ), reduce: Statement
+			reduce(20), // (, reduce: Statement
+			reduce(20), // ), reduce: Statement
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4072,14 +4072,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(20), // (, reduce: Statement
-			reduce(20), // ), reduce: Statement
+			reduce(21), // (, reduce: Statement
+			reduce(21), // ), reduce: Statement
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4098,6 +4098,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4105,7 +4106,6 @@ var actionTab = actionTable{
 			shift(176), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4124,6 +4124,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4131,7 +4132,6 @@ var actionTab = actionTable{
 			shift(177), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4150,14 +4150,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(28), // (, reduce: Constant
-			reduce(28), // ), reduce: Constant
+			reduce(29), // (, reduce: Constant
+			reduce(29), // ), reduce: Constant
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4176,14 +4176,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(29), // (, reduce: Constant
-			reduce(29), // ), reduce: Constant
+			reduce(30), // (, reduce: Constant
+			reduce(30), // ), reduce: Constant
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4202,14 +4202,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(30), // (, reduce: Constant
-			reduce(30), // ), reduce: Constant
+			reduce(31), // (, reduce: Constant
+			reduce(31), // ), reduce: Constant
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4228,6 +4228,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4235,7 +4236,6 @@ var actionTab = actionTable{
 			shift(138), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(140), // [
 			nil,        // ]
 			shift(141), // num
@@ -4254,14 +4254,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(10), // (, reduce: Type
+			reduce(11), // (, reduce: Type
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4280,6 +4280,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4287,7 +4288,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(179), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4304,27 +4304,27 @@ var actionTab = actionTable{
 	actionRow{ // S165
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // $
-			nil,       // func
-			reduce(9), // id, reduce: Type
-			nil,       // ::
-			nil,       // =>
-			nil,       // (
-			nil,       // )
-			nil,       // ,
-			nil,       // empty
-			nil,       // [
-			nil,       // ]
-			nil,       // num
-			nil,       // bool
-			nil,       // char
-			nil,       // operations
-			nil,       // relop
-			nil,       // #
-			nil,       // boolean
-			nil,       // number
-			nil,       // charac
+			nil,        // INVALID
+			nil,        // $
+			nil,        // empty
+			nil,        // func
+			reduce(10), // id, reduce: Type
+			nil,        // ::
+			nil,        // =>
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // [
+			nil,        // ]
+			nil,        // num
+			nil,        // bool
+			nil,        // char
+			nil,        // operations
+			nil,        // relop
+			nil,        // #
+			nil,        // boolean
+			nil,        // number
+			nil,        // charac
 		},
 	},
 	actionRow{ // S166
@@ -4332,6 +4332,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4339,7 +4340,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4358,6 +4358,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4365,7 +4366,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			shift(181), // ]
 			nil,        // num
@@ -4384,6 +4384,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4391,7 +4392,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(182), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4410,6 +4410,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(151), // id
 			nil,        // ::
@@ -4417,7 +4418,6 @@ var actionTab = actionTable{
 			shift(152), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(153), // [
 			nil,        // ]
 			nil,        // num
@@ -4436,6 +4436,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4443,7 +4444,6 @@ var actionTab = actionTable{
 			shift(172), // (
 			shift(184), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4462,6 +4462,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(151), // id
 			nil,        // ::
@@ -4469,7 +4470,6 @@ var actionTab = actionTable{
 			shift(152), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(153), // [
 			nil,        // ]
 			nil,        // num
@@ -4488,14 +4488,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -4514,6 +4514,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4521,7 +4522,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(187), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4540,14 +4540,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
+			nil,       // empty
 			nil,       // func
 			nil,       // id
 			nil,       // ::
-			reduce(7), // =>, reduce: Params
+			reduce(8), // =>, reduce: Params
 			shift(52), // (
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
 			shift(54), // [
 			nil,       // ]
 			shift(55), // num
@@ -4566,6 +4566,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4573,7 +4574,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			shift(189), // ]
 			nil,        // num
@@ -4592,14 +4592,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -4618,14 +4618,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(38),  // id
 			nil,        // ::
 			nil,        // =>
 			shift(39),  // (
-			reduce(27), // ), reduce: Args
+			reduce(28), // ), reduce: Args
 			nil,        // ,
-			nil,        // empty
 			shift(40),  // [
 			nil,        // ]
 			nil,        // num
@@ -4644,6 +4644,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4651,7 +4652,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(192), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4668,27 +4668,27 @@ var actionTab = actionTable{
 	actionRow{ // S179
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // $
-			nil,       // func
-			nil,       // id
-			nil,       // ::
-			reduce(9), // =>, reduce: Type
-			nil,       // (
-			nil,       // )
-			reduce(9), // ,, reduce: Type
-			nil,       // empty
-			nil,       // [
-			nil,       // ]
-			nil,       // num
-			nil,       // bool
-			nil,       // char
-			nil,       // operations
-			nil,       // relop
-			nil,       // #
-			nil,       // boolean
-			nil,       // number
-			nil,       // charac
+			nil,        // INVALID
+			nil,        // $
+			nil,        // empty
+			nil,        // func
+			nil,        // id
+			nil,        // ::
+			reduce(10), // =>, reduce: Type
+			nil,        // (
+			nil,        // )
+			reduce(10), // ,, reduce: Type
+			nil,        // [
+			nil,        // ]
+			nil,        // num
+			nil,        // bool
+			nil,        // char
+			nil,        // operations
+			nil,        // relop
+			nil,        // #
+			nil,        // boolean
+			nil,        // number
+			nil,        // charac
 		},
 	},
 	actionRow{ // S180
@@ -4696,6 +4696,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4703,7 +4704,6 @@ var actionTab = actionTable{
 			shift(138), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(140), // [
 			nil,        // ]
 			shift(141), // num
@@ -4722,14 +4722,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
 			nil,        // (
-			reduce(10), // ), reduce: Type
+			reduce(11), // ), reduce: Type
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4746,27 +4746,27 @@ var actionTab = actionTable{
 	actionRow{ // S182
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // $
-			nil,       // func
-			nil,       // id
-			nil,       // ::
-			nil,       // =>
-			nil,       // (
-			nil,       // )
-			nil,       // ,
-			nil,       // empty
-			nil,       // [
-			reduce(9), // ], reduce: Type
-			nil,       // num
-			nil,       // bool
-			nil,       // char
-			nil,       // operations
-			nil,       // relop
-			nil,       // #
-			nil,       // boolean
-			nil,       // number
-			nil,       // charac
+			nil,        // INVALID
+			nil,        // $
+			nil,        // empty
+			nil,        // func
+			nil,        // id
+			nil,        // ::
+			nil,        // =>
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // [
+			reduce(10), // ], reduce: Type
+			nil,        // num
+			nil,        // bool
+			nil,        // char
+			nil,        // operations
+			nil,        // relop
+			nil,        // #
+			nil,        // boolean
+			nil,        // number
+			nil,        // charac
 		},
 	},
 	actionRow{ // S183
@@ -4774,6 +4774,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4781,7 +4782,6 @@ var actionTab = actionTable{
 			shift(172), // (
 			shift(194), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4800,25 +4800,25 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       // INVALID
 			nil,       // $
-			reduce(4), // func, reduce: Function
-			reduce(4), // id, reduce: Function
+			nil,       // empty
+			reduce(5), // func, reduce: Function
+			reduce(5), // id, reduce: Function
 			nil,       // ::
 			nil,       // =>
-			reduce(4), // (, reduce: Function
+			reduce(5), // (, reduce: Function
 			nil,       // )
 			nil,       // ,
-			nil,       // empty
-			reduce(4), // [, reduce: Function
+			reduce(5), // [, reduce: Function
 			nil,       // ]
 			nil,       // num
 			nil,       // bool
 			nil,       // char
-			reduce(4), // operations, reduce: Function
-			reduce(4), // relop, reduce: Function
+			reduce(5), // operations, reduce: Function
+			reduce(5), // relop, reduce: Function
 			nil,       // #
-			reduce(4), // boolean, reduce: Function
-			reduce(4), // number, reduce: Function
-			reduce(4), // charac, reduce: Function
+			reduce(5), // boolean, reduce: Function
+			reduce(5), // number, reduce: Function
+			reduce(5), // charac, reduce: Function
 		},
 	},
 	actionRow{ // S185
@@ -4826,6 +4826,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4833,7 +4834,6 @@ var actionTab = actionTable{
 			shift(172), // (
 			shift(195), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4852,6 +4852,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4859,7 +4860,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(196), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4877,15 +4877,15 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(24), // $, reduce: Lambda
+			reduce(25), // $, reduce: Lambda
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(24), // (, reduce: Lambda
+			reduce(25), // (, reduce: Lambda
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4904,6 +4904,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4911,7 +4912,6 @@ var actionTab = actionTable{
 			nil,        // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4930,14 +4930,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(31), // (, reduce: Constant
-			reduce(31), // ), reduce: Constant
+			reduce(32), // (, reduce: Constant
+			reduce(32), // ), reduce: Constant
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4956,6 +4956,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4963,7 +4964,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(198), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -4982,6 +4982,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -4989,7 +4990,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(199), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5006,27 +5006,27 @@ var actionTab = actionTable{
 	actionRow{ // S192
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // $
-			nil,       // func
-			nil,       // id
-			nil,       // ::
-			nil,       // =>
-			reduce(9), // (, reduce: Type
-			nil,       // )
-			nil,       // ,
-			nil,       // empty
-			nil,       // [
-			nil,       // ]
-			nil,       // num
-			nil,       // bool
-			nil,       // char
-			nil,       // operations
-			nil,       // relop
-			nil,       // #
-			nil,       // boolean
-			nil,       // number
-			nil,       // charac
+			nil,        // INVALID
+			nil,        // $
+			nil,        // empty
+			nil,        // func
+			nil,        // id
+			nil,        // ::
+			nil,        // =>
+			reduce(10), // (, reduce: Type
+			nil,        // )
+			nil,        // ,
+			nil,        // [
+			nil,        // ]
+			nil,        // num
+			nil,        // bool
+			nil,        // char
+			nil,        // operations
+			nil,        // relop
+			nil,        // #
+			nil,        // boolean
+			nil,        // number
+			nil,        // charac
 		},
 	},
 	actionRow{ // S193
@@ -5034,6 +5034,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -5041,7 +5042,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(200), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5060,6 +5060,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -5067,7 +5068,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(201), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5086,6 +5086,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -5093,7 +5094,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(202), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5112,14 +5112,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(21), // (, reduce: FunctionCall
-			reduce(21), // ), reduce: FunctionCall
+			reduce(22), // (, reduce: FunctionCall
+			reduce(22), // ), reduce: FunctionCall
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5138,6 +5138,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -5145,7 +5146,6 @@ var actionTab = actionTable{
 			shift(108), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(110), // [
 			nil,        // ]
 			shift(111), // num
@@ -5164,14 +5164,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(22), // (, reduce: FunctionCall
-			reduce(22), // ), reduce: FunctionCall
+			reduce(23), // (, reduce: FunctionCall
+			reduce(23), // ), reduce: FunctionCall
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5190,14 +5190,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(23), // (, reduce: FunctionCall
-			reduce(23), // ), reduce: FunctionCall
+			reduce(24), // (, reduce: FunctionCall
+			reduce(24), // ), reduce: FunctionCall
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5214,27 +5214,27 @@ var actionTab = actionTable{
 	actionRow{ // S200
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // $
-			nil,       // func
-			nil,       // id
-			nil,       // ::
-			nil,       // =>
-			nil,       // (
-			reduce(9), // ), reduce: Type
-			nil,       // ,
-			nil,       // empty
-			nil,       // [
-			nil,       // ]
-			nil,       // num
-			nil,       // bool
-			nil,       // char
-			nil,       // operations
-			nil,       // relop
-			nil,       // #
-			nil,       // boolean
-			nil,       // number
-			nil,       // charac
+			nil,        // INVALID
+			nil,        // $
+			nil,        // empty
+			nil,        // func
+			nil,        // id
+			nil,        // ::
+			nil,        // =>
+			nil,        // (
+			reduce(10), // ), reduce: Type
+			nil,        // ,
+			nil,        // [
+			nil,        // ]
+			nil,        // num
+			nil,        // bool
+			nil,        // char
+			nil,        // operations
+			nil,        // relop
+			nil,        // #
+			nil,        // boolean
+			nil,        // number
+			nil,        // charac
 		},
 	},
 	actionRow{ // S201
@@ -5242,16 +5242,16 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(24), // (, reduce: Lambda
+			reduce(25), // (, reduce: Lambda
 			nil,        // )
-			reduce(24), // ,, reduce: Lambda
-			nil,        // empty
+			reduce(25), // ,, reduce: Lambda
 			nil,        // [
-			reduce(24), // ], reduce: Lambda
+			reduce(25), // ], reduce: Lambda
 			nil,        // num
 			nil,        // bool
 			nil,        // char
@@ -5268,14 +5268,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(24), // (, reduce: Lambda
-			reduce(24), // ), reduce: Lambda
-			reduce(24), // ,, reduce: Lambda
-			nil,        // empty
+			reduce(25), // (, reduce: Lambda
+			reduce(25), // ), reduce: Lambda
+			reduce(25), // ,, reduce: Lambda
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5294,6 +5294,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -5301,7 +5302,6 @@ var actionTab = actionTable{
 			shift(204), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5320,6 +5320,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			shift(151), // id
 			nil,        // ::
@@ -5327,7 +5328,6 @@ var actionTab = actionTable{
 			shift(152), // (
 			nil,        // )
 			nil,        // ,
-			nil,        // empty
 			shift(153), // [
 			nil,        // ]
 			nil,        // num
@@ -5346,6 +5346,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -5353,7 +5354,6 @@ var actionTab = actionTable{
 			shift(172), // (
 			shift(206), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5372,6 +5372,7 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
@@ -5379,7 +5380,6 @@ var actionTab = actionTable{
 			nil,        // (
 			shift(207), // )
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num
@@ -5398,14 +5398,14 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // $
+			nil,        // empty
 			nil,        // func
 			nil,        // id
 			nil,        // ::
 			nil,        // =>
-			reduce(24), // (, reduce: Lambda
-			reduce(24), // ), reduce: Lambda
+			reduce(25), // (, reduce: Lambda
+			reduce(25), // ), reduce: Lambda
 			nil,        // ,
-			nil,        // empty
 			nil,        // [
 			nil,        // ]
 			nil,        // num

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gocc -v -p "github.com/Loptt/lambdish-compiler/gocc" ../grammar/lambdish.ebnf
+gocc -a -v -p "github.com/Loptt/lambdish-compiler/gocc" ../grammar/lambdish.ebnf
