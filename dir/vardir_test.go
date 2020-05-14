@@ -1,9 +1,10 @@
 package dir
 
 import (
-	"github.com/Loptt/lambdish-compiler/types"
 	"reflect"
 	"testing"
+
+	"github.com/Loptt/lambdish-compiler/types"
 )
 
 func TestStringVar(t *testing.T) {
@@ -14,28 +15,28 @@ func TestStringVar(t *testing.T) {
 		{
 			e: &VarEntry{
 				"minVal",
-				types.NewLambdishType(types.Num, 0),
+				types.NewDataLambdishType(types.Num, 0),
 			},
 			want: "minVal",
 		},
 		{
 			e: &VarEntry{
 				"isEnabled",
-				types.NewLambdishType(types.Bool, 0),
+				types.NewDataLambdishType(types.Bool, 0),
 			},
 			want: "isEnabled",
 		},
 		{
 			e: &VarEntry{
 				"maxValue",
-				types.NewLambdishType(types.Num, 0),
+				types.NewDataLambdishType(types.Num, 0),
 			},
 			want: "maxValue",
 		},
 		{
 			e: &VarEntry{
 				"arrBool",
-				types.NewLambdishType(types.Bool, 10),
+				types.NewDataLambdishType(types.Bool, 10),
 			},
 			want: "arrBool",
 		},
@@ -62,13 +63,13 @@ func TestAddVar(t *testing.T) {
 			},
 			e: &VarEntry{
 				"minVal",
-				types.NewLambdishType(types.Num, 0),
+				types.NewDataLambdishType(types.Num, 0),
 			},
 			want: VarDirectory{
 				map[string]*VarEntry{
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 				},
 			},
@@ -78,23 +79,23 @@ func TestAddVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 				},
 			},
 			e: &VarEntry{
 				"minVal",
-				types.NewLambdishType(types.Num, 0),
+				types.NewDataLambdishType(types.Num, 0),
 			},
 			want: VarDirectory{
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 				},
 			},
@@ -104,31 +105,31 @@ func TestAddVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 				},
 			},
 			e: &VarEntry{
 				"arrBool",
-				types.NewLambdishType(types.Bool, 10),
+				types.NewDataLambdishType(types.Bool, 10),
 			},
 			want: VarDirectory{
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 					"arrBool": &VarEntry{
 						"arrBool",
-						types.NewLambdishType(types.Bool, 10),
+						types.NewDataLambdishType(types.Bool, 10),
 					},
 				},
 			},
@@ -155,21 +156,21 @@ func TestGetVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 					"arrBool": &VarEntry{
 						"arrBool",
-						types.NewLambdishType(types.Bool, 10),
+						types.NewDataLambdishType(types.Bool, 10),
 					},
 				},
 			},
 			want: &VarEntry{
 				"minVal",
-				types.NewLambdishType(types.Num, 0),
+				types.NewDataLambdishType(types.Num, 0),
 			},
 		},
 		{
@@ -178,15 +179,15 @@ func TestGetVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 					"arrBool": &VarEntry{
 						"arrBool",
-						types.NewLambdishType(types.Bool, 10),
+						types.NewDataLambdishType(types.Bool, 10),
 					},
 				},
 			},
@@ -198,15 +199,15 @@ func TestGetVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 					"arrBool": &VarEntry{
 						"arrBool",
-						types.NewLambdishType(types.Bool, 10),
+						types.NewDataLambdishType(types.Bool, 10),
 					},
 				},
 			},
@@ -233,15 +234,15 @@ func TestExistsVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 					"arrBool": &VarEntry{
 						"arrBool",
-						types.NewLambdishType(types.Bool, 10),
+						types.NewDataLambdishType(types.Bool, 10),
 					},
 				},
 			},
@@ -253,15 +254,15 @@ func TestExistsVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 					"arrBool": &VarEntry{
 						"arrBool",
-						types.NewLambdishType(types.Bool, 10),
+						types.NewDataLambdishType(types.Bool, 10),
 					},
 				},
 			},
@@ -273,15 +274,15 @@ func TestExistsVar(t *testing.T) {
 				map[string]*VarEntry{
 					"isEnabled": &VarEntry{
 						"isEnabled",
-						types.NewLambdishType(types.Bool, 0),
+						types.NewDataLambdishType(types.Bool, 0),
 					},
 					"minVal": &VarEntry{
 						"minVal",
-						types.NewLambdishType(types.Num, 0),
+						types.NewDataLambdishType(types.Num, 0),
 					},
 					"arrBool": &VarEntry{
 						"arrBool",
-						types.NewLambdishType(types.Bool, 10),
+						types.NewDataLambdishType(types.Bool, 10),
 					},
 				},
 			},

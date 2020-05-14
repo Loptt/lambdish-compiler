@@ -3,6 +3,8 @@ package vm
 import (
 	"os"
 
+	"github.com/Loptt/lambdish-compiler/mem"
+	"github.com/Loptt/lambdish-compiler/vm/ar"
 	"github.com/mewkiz/pkg/errutil"
 )
 
@@ -106,4 +108,117 @@ func getInt(v interface{}) (int, error) {
 	}
 
 	return in, nil
+}
+
+func getTypeAddr(addr mem.Address) int {
+	switch {
+	case addr < mem.Localstart:
+		return int(addr) - mem.Globalstart
+	case addr < mem.Tempstart:
+		return int(addr) - mem.Localstart
+	case addr < mem.Constantstart:
+		return int(addr) - mem.Tempstart
+	case addr < mem.Scopestart:
+		return int(addr) - mem.Constantstart
+	default:
+		return int(addr) - mem.Scopestart
+	}
+}
+
+// copyTempoAR copies all the contents of the temp memory to the current activation record
+// so that it can be restored later
+func (vm *VirtualMachine) copyTempToAR(a *ar.ActivationRecord) error {
+	mstemp := vm.mm.memtemp
+
+	a.ResetTemps()
+
+	for i, num := range mstemp.num {
+		a.AddNumTemp(num, mem.Address(i+mem.NumOffset+mem.Tempstart))
+	}
+
+	for i, char := range mstemp.char {
+		a.AddCharTemp(char, mem.Address(i+mem.CharOffset+mem.Tempstart))
+	}
+
+	for i, b := range mstemp.booleans {
+		a.AddBoolTemp(b, mem.Address(i+mem.BoolOffset+mem.Tempstart))
+	}
+
+	for i, f := range mstemp.function {
+		a.AddFuncTemp(int(f), mem.Address(i+mem.FunctionOffset+mem.Tempstart))
+	}
+
+	for i, l := range mstemp.list {
+		a.AddListTemp(int(l), mem.Address(i+mem.ListOffset+mem.Tempstart))
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) copyTempToMemory(a *ar.ActivationRecord) error {
+	for _, p := range a.Numtemps() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Chartemps() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Booltemps() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Functemps() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Listtemps() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) copyParamsToLocal(a *ar.ActivationRecord) error {
+	for _, p := range a.Numparams() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Charparams() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Boolparams() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Funcparams() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	for _, p := range a.Listparams() {
+		if err := vm.mm.SetValue(p.Value(), p.Addr()); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

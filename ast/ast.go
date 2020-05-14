@@ -74,7 +74,6 @@ type Statement interface {
 	IsId() bool
 	IsConstant() bool
 	IsLambda() bool
-	IsLambdaCall() bool
 	IsFunctionCall() bool
 	Token() *token.Token
 }
@@ -99,11 +98,6 @@ func (i *Id) IsConstant() bool {
 
 // IsLambda conforms to the Statement interface to determine if object is Lambda
 func (i *Id) IsLambda() bool {
-	return false
-}
-
-// IsLambdaCall conforms to the Statement interface to determine if object is LambdaCall
-func (i *Id) IsLambdaCall() bool {
 	return false
 }
 

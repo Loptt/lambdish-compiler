@@ -7,15 +7,18 @@ import (
 
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/quad"
+	"github.com/Loptt/lambdish-compiler/vm/ar"
 	"github.com/mewkiz/pkg/errutil"
 )
 
 //VirtualMachine ...
 type VirtualMachine struct {
-	ip     int
-	quads  []*quad.Quadruple
-	mm     *Memory
-	output interface{}
+	ip           int
+	quads        []*quad.Quadruple
+	mm           *Memory
+	ar           *ar.ArStack
+	pendingcalls *ar.ArStack
+	output       interface{}
 }
 
 func (vm *VirtualMachine) String() string {
@@ -213,6 +216,24 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 			return err
 		}
 		vm.ip++
+	case quad.Era:
+		if err := vm.operationEra(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Param:
+		if err := vm.operationParam(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Call:
+		if err := vm.operationCall(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+	case quad.Ret:
+		if err := vm.operationRet(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
 	case quad.Goto:
 		if err := vm.operationGoto(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err
@@ -227,6 +248,9 @@ func (vm *VirtualMachine) Run() error {
 		return errutil.Newf("No instructions to execute")
 	}
 
+	// Push the main activation record
+	vm.ar.Push(ar.NewActivationRecord())
+
 	for vm.ip < len(vm.quads) {
 		if err := vm.executeNextInstruction(); err != nil {
 			return err
@@ -240,5 +264,5 @@ func (vm *VirtualMachine) Run() error {
 
 //NewVirtualMachine ...
 func NewVirtualMachine() *VirtualMachine {
-	return &VirtualMachine{0, make([]*quad.Quadruple, 0), NewMemory(), 0}
+	return &VirtualMachine{0, make([]*quad.Quadruple, 0), NewMemory(), ar.NewArStack(), ar.NewArStack(), 0}
 }

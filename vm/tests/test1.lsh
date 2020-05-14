@@ -1,1 +1,12 @@
-equal(false, false)
+func sum :: num x, num y => num (
+    +(x, y)
+)
+
+func sum2 :: num x, num y, num z => num (
+    *(
+        +(z, 3),
+        -(10, x)
+    )
+)
+
+sum(1,sum2(4,5,6))

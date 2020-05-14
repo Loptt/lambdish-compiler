@@ -48,5 +48,3 @@ func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
 
 	return funcdir, nil
 }
-
-// TODO: Checar la cohesion de tipos
