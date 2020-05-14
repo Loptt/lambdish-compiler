@@ -92,7 +92,7 @@ func (vm *VirtualMachine) loadConstants(lines []string) error {
 				return err
 			}
 		case addr < mem.Constantstart+mem.BoolOffset: // Char
-			char := fields[0][0]
+			char := rune(fields[0][1])
 
 			if err := vm.mm.SetValue(char, mem.Address(addr)); err != nil {
 				return err
@@ -190,6 +190,21 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 		vm.ip++
 	case quad.Not:
 		if err := vm.operationNot(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Gt:
+		if err := vm.operationGt(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Lt:
+		if err := vm.operationLt(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Equal:
+		if err := vm.operationEqual(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err
 		}
 		vm.ip++

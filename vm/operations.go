@@ -1,6 +1,7 @@
 package vm
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/Loptt/lambdish-compiler/mem"
@@ -243,6 +244,101 @@ func (vm *VirtualMachine) operationNot(lop, rop, r mem.Address) error {
 	}
 
 	return nil
+}
+
+func (vm *VirtualMachine) operationGt(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	ropv, err := vm.mm.GetValue(rop)
+	if err != nil {
+		return err
+	}
+
+	f1, err := getNum(lopv)
+	if err != nil {
+		return err
+	}
+
+	f2, err := getNum(ropv)
+	if err != nil {
+		return err
+	}
+
+	result := f1 > f2
+
+	if err := vm.mm.SetValue(result, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationLt(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	ropv, err := vm.mm.GetValue(rop)
+	if err != nil {
+		return err
+	}
+
+	f1, err := getNum(lopv)
+	if err != nil {
+		return err
+	}
+
+	f2, err := getNum(ropv)
+	if err != nil {
+		return err
+	}
+
+	result := f1 < f2
+
+	if err := vm.mm.SetValue(result, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationEqual(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	ropv, err := vm.mm.GetValue(rop)
+	if err != nil {
+		return err
+	}
+
+	if f1, f2, err := getNums(lopv, ropv); err == nil {
+		fmt.Printf("Getting nums %f %f\n", f1, f2)
+		result := f1 == f2
+		if err := vm.mm.SetValue(result, r); err != nil {
+			return err
+		}
+		return nil
+	} else if c1, c2, err := getChars(lopv, ropv); err == nil {
+		result := c1 == c2
+		if err := vm.mm.SetValue(result, r); err != nil {
+			return err
+		}
+		return nil
+	} else if b1, b2, err := getBools(lopv, ropv); err == nil {
+		result := b1 == b2
+		if err := vm.mm.SetValue(result, r); err != nil {
+			return err
+		}
+		return nil
+	}
+
+	return errutil.Newf("Cannot perform equal operation on given types")
 }
 
 func (vm *VirtualMachine) operationPrint(lop, rop, r mem.Address) error {
