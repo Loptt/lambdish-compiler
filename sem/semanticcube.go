@@ -104,8 +104,6 @@ func NewSemanticCube() *SemanticCube {
 			//Relational Operators
 			"<@11":     types.Bool,
 			">@11":     types.Bool,
-			">@22":     types.Bool,
-			"<@22":     types.Bool,
 			"Equal@11": types.Bool,
 			"Equal@22": types.Bool,
 			"Equal@33": types.Bool,
