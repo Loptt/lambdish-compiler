@@ -240,6 +240,14 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 		if err := vm.operationGoto(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err
 		}
+	case quad.GotoT:
+		if err := vm.operationGotoT(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+	case quad.GotoF:
+		if err := vm.operationGotoF(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -259,7 +267,7 @@ func (vm *VirtualMachine) Run() error {
 		}
 	}
 
-	fmt.Printf("%v\n", vm.output)
+	fmt.Printf("%c\n", vm.output)
 
 	return nil
 }

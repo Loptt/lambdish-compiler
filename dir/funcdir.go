@@ -1,6 +1,8 @@
 package dir
 
 import (
+	"fmt"
+
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/types"
 )
@@ -52,7 +54,7 @@ func (fe *FuncEntry) ReturnVal() *types.LambdishType {
 
 // AddLambda adds a new lambda func entry to the current func entry
 func (fe *FuncEntry) AddLambda(retval *types.LambdishType, params []*types.LambdishType, vardir *VarDirectory) *FuncEntry {
-	id := string(len(fe.lambdas))
+	id := fmt.Sprintf("%d", (len(fe.lambdas)))
 	lambda := &FuncEntry{id, retval, params, vardir, make([]*FuncEntry, 0), mem.Address(-1), 0}
 	fe.lambdas = append([]*FuncEntry{lambda}, fe.lambdas...)
 	return lambda
@@ -70,7 +72,6 @@ func (fe *FuncEntry) GetLambdaEntryById(id string) *FuncEntry {
 			return l
 		}
 	}
-
 	return nil
 }
 

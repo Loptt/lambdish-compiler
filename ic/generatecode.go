@@ -198,6 +198,9 @@ func generateCodeLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, ctx *Genera
 	if err := generateCodeStatement(lambda.Statement(), fes, ctx); err != nil {
 		return err
 	}
+
+	fes.Pop()
+
 	addr := ctx.gen.GetFromAddrStack()
 
 	ctx.gen.Generate(quad.Ret, addr, mem.Address(-1), mem.Address(-1))

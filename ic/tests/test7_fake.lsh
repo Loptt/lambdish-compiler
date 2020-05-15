@@ -1,12 +1,29 @@
-func sum :: num x, num y => num (
-    +(x, y)
-)
-
-func sum2 :: num x, (num => num) f => num (
-    *(
-        +(x, 3),
-        f(x)
+func thisOrThat :: num x, num y, (num => char) f, (num => char) g => char (
+    if (>(x, y),
+        f(x),
+        g(y)
     )
-)
+) 
 
-sum2(1, (# num x => num (+(x, 1))))
+thisOrThat(
+    4,
+    2,
+    (# num x => char (
+        if (equal(x, 1),
+            'r',
+            'z'
+        )
+    )),
+    (# num x => char (
+        if (>(x, 2),
+            if (equal(x, 4),
+                'a',
+                'b'
+            ),
+            if (!(>(3, x)),
+                'c',
+                'd'
+            )
+        )
+    ))
+)

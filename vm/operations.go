@@ -1,7 +1,6 @@
 package vm
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/Loptt/lambdish-compiler/mem"
@@ -319,7 +318,6 @@ func (vm *VirtualMachine) operationEqual(lop, rop, r mem.Address) error {
 	}
 
 	if f1, f2, err := getNums(lopv, ropv); err == nil {
-		fmt.Printf("Getting nums %f %f\n", f1, f2)
 		result := f1 == f2
 		if err := vm.mm.SetValue(result, r); err != nil {
 			return err
@@ -525,6 +523,50 @@ func (vm *VirtualMachine) operationGoto(lop, rop, r mem.Address) error {
 	}
 
 	vm.ip = int(r)
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationGotoT(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	b1, err := getBool(lopv)
+	if err != nil {
+		return err
+	}
+
+	jump := int(r)
+
+	if b1 {
+		vm.ip = jump
+	} else {
+		vm.ip++
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationGotoF(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	b1, err := getBool(lopv)
+	if err != nil {
+		return err
+	}
+
+	jump := int(r)
+
+	if !b1 {
+		vm.ip = jump
+	} else {
+		vm.ip++
+	}
 
 	return nil
 }

@@ -2,6 +2,7 @@ package dir
 
 import (
 	"fmt"
+
 	"github.com/Loptt/lambdish-compiler/gocc/token"
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/types"
@@ -12,6 +13,7 @@ type VarEntry struct {
 	t    *types.LambdishType
 	tok  *token.Token
 	addr mem.Address
+	// TODO: ADD POSITION
 }
 
 func (ve *VarEntry) Id() string {
