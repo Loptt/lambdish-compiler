@@ -1,12 +1,17 @@
-func sum :: num x, num y => num (
-    +(x, y)
+func sum :: num x, num y, (bool => num) f1 => num (
+    
 )
 
-func sum2 :: num x, num y, num z => num (
+func sum2 :: num x, (num => num) f => num (
     *(
-        +(z, 3),
-        -(10, x)
+        +(x, 3),
+        f(x)
     )
 )
 
-sum(1,sum2(4,5,6))
+sum2(
+    1,
+    (# num x => num (
+        *(x, 4)
+    )
+))

@@ -360,6 +360,14 @@ func (vm *VirtualMachine) operationEra(lop, rop, r mem.Address) error {
 
 func (vm *VirtualMachine) operationParam(lop, rop, r mem.Address) error {
 	nextcall := vm.pendingcalls.Top()
+
+	// We check if the address is in the global scope, if it is, it means that
+	// the address is a function address so we add it directly
+	if lop < mem.Localstart {
+		nextcall.AddFuncParam(int(lop))
+		return nil
+	}
+
 	typedaddr := getTypeAddr(lop)
 
 	lopv, err := vm.mm.GetValue(lop)
@@ -432,7 +440,20 @@ func (vm *VirtualMachine) operationCall(lop, rop, r mem.Address) error {
 	// We add the incoming call to the activation stack
 	vm.ar.Push(nextcall)
 
-	jump := int(lop)
+	// Now we get the location for the function
+	var jump int
+
+	j, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	funcloc, err := getInt(j)
+	if err != nil {
+		return err
+	}
+
+	jump = funcloc
 
 	if jump < 0 {
 		return errutil.Newf("Invalid instruction address")
@@ -499,11 +520,11 @@ func (vm *VirtualMachine) operationRet(lop, rop, r mem.Address) error {
 }
 
 func (vm *VirtualMachine) operationGoto(lop, rop, r mem.Address) error {
-	if lop < 0 {
+	if r < 0 {
 		return errutil.Newf("Invalid instruction address")
 	}
 
-	vm.ip = int(lop)
+	vm.ip = int(r)
 
 	return nil
 }

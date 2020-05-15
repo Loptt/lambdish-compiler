@@ -155,6 +155,8 @@ func (vm *VirtualMachine) LoadProgram(path string) error {
 func (vm *VirtualMachine) executeNextInstruction() error {
 	q := vm.quads[vm.ip]
 
+	//fmt.Printf("%d: Operation: %s\n", vm.ip, q.Op().String())
+
 	switch q.Op() {
 	case quad.Add:
 		if err := vm.operationAdd(q.Lop(), q.Rop(), q.R()); err != nil {

@@ -121,25 +121,39 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 				return err
 			}
 
+			// First we check if it is a function from the func directory
 			fe := ctx.funcdir.Get(id.String())
-			if fe == nil {
-				return errutil.Newf("Cannot find funcentry %s", id.String())
-			}
-			tmp, err := ctx.vm.GetNextTemp(fe.ReturnVal())
-			if err != nil {
-				return err
-			}
-			calladdr := ctx.gen.GetFromAddrStack()
+			if fe != nil {
+				tmp, err := ctx.vm.GetNextTemp(fe.ReturnVal())
+				if err != nil {
+					return err
+				}
+				calladdr := ctx.gen.GetFromAddrStack()
 
-			ctx.gen.Generate(quad.Call, calladdr, mem.Address(-1), tmp)
-			ctx.gen.PushToAddrStack(tmp)
-			return nil
+				ctx.gen.Generate(quad.Call, calladdr, mem.Address(-1), tmp)
+				ctx.gen.PushToAddrStack(tmp)
+				return nil
+				// Else we check if the id is in the func entry stack
+			} else if t, err := getFunctionTypeFromFuncStack(id, fes); err == nil {
+				tmp, err := ctx.vm.GetNextTemp(t.Retval())
+				if err != nil {
+					return err
+				}
+				calladdr := ctx.gen.GetFromAddrStack()
+
+				ctx.gen.Generate(quad.Call, calladdr, mem.Address(-1), tmp)
+				ctx.gen.PushToAddrStack(tmp)
+				return nil
+			}
+
+			return errutil.Newf("%+v: Cannot find id in funcdir or funcentry stack", id.Token())
 		}
 	} else if l, ok := fcall.Statement().(*ast.Lambda); ok {
 		if err := generateCodeLambda(l, fes, ctx); err != nil {
 			return err
 		}
 
+		// Address of lambda function is always on top of the stack
 		lambdaaddr := ctx.gen.GetFromAddrStack()
 
 		ctx.gen.Generate(quad.Era, mem.Address(0), mem.Address(-1), mem.Address(-1))
@@ -163,6 +177,8 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 		ctx.gen.Generate(quad.Call, lambdaaddr, mem.Address(-1), tmp)
 		ctx.gen.PushToAddrStack(tmp)
 
+	} else {
+		return errutil.Newf("%+v: Cannot identify function call style", fcall.Token())
 	}
 	return nil
 }
@@ -562,7 +578,7 @@ func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *Generatio
 
 	} else if fcall, ok := s.(*ast.FunctionCall); ok {
 		if err := generateCodeFunctionCall(fcall, fes, ctx); err != nil {
-			return mem.Address(-1), nil
+			return mem.Address(-1), err
 		}
 		return ctx.gen.GetFromAddrStack(), nil
 	} else if cv, ok := s.(*ast.ConstantValue); ok {

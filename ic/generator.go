@@ -112,7 +112,12 @@ func (g *Generator) GetPendingEraSize() *map[int]string {
 func (g *Generator) FillPendingFuncAddr(funcdir *dir.FuncDirectory) {
 	for loc, id := range g.pendingFuncAddr {
 		fe := funcdir.Get(id)
-		g.quads[loc].SetLop(fe.Loc())
+
+		if g.quads[loc].Op() == quad.Goto {
+			g.quads[loc].SetR(fe.Loc())
+		} else {
+			g.quads[loc].SetLop(fe.Loc())
+		}
 	}
 }
 

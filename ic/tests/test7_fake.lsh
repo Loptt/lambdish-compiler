@@ -1,0 +1,12 @@
+func sum :: num x, num y => num (
+    +(x, y)
+)
+
+func sum2 :: num x, (num => num) f => num (
+    *(
+        +(x, 3),
+        f(x)
+    )
+)
+
+sum2(1, (# num x => num (+(x, 1))))

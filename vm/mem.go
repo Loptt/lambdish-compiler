@@ -13,8 +13,8 @@ type MemorySegment struct {
 	num      []float64
 	char     []rune
 	booleans []bool
-	function []mem.Address
-	list     []mem.Address
+	function []int
+	list     []int
 	base     mem.Address
 	name     string
 }
@@ -77,13 +77,13 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 		}
 		return errutil.Newf("Cannot set non-boolean in boolean address range")
 	case baseaddr < mem.ListOffset: //Function
-		if a, ok := v.(mem.Address); ok {
+		if a, ok := v.(int); ok {
 			typebaseaddr := int(baseaddr - mem.FunctionOffset)
 			// If the specified address is bigger than the current size of the array
 			// we need to grow the array to that size
 			if len(ms.function) <= typebaseaddr {
 				// First we create a new slice with the extra cells we need
-				newslice := make([]mem.Address, typebaseaddr-len(ms.function)+1)
+				newslice := make([]int, typebaseaddr-len(ms.function)+1)
 				ms.function = append(ms.function, newslice...)
 				// Now we set the value to the specified address
 				ms.function[typebaseaddr] = a
@@ -92,15 +92,15 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 			}
 			return nil
 		}
-		return errutil.Newf("Cannot set non-function in function address range")
+		return errutil.Newf("Cannot set non-function in function address range %+v, %T base: %d", v, v, baseaddr)
 	case baseaddr < mem.ListOffset+1000: //List
-		if a, ok := v.(mem.Address); ok {
+		if a, ok := v.(int); ok {
 			typebaseaddr := int(baseaddr - mem.ListOffset)
 			// If the specified address is bigger than the current size of the array
 			// we need to grow the array to that size
 			if len(ms.list) <= typebaseaddr {
 				// First we create a new slice with the extra cells we need
-				newslice := make([]mem.Address, typebaseaddr-len(ms.list)+1)
+				newslice := make([]int, typebaseaddr-len(ms.list)+1)
 				ms.list = append(ms.list, newslice...)
 				// Now we set the value to the specified address
 				ms.list[typebaseaddr] = a
@@ -125,7 +125,7 @@ func (ms *MemorySegment) GetValue(addr mem.Address) (interface{}, error) {
 	case baseaddr < mem.CharOffset: // Number
 		typebaseaddr := int(baseaddr - mem.NumOffset)
 		if len(ms.num) <= typebaseaddr {
-			return nil, errutil.Newf("Referencing address out of scope")
+			return nil, errutil.Newf("%s: Referencing address %d out of scope of %d", ms.name, typebaseaddr, len(ms.num))
 		}
 		return ms.num[typebaseaddr], nil
 	case baseaddr < mem.BoolOffset: // Character
@@ -183,7 +183,6 @@ func (ms *MemorySegment) String() string {
 	for i, v := range ms.list {
 		builder.WriteString(fmt.Sprintf("      %d: %d\n", i, v))
 	}
-
 	return builder.String()
 }
 
@@ -191,8 +190,8 @@ func NewMemorySegment(base int, name string) *MemorySegment {
 	return &MemorySegment{
 		make([]float64, 0),
 		make([]rune, 0), make([]bool, 0),
-		make([]mem.Address, 0),
-		make([]mem.Address, 0),
+		make([]int, 0),
+		make([]int, 0),
 		mem.Address(base),
 		name,
 	}
@@ -221,11 +220,7 @@ func (m *Memory) GetValue(addr mem.Address) (interface{}, error) {
 	case addr < mem.Globalstart: // Error
 		return false, errutil.Newf("Address out of scope")
 	case addr < mem.Localstart: // Global
-		v, err := m.memglobal.GetValue(addr)
-		if err != nil {
-			return nil, err
-		}
-		return v, nil
+		return int(addr), nil
 	case addr < mem.Tempstart: // Local
 		v, err := m.memlocal.GetValue(addr)
 		if err != nil {
