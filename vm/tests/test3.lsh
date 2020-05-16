@@ -1,20 +1,25 @@
-func getOperation :: num x => (num, num => num) (
-    if (>(x, 0),
+func getOperation :: num x, num y => ( => (num, num => num)) (
+    if (<(x, y),
         sum,
         sub
     )
 )
 
-func sum :: num x, num y => num (
-    +(x, y)
+func sum :: => (num, num => num) (
+    (# num x, num y => num (
+        +(x, y)
+    ))
 )
 
-func sub :: num x, num y => num (
-    -(x, y)
+func sub :: => (num, num => num) (
+    (# num x, num y => num (
+        -(x, y)
+    ))
 )
 
 func operate :: num x, num y => num (
-    getOperation(x)(x, y)
+    getOperation(x, y)()(x, y)
 )
 
 operate(3, 4)
+
