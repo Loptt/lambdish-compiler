@@ -4,6 +4,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
+
 	//"github.com/davecgh/go-spew/spew"
 	"os"
 	"testing"
@@ -36,7 +37,7 @@ func readFile(path string) ([]byte, error) {
 func TestSemanticCheck(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
-		"tests/test6.lsh",
+		"tests/test1.lsh",
 	}
 
 	for _, test := range tests {
@@ -56,6 +57,8 @@ func TestSemanticCheck(t *testing.T) {
 		if !ok {
 			t.Fatalf("Cannot cast to Program")
 		}
+
+		//spew.Dump(program)
 
 		_, err = SemanticCheck(program)
 		if err != nil {

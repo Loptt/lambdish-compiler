@@ -8,7 +8,26 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-var reservedFunctions = []string{"if", "append", "empty", "head", "tail", "insert", "and", "or", "equal", "+", "-", "*", "/", "%", "<", ">", "!", "main"}
+var reservedFunctions = []string{
+	"if",
+	"append",
+	"empty",
+	"head",
+	"tail",
+	"insert",
+	"and",
+	"or",
+	"equal",
+	"+",
+	"-",
+	"*",
+	"/",
+	"%",
+	"<",
+	">",
+	"!",
+	"main",
+}
 
 type Operation int
 

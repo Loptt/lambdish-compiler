@@ -1,4 +1,4 @@
-1 LR-1 conflicts: 
+2 LR-1 conflicts: 
 	S3
 		symbol: boolean
 			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
@@ -24,3 +24,7 @@
 		symbol: relop
 			Reduce(3:Functions : Function	<< ast.NewFunctionList(X[0]) >>)
 			Reduce(4:Functions : empty	<< make([]*ast.Function, 0), nil >>)
+	S107
+		symbol: ]
+			Reduce(11:Type : "[" Type "]"	<< ast.AppendType(X[1]) >>)
+			Reduce(33:Constant : "[" Type "]"	<< ast.AppendEmptyConstant(X[0], X[1]) >>)

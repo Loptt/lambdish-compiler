@@ -1,5 +1,11 @@
-func give1 :: num n => num (1)
+func getEven :: [num] l => [num] (
+    if (empty(l),
+        [num],
+        if (equal(%(head(l), 2), 0),
+            insert(head(l), getEven(tail(l))),
+            getEven(tail(l))
+        )
+    )
+)
 
-func give2 :: [num] n => num (23)
-
-give2(give1(33))
+getEven([1,3,4,5])

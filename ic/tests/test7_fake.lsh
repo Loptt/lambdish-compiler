@@ -1,29 +1,11 @@
-func thisOrThat :: num x, num y, (num => char) f, (num => char) g => char (
-    if (>(x, y),
-        f(x),
-        g(y)
+func getEven :: [num] l => [num] (
+    if (empty(l),
+        [num],
+        if (equal(%(head(l), 2), 0),
+            insert(head(l), getEven(tail(l))),
+            getEven(tail(l))
+        )
     )
-) 
-
-thisOrThat(
-    4,
-    6,
-    (# num x => char (
-        if (equal(x, 1),
-            'r',
-            'z'
-        )
-    )),
-    (# num x => char (
-        if (>(x, 2),
-            if (equal(x, 4),
-                'a',
-                'b'
-            ),
-            if (!(>(3, x)),
-                'c',
-                'd'
-            )
-        )
-    ))
 )
+
+getEven([1,2,3,4])

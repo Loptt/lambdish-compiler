@@ -95,3 +95,13 @@ Constant: {
 	charac
 	number
 }
+ConstantArgs: {
+	(
+	[
+	boolean
+	charac
+	id
+	number
+	operations
+	relop
+}

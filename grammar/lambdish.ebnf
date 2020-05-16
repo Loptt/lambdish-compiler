@@ -45,9 +45,9 @@ Params :
     ;
 
 Type 
-    : BasicType                           << $0, nil >>
+    : BasicType                      << $0, nil >>
     | "(" FuncTypes "=>" Type ")"    << ast.NewFunctionType($1, $3)>>
-    | "[" Type "]"                        << ast.AppendType($1) >>
+    | "[" Type "]"                   << ast.AppendType($1) >>
     ; 
 
 BasicType
@@ -84,10 +84,16 @@ Args
     | Statement                     << ast.NewStatementList($0) >>
     | empty                         << make([]ast.Statement, 0), nil >>
     ;
-
+    
 Constant 
     : boolean                       << ast.NewConstantBool($0) >>
     | number                        << ast.NewConstantNum($0) >>
     | charac                        << ast.NewConstantChar($0) >>
-    | "[" Args "]"                  << ast.AppendConstant($0, $1) >>
+    | "[" ConstantArgs "]"          << ast.AppendConstant($0, $1) >>
+    | "[" Type "]"                  << ast.AppendEmptyConstant($0, $1) >>
+    ;
+
+ConstantArgs
+    : Statement "," Args           << ast.AppendStatementList($0,$2) >>
+    |  Statement                   << ast.NewStatementList($0) >>
     ;

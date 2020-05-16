@@ -344,13 +344,43 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Constant : "[" Args "]"	<< ast.AppendConstant(X[0], X[1]) >>`,
+		String: `Constant : "[" ConstantArgs "]"	<< ast.AppendConstant(X[0], X[1]) >>`,
 		Id:         "Constant",
 		NTType:     12,
 		Index:      32,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendConstant(X[0], X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `Constant : "[" Type "]"	<< ast.AppendEmptyConstant(X[0], X[1]) >>`,
+		Id:         "Constant",
+		NTType:     12,
+		Index:      33,
+		NumSymbols: 3,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.AppendEmptyConstant(X[0], X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `ConstantArgs : Statement "," Args	<< ast.AppendStatementList(X[0],X[2]) >>`,
+		Id:         "ConstantArgs",
+		NTType:     13,
+		Index:      34,
+		NumSymbols: 3,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.AppendStatementList(X[0],X[2])
+		},
+	},
+	ProdTabEntry{
+		String: `ConstantArgs : Statement	<< ast.NewStatementList(X[0]) >>`,
+		Id:         "ConstantArgs",
+		NTType:     13,
+		Index:      35,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewStatementList(X[0])
 		},
 	},
 }

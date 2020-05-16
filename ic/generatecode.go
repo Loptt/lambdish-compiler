@@ -548,7 +548,16 @@ func generateCodeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, ctx
 	if err != nil {
 		return err
 	}
-	ctx.gen.Generate(quad.Lst, mem.Address(-1), mem.Address(-1), mem.Address(len(cl.Contents())))
+
+	t2 := *t
+	t2.DecreaseList()
+
+	typeint, err := getIntOfType(&t2)
+	if err != nil {
+		return err
+	}
+
+	ctx.gen.Generate(quad.Lst, mem.Address(typeint), mem.Address(-1), mem.Address(len(cl.Contents())))
 
 	listcount := 0
 

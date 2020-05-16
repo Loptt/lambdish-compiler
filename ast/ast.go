@@ -306,6 +306,7 @@ func (c *ConstantValue) Value() string {
 type ConstantList struct {
 	contents []Statement
 	tok      *token.Token
+	t        *types.LambdishType
 }
 
 // IsList conforms to the constant interface to determine is the object is a list
@@ -349,4 +350,8 @@ func (cl *ConstantList) Contents() []Statement {
 
 func (cl *ConstantList) Token() *token.Token {
 	return cl.tok
+}
+
+func (cl *ConstantList) Type() *types.LambdishType {
+	return cl.t
 }

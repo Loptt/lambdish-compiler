@@ -119,12 +119,14 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 
 //getTypeConstantList
 func GetTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
+	// Make a list of all the types in the list
 	ts := make([]*types.LambdishType, 0)
 
 	if len(cl.Contents()) == 0 {
-		return nil, errutil.Newf("Empty list delcaration currently not supported")
+		return cl.Type(), nil
 	}
 
+	// Get the type of each content
 	for _, s := range cl.Contents() {
 		if typ, err := GetTypeStatement(s, fes, funcdir, semcube); err == nil {
 			ts = append(ts, typ)
@@ -133,14 +135,17 @@ func GetTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 		}
 	}
 
+	// Save the type of the first element of the list
 	listType := *ts[0]
 
+	// If any type is different then we send an error
 	for _, t := range ts {
 		if !t.Equal(&listType) {
 			return nil, errutil.Newf("%+v: Cannot create list of multiple types", cl.Token())
 		}
 	}
 
+	// If all types are the same we declare the type of the list as one level above the type of its elements
 	listType.IncreaseList()
 
 	return &listType, nil

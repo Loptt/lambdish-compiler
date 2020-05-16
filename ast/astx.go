@@ -348,5 +348,24 @@ func AppendConstant(start, list interface{}) (*ConstantList, error) {
 		return nil, errutil.Newf("Invalid type for statement list. Expected []Statement")
 	}
 
-	return &ConstantList{l, val}, nil
+	return &ConstantList{l, val, nil}, nil
+}
+
+// AppendEmptyConstant creates an empty list with a given type
+func AppendEmptyConstant(start, t interface{}) (*ConstantList, error) {
+	val, ok := start.(*token.Token)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for start. Expected token")
+	}
+
+	typ, ok := t.(*types.LambdishType)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for typ. Expected *types.LambdishType")
+	}
+
+	// We increase the list content because the read type is always one list level lower
+	// than the actual list
+	typ.IncreaseList()
+
+	return &ConstantList{make([]Statement, 0), val, typ}, nil
 }
