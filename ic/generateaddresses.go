@@ -1,6 +1,8 @@
 package ic
 
 import (
+	"sort"
+
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/mewkiz/pkg/errutil"
@@ -30,7 +32,24 @@ func generateAddressesProgram(program *ast.Program, ctx *GenerationContext) erro
 
 func generateAddressesFuncEntry(fe *dir.FuncEntry, ctx *GenerationContext) error {
 	ctx.vm.ResetLocal()
+
+	// Before we assign an address to each parameter of the function, we need to sort the
+	// entries by their position in the definition. This will keep the order in runtime
+	ves := make([]*dir.VarEntry, 0)
+
+	// We extract every single var entry
 	for _, ve := range fe.VarDir().Table() {
+		ves = append(ves, ve)
+	}
+
+	// We sort them by their position in the function declaration
+	sort.SliceStable(ves, func(i, j int) bool {
+		return ves[i].Pos() > ves[j].Pos()
+	})
+
+	// Now we can request address assigning using the sorted array which
+	// will guarantee that the addresses are given in order
+	for _, ve := range ves {
 		addr, err := ctx.vm.GetNextLocal(ve.Type())
 		if err != nil {
 			return err

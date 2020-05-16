@@ -7,7 +7,7 @@ func thisOrThat :: num x, num y, (num => char) f, (num => char) g => char (
 
 thisOrThat(
     4,
-    2,
+    6,
     (# num x => char (
         if (equal(x, 1),
             'r',

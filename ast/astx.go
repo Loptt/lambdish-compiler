@@ -133,12 +133,12 @@ func AppendParamsList(typ, id, list interface{}) ([]*dir.VarEntry, error) {
 		return nil, errutil.Newf("Invalid type for typ. Expected *types.LambdishType")
 	}
 
-	v := dir.NewVarEntry(d, t, i)
-
 	vlist, ok := list.([]*dir.VarEntry)
 	if !ok {
 		return nil, errutil.Newf("Invalid type for parameters. Expected []*dir.VarEntry")
 	}
+
+	v := dir.NewVarEntry(d, t, i, len(vlist))
 
 	return append([]*dir.VarEntry{v}, vlist...), nil
 }
@@ -158,7 +158,7 @@ func NewParamsList(typ, id interface{}) ([]*dir.VarEntry, error) {
 		return nil, errutil.Newf("Invalid type for typ. Expected *types.LambdishType")
 	}
 
-	v := dir.NewVarEntry(d, t, i)
+	v := dir.NewVarEntry(d, t, i, 0)
 
 	return []*dir.VarEntry{v}, nil
 }

@@ -1,13 +1,13 @@
 func thisOrThat :: num x, num y, (num => char) f, (num => char) g => char (
     if (>(x, y),
         f(x),
-        't'
+        g(y)
     )
 ) 
 
 thisOrThat(
-    4,
-    2,
+    -10,
+    -2,
     (# num x => char (
         if (equal(x, 1),
             'r',

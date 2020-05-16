@@ -13,7 +13,7 @@ type VarEntry struct {
 	t    *types.LambdishType
 	tok  *token.Token
 	addr mem.Address
-	// TODO: ADD POSITION
+	pos  int
 }
 
 func (ve *VarEntry) Id() string {
@@ -36,6 +36,10 @@ func (ve *VarEntry) SetAddress(addr mem.Address) {
 	ve.addr = addr
 }
 
+func (ve *VarEntry) Pos() int {
+	return ve.pos
+}
+
 type VarDirectory struct {
 	table map[string]*VarEntry
 }
@@ -44,8 +48,8 @@ func (e *VarEntry) String() string {
 	return fmt.Sprintf("%s", e.id)
 }
 
-func NewVarEntry(id string, t *types.LambdishType, tok *token.Token) *VarEntry {
-	return &VarEntry{id, t, tok, 0}
+func NewVarEntry(id string, t *types.LambdishType, tok *token.Token, pos int) *VarEntry {
+	return &VarEntry{id, t, tok, 0, pos}
 }
 
 func (vd *VarDirectory) Add(e *VarEntry) bool {
