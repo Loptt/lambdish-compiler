@@ -1,11 +1,13 @@
-func getEven :: [num] l => [num] (
-    if (empty(l),
-        [num],
-        if (equal(%(head(l), 2), 0),
-            insert(head(l), getEven(tail(l))),
-            getEven(tail(l))
-        )
-    )
+func getList :: num x => [num] (
+    [1,2,3]
 )
 
-getEven([1,3,4,5])
+func getFunc :: char x => (num => [num]) (
+    getList
+)
+
+func getEven :: [num] l, char x => [num] (
+    getFunc('c')(23)
+)
+
+getEven([1,3,4,5], 'c')

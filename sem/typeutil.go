@@ -56,6 +56,11 @@ func getReservedFunctionType(id string, args []*types.LambdishType) (*types.Lamb
 // getTypeFunctionCall
 func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 
+	argTypes, err := GetTypesFromArgs(fcall.Args(), fes, funcdir, semcube)
+	if err != nil {
+		return nil, err
+	}
+
 	// First we check if the statement of the call is an ID
 	if id, ok := fcall.Statement().(*ast.Id); ok {
 		// If it is an ID, we check if it is declared in the function stack
@@ -80,10 +85,6 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			// key so that we can query the Func Directory
 		}
 
-		argTypes, err := GetTypesFromArgs(fcall.Args(), fes, funcdir, semcube)
-		if err != nil {
-			return nil, err
-		}
 		// Once we got the info to query, we get the function entry and we return its return type
 		if fe := funcdir.Get(id.String()); fe != nil {
 			if err := argumentsMatchParameters(fcall, argTypes, fe.Params(), fes, funcdir, semcube); err != nil {
@@ -112,6 +113,10 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 	}
 	if !t.Function() {
 		return nil, errutil.Newf("%+v: Cannot call as a function in this scope", fcall.Token())
+	}
+
+	if err := argumentsMatchParameters(fcall, argTypes, t.Params(), fes, funcdir, semcube); err != nil {
+		return nil, err
 	}
 
 	return t.Retval(), nil
@@ -157,7 +162,7 @@ func GetTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir 
 		if t, err := getIDTypeFromFuncStack(id, fes); err == nil {
 			return t, nil
 		} else if fe := funcdir.Get(id.String()); fe != nil {
-			return fe.ReturnVal(), nil
+			return convertFuncEntryToLambdishType(fe), nil
 		}
 		return nil, errutil.Newf("%+v: Id %s not declared in local or global scope", id.Token(), id.String())
 	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
@@ -198,4 +203,8 @@ func GetTypesFromArgs(args []ast.Statement, fes *dir.FuncEntryStack, funcdir *di
 	}
 
 	return ts, nil
+}
+
+func convertFuncEntryToLambdishType(fe *dir.FuncEntry) *types.LambdishType {
+	return types.NewFuncLambdishType(fe.ReturnVal(), fe.Params(), 0)
 }

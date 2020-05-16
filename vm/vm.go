@@ -152,6 +152,14 @@ func (vm *VirtualMachine) LoadProgram(path string) error {
 	return nil
 }
 
+func (vm *VirtualMachine) printOutput() {
+	if c, ok := vm.output.(rune); ok {
+		fmt.Printf("%c\n", c)
+	} else {
+		fmt.Printf("%v\n", vm.output)
+	}
+}
+
 func (vm *VirtualMachine) executeNextInstruction() error {
 	q := vm.quads[vm.ip]
 
@@ -267,7 +275,7 @@ func (vm *VirtualMachine) Run() error {
 		}
 	}
 
-	fmt.Printf("%c\n", vm.output)
+	vm.printOutput()
 
 	return nil
 }

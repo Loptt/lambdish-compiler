@@ -178,8 +178,45 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 		ctx.gen.PushToAddrStack(tmp)
 
 	} else {
-		return errutil.Newf("%+v: Cannot identify function call style", fcall.Token())
+		// If none of the above, it means that the function call is being called after another function call,
+		// That means that the function call before returned a function address.
+
+		err := generateCodeStatement(fcall.Statement(), fes, ctx)
+		if err != nil {
+			return err
+		}
+
+		// The return function of the statement must be at the top of the stack
+		calladdr := ctx.gen.GetFromAddrStack()
+
+		// We need the type of statement
+		typ, err := sem.GetTypeStatement(fcall.Statement(), fes, ctx.funcdir, ctx.semcube)
+		if err != nil {
+
+		}
+
+		ctx.gen.Generate(quad.Era, mem.Address(0), mem.Address(-1), mem.Address(-1))
+		pcounter := 0
+
+		// For each argument we get its address, which will automatically generate
+		// the necesary code to resolve each argument
+		for _, arg := range fcall.Args() {
+			addr, err := getArgumentAddress(arg, fes, ctx)
+			if err != nil {
+				return err
+			}
+			ctx.gen.Generate(quad.Param, addr, mem.Address(-1), mem.Address(pcounter))
+			pcounter++
+		}
+
+		tmp, err := ctx.vm.GetNextTemp(typ.Retval())
+		if err != nil {
+			return err
+		}
+		ctx.gen.Generate(quad.Call, calladdr, mem.Address(-1), tmp)
+		ctx.gen.PushToAddrStack(tmp)
 	}
+
 	return nil
 }
 
@@ -582,10 +619,12 @@ func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *Generatio
 			if isOnTopOfFuncStack(id, fes) {
 				return addr, nil
 			}
-			return mem.ConvertLocalToOutScope(addr), nil
-
+			return mem.Address(-1), errutil.Newf("%+v: id %s not declared in this local scope", s.Token(), id.String())
 		}
-		// TODO: Check if it refers to a function in the global scope
+		if ctx.funcdir.Exists(id.String()) {
+			ctx.gen.AddPendingFuncAddr(ctx.gen.ICounter(), id.String())
+			return mem.Address(-1), nil
+		}
 		return mem.Address(-1), errutil.Newf("%+v: id %s not found in this scope", s.Token(), id.String())
 
 	} else if fcall, ok := s.(*ast.FunctionCall); ok {
