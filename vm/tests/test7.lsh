@@ -1,0 +1,14 @@
+func toggleDivisionBy0 :: bool m => num (
+    if(m,
+        /(3,0),
+        /(3,1)
+    )
+)
+func toggleEmptyList :: bool m => num (
+    if(m,
+        head([num]),
+        head([1,2,3,4,5,6,6])
+    )
+)
+
+toggleEmptyList(false)
