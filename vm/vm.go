@@ -8,6 +8,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/quad"
 	"github.com/Loptt/lambdish-compiler/vm/ar"
+	"github.com/Loptt/lambdish-compiler/vm/list"
 	"github.com/mewkiz/pkg/errutil"
 )
 
@@ -18,6 +19,7 @@ type VirtualMachine struct {
 	mm           *Memory
 	ar           *ar.ArStack
 	pendingcalls *ar.ArStack
+	pendinglists *list.ListStack
 	output       interface{}
 }
 
@@ -221,6 +223,26 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 			return err
 		}
 		vm.ip++
+	case quad.Head:
+		if err := vm.operationHead(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Lst:
+		if err := vm.operationLst(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.PaLst:
+		if err := vm.operationPalst(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.GeLst:
+		if err := vm.operationGelst(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
 	case quad.Print:
 		if err := vm.operationPrint(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err
@@ -282,5 +304,5 @@ func (vm *VirtualMachine) Run() error {
 
 //NewVirtualMachine ...
 func NewVirtualMachine() *VirtualMachine {
-	return &VirtualMachine{0, make([]*quad.Quadruple, 0), NewMemory(), ar.NewArStack(), ar.NewArStack(), 0}
+	return &VirtualMachine{0, make([]*quad.Quadruple, 0), NewMemory(), ar.NewArStack(), ar.NewArStack(), list.NewListStack(), 0}
 }

@@ -1,17 +1,5 @@
-func sum :: num x, num y, (bool => num) f1 => num (
-    
+func sum :: [[num]] l => [num] (
+    head(l)
 )
 
-func sum2 :: num x, (num => num) f => num (
-    *(
-        +(x, 3),
-        f(x)
-    )
-)
-
-sum2(
-    1,
-    (# num x => num (
-        *(x, 4)
-    )
-))
+sum([[1,5],[2,6],[3,4,2,3]])

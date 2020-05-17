@@ -5,6 +5,7 @@ import (
 
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/vm/ar"
+	"github.com/Loptt/lambdish-compiler/vm/list"
 	"github.com/mewkiz/pkg/errutil"
 )
 
@@ -340,6 +341,101 @@ func (vm *VirtualMachine) operationEqual(lop, rop, r mem.Address) error {
 	return errutil.Newf("Cannot perform equal operation on given types")
 }
 
+func (vm *VirtualMachine) operationHead(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	l, err := getListManager(lopv)
+	if err != nil {
+		return err
+	}
+
+	if l.IsNum() {
+		val, err := l.GetHeadNum()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsChar() {
+		val, err := l.GetHeadChar()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsBool() {
+		val, err := l.GetHeadBool()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsFunc() {
+		val, err := l.GetHeadFunc()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsList() {
+		val, err := l.GetHeadList()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else {
+		return errutil.Newf("Invalid list type")
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationLst(lop, rop, r mem.Address) error {
+	// Get the type of the list
+	typ := int(lop)
+
+	newlist := list.NewListManager(typ)
+
+	vm.pendinglists.Push(newlist)
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationPalst(lop, rop, r mem.Address) error {
+	currentlist := vm.pendinglists.Top()
+
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	if err := currentlist.Add(lopv); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationGelst(lop, rop, r mem.Address) error {
+	currentlist := vm.pendinglists.Top()
+	vm.pendinglists.Pop()
+
+	if err := vm.mm.SetValue(currentlist, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (vm *VirtualMachine) operationPrint(lop, rop, r mem.Address) error {
 	result, err := vm.mm.GetValue(r)
 	if err != nil {
@@ -399,7 +495,7 @@ func (vm *VirtualMachine) operationParam(lop, rop, r mem.Address) error {
 		}
 		nextcall.AddFuncParam(f1)
 	default:
-		f1, err := getInt(lopv)
+		f1, err := getListManager(lopv)
 		if err != nil {
 			return err
 		}
@@ -504,6 +600,10 @@ func (vm *VirtualMachine) operationRet(lop, rop, r mem.Address) error {
 			return err
 		}
 	} else if i, err := getInt(retv); err == nil {
+		if err := vm.mm.SetValue(i, callSaveAddr); err != nil {
+			return err
+		}
+	} else if i, err := getListManager(retv); err == nil {
 		if err := vm.mm.SetValue(i, callSaveAddr); err != nil {
 			return err
 		}

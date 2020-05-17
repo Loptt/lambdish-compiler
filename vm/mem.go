@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/Loptt/lambdish-compiler/mem"
+	"github.com/Loptt/lambdish-compiler/vm/list"
 	"github.com/mewkiz/pkg/errutil"
 )
 
@@ -14,7 +15,7 @@ type MemorySegment struct {
 	char     []rune
 	booleans []bool
 	function []int
-	list     []int
+	list     []*list.ListManager
 	base     mem.Address
 	name     string
 }
@@ -94,13 +95,13 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 		}
 		return errutil.Newf("Cannot set non-function in function address range %+v, %T base: %d", v, v, baseaddr)
 	case baseaddr < mem.ListOffset+1000: //List
-		if a, ok := v.(int); ok {
+		if a, ok := v.(*list.ListManager); ok {
 			typebaseaddr := int(baseaddr - mem.ListOffset)
 			// If the specified address is bigger than the current size of the array
 			// we need to grow the array to that size
 			if len(ms.list) <= typebaseaddr {
 				// First we create a new slice with the extra cells we need
-				newslice := make([]int, typebaseaddr-len(ms.list)+1)
+				newslice := make([]*list.ListManager, typebaseaddr-len(ms.list)+1)
 				ms.list = append(ms.list, newslice...)
 				// Now we set the value to the specified address
 				ms.list[typebaseaddr] = a
@@ -181,7 +182,7 @@ func (ms *MemorySegment) String() string {
 	}
 	builder.WriteString("    List:\n")
 	for i, v := range ms.list {
-		builder.WriteString(fmt.Sprintf("      %d: %d\n", i, v))
+		builder.WriteString(fmt.Sprintf("      %d: %s\n", i, v))
 	}
 	return builder.String()
 }
@@ -191,7 +192,7 @@ func NewMemorySegment(base int, name string) *MemorySegment {
 		make([]float64, 0),
 		make([]rune, 0), make([]bool, 0),
 		make([]int, 0),
-		make([]int, 0),
+		make([]*list.ListManager, 0),
 		mem.Address(base),
 		name,
 	}

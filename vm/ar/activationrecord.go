@@ -1,6 +1,9 @@
 package ar
 
-import "github.com/Loptt/lambdish-compiler/mem"
+import (
+	"github.com/Loptt/lambdish-compiler/mem"
+	"github.com/Loptt/lambdish-compiler/vm/list"
+)
 
 type NumParam struct {
 	value float64
@@ -55,11 +58,11 @@ func (np FuncParam) Addr() mem.Address {
 }
 
 type ListParam struct {
-	value int
+	value *list.ListManager
 	addr  mem.Address
 }
 
-func (np ListParam) Value() int {
+func (np ListParam) Value() *list.ListManager {
 	return np.value
 }
 
@@ -79,11 +82,6 @@ type ActivationRecord struct {
 	booltemps  []BoolParam
 	functemps  []FuncParam
 	listtemps  []ListParam
-	retnum     float64
-	retchar    rune
-	retbool    bool
-	retfunc    int
-	retlist    int
 	numcount   int
 	charcount  int
 	boolcount  int
@@ -119,7 +117,7 @@ func (a *ActivationRecord) AddFuncParam(f int) {
 	a.funccount++
 }
 
-func (a *ActivationRecord) AddListParam(l int) {
+func (a *ActivationRecord) AddListParam(l *list.ListManager) {
 	addr := mem.Address(a.listcount + mem.Localstart + mem.ListOffset)
 	a.listparams = append(a.listparams, ListParam{l, addr})
 	a.listcount++
@@ -141,28 +139,8 @@ func (a *ActivationRecord) AddFuncTemp(f int, addr mem.Address) {
 	a.functemps = append(a.functemps, FuncParam{f, addr})
 }
 
-func (a *ActivationRecord) AddListTemp(l int, addr mem.Address) {
+func (a *ActivationRecord) AddListTemp(l *list.ListManager, addr mem.Address) {
 	a.listtemps = append(a.listtemps, ListParam{l, addr})
-}
-
-func (a *ActivationRecord) SetRetNum(num float64) {
-	a.retnum = num
-}
-
-func (a *ActivationRecord) SetRetChar(char rune) {
-	a.retchar = char
-}
-
-func (a *ActivationRecord) SetRetBool(boolean bool) {
-	a.retbool = boolean
-}
-
-func (a *ActivationRecord) SetRetFunc(function int) {
-	a.retfunc = function
-}
-
-func (a *ActivationRecord) SetRetList(list int) {
-	a.retlist = list
 }
 
 func (a *ActivationRecord) ResetTemps() {
@@ -194,11 +172,6 @@ func NewActivationRecord() *ActivationRecord {
 		make([]BoolParam, 0),
 		make([]FuncParam, 0),
 		make([]ListParam, 0),
-		0,
-		0,
-		false,
-		0,
-		0,
 		0,
 		0,
 		0,
@@ -245,46 +218,6 @@ func (a *ActivationRecord) Numcount() int {
 
 func (a *ActivationRecord) SetNumcount(numcount int) {
 	a.numcount = numcount
-}
-
-func (a *ActivationRecord) Retlist() int {
-	return a.retlist
-}
-
-func (a *ActivationRecord) SetRetlist(retlist int) {
-	a.retlist = retlist
-}
-
-func (a *ActivationRecord) Retfunc() int {
-	return a.retfunc
-}
-
-func (a *ActivationRecord) SetRetfunc(retfunc int) {
-	a.retfunc = retfunc
-}
-
-func (a *ActivationRecord) Retbool() bool {
-	return a.retbool
-}
-
-func (a *ActivationRecord) SetRetbool(retbool bool) {
-	a.retbool = retbool
-}
-
-func (a *ActivationRecord) Retchar() rune {
-	return a.retchar
-}
-
-func (a *ActivationRecord) SetRetchar(retchar rune) {
-	a.retchar = retchar
-}
-
-func (a *ActivationRecord) Retnum() float64 {
-	return a.retnum
-}
-
-func (a *ActivationRecord) SetRetnum(retnum float64) {
-	a.retnum = retnum
 }
 
 func (a *ActivationRecord) Listtemps() []ListParam {

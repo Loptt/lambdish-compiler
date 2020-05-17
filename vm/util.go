@@ -5,6 +5,7 @@ import (
 
 	"github.com/Loptt/lambdish-compiler/mem"
 	"github.com/Loptt/lambdish-compiler/vm/ar"
+	"github.com/Loptt/lambdish-compiler/vm/list"
 	"github.com/mewkiz/pkg/errutil"
 )
 
@@ -110,6 +111,15 @@ func getInt(v interface{}) (int, error) {
 	return in, nil
 }
 
+func getListManager(v interface{}) (*list.ListManager, error) {
+	in, ok := v.(*list.ListManager)
+	if !ok {
+		return nil, errutil.Newf("Cannot convert current value to list manager")
+	}
+
+	return in, nil
+}
+
 func getTypeAddr(addr mem.Address) int {
 	switch {
 	case addr < mem.Localstart:
@@ -149,7 +159,7 @@ func (vm *VirtualMachine) copyTempToAR(a *ar.ActivationRecord) error {
 	}
 
 	for i, l := range mstemp.list {
-		a.AddListTemp(int(l), mem.Address(i+mem.ListOffset+mem.Tempstart))
+		a.AddListTemp(l, mem.Address(i+mem.ListOffset+mem.Tempstart))
 	}
 
 	return nil
