@@ -1,0 +1,27 @@
+func fibonacci :: num n => num (
+	if(<(n, 0),
+        0,
+        if(<(n, 2),
+            n,
+			+(
+                fibonacci(-(n,1)), 
+                fibonacci(-(n,2))
+            )   
+        )
+    )
+)
+
+func getEven :: [num] l => [num] (
+    if(empty(l),
+        [num],
+        if(equal(0, %(head(l), 2)),
+            insert(
+                head(l), 
+                getEven(tail(l))
+            ),
+            getEven(tail(l))
+        )
+    )
+)
+
+getEven([1,2,3,4,5])

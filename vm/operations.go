@@ -399,6 +399,148 @@ func (vm *VirtualMachine) operationHead(lop, rop, r mem.Address) error {
 	return nil
 }
 
+func (vm *VirtualMachine) operationTail(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	l, err := getListManager(lopv)
+	if err != nil {
+		return err
+	}
+
+	if l.IsNum() {
+		val, err := l.GetTailNum()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsChar() {
+		val, err := l.GetTailChar()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsBool() {
+		val, err := l.GetTailBool()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsFunc() {
+		val, err := l.GetTailFunc()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else if l.IsList() {
+		val, err := l.GetTailList()
+		if err != nil {
+			return err
+		}
+		if err := vm.mm.SetValue(val, r); err != nil {
+			return err
+		}
+	} else {
+		return errutil.Newf("Invalid list type")
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationIns(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	ropv, err := vm.mm.GetValue(rop)
+	if err != nil {
+		return err
+	}
+
+	l, err := getListManager(ropv)
+	if err != nil {
+		return err
+	}
+
+	newlist, err := l.Insert(lopv)
+	if err != nil {
+		return err
+	}
+
+	if err := vm.mm.SetValue(newlist, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationApp(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	ropv, err := vm.mm.GetValue(rop)
+	if err != nil {
+		return err
+	}
+
+	l1, err := getListManager(lopv)
+	if err != nil {
+		return err
+	}
+
+	l2, err := getListManager(ropv)
+	if err != nil {
+		return err
+	}
+
+	newlist, err := l1.Append(l2)
+	if err != nil {
+		return err
+	}
+
+	if err := vm.mm.SetValue(newlist, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (vm *VirtualMachine) operationEmp(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	l, err := getListManager(lopv)
+	if err != nil {
+		return err
+	}
+
+	result, err := l.Empty()
+	if err != nil {
+		return err
+	}
+
+	if err := vm.mm.SetValue(result, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (vm *VirtualMachine) operationLst(lop, rop, r mem.Address) error {
 	// Get the type of the list
 	typ := int(lop)

@@ -1,5 +1,12 @@
-func sum :: [[num]] l => [num] (
-    head(l)
+func length :: [num] l => num (
+    if(empty(l),
+        0,
+        +(1, length(tail(l)))
+    )
 )
 
-sum([[1,5],[2,6],[3,4,2,3]])
+func sum :: [num] l => bool (
+    empty(l)
+)
+
+length([num])

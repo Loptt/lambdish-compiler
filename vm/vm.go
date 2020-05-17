@@ -228,6 +228,26 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 			return err
 		}
 		vm.ip++
+	case quad.Tail:
+		if err := vm.operationTail(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Ins:
+		if err := vm.operationIns(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.App:
+		if err := vm.operationApp(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
+	case quad.Emp:
+		if err := vm.operationEmp(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
 	case quad.Lst:
 		if err := vm.operationLst(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err

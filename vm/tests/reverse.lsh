@@ -1,0 +1,11 @@
+func reverse :: [char] l => [char] (
+    if(empty(l),
+        [char],
+        append(
+            reverse(tail(l)), 
+            [head(l)]
+        )
+    )
+)
+
+reverse(['h','o','l','a'])

@@ -42,6 +42,9 @@ func (l *ListNum) Tail() ([]float64, error) {
 }
 
 func (l *ListNum) Copy() *ListNum {
+	if l == nil {
+		return nil
+	}
 	return &ListNum{l.list, l.size}
 }
 
@@ -80,6 +83,9 @@ func (l *ListChar) Tail() ([]rune, error) {
 }
 
 func (l *ListChar) Copy() *ListChar {
+	if l == nil {
+		return nil
+	}
 	return &ListChar{l.list, l.size}
 }
 
@@ -118,6 +124,9 @@ func (l *ListBool) Tail() ([]bool, error) {
 }
 
 func (l *ListBool) Copy() *ListBool {
+	if l == nil {
+		return nil
+	}
 	return &ListBool{l.list, l.size}
 }
 
@@ -156,6 +165,9 @@ func (l *ListFunc) Tail() ([]int, error) {
 }
 
 func (l *ListFunc) Copy() *ListFunc {
+	if l == nil {
+		return nil
+	}
 	return &ListFunc{l.list, l.size}
 }
 
@@ -194,6 +206,9 @@ func (l *ListList) Tail() ([]*ListManager, error) {
 }
 
 func (l *ListList) Copy() *ListList {
+	if l == nil {
+		return nil
+	}
 	newlist := make([]*ListManager, 0)
 
 	for _, e := range l.list {
@@ -309,6 +324,52 @@ func (lm *ListManager) Add(n interface{}) error {
 	return errutil.Newf("Cannot cast element to valid form to add to list")
 }
 
+func (lm *ListManager) Insert(n interface{}) (*ListManager, error) {
+	if f, ok := n.(float64); ok {
+		if lm.lnum == nil {
+			return nil, errutil.Newf("Cannot set num in non-num list")
+		}
+		newlm := lm.Copy()
+
+		newlm.lnum.list = append([]float64{f}, newlm.lnum.list...)
+		return newlm, nil
+	} else if c, ok := n.(rune); ok {
+		if lm.lchar == nil {
+			return nil, errutil.Newf("Cannot set num in non-char list")
+		}
+		newlm := lm.Copy()
+
+		newlm.lchar.list = append([]rune{c}, newlm.lchar.list...)
+		return newlm, nil
+	} else if b, ok := n.(bool); ok {
+		if lm.lbool == nil {
+			return nil, errutil.Newf("Cannot set num in non-bool list")
+		}
+		newlm := lm.Copy()
+
+		newlm.lbool.list = append([]bool{b}, newlm.lbool.list...)
+		return newlm, nil
+	} else if f, ok := n.(int); ok {
+		if lm.lfunc == nil {
+			return nil, errutil.Newf("Cannot set num in non-func list")
+		}
+		newlm := lm.Copy()
+
+		newlm.lfunc.list = append([]int{f}, newlm.lfunc.list...)
+		return newlm, nil
+	} else if l, ok := n.(*ListManager); ok {
+		if lm.llist == nil {
+			return nil, errutil.Newf("Cannot set num in non-list list")
+		}
+		newlm := lm.Copy()
+
+		newlm.llist.list = append([]*ListManager{l}, newlm.llist.list...)
+		return newlm, nil
+	}
+
+	return nil, errutil.Newf("Cannot cast element to valid form to add to list")
+}
+
 func (lm *ListManager) GetHeadNum() (float64, error) {
 	if lm.lnum == nil {
 		return 0, errutil.Newf("Cannot get head number from non-number list")
@@ -348,6 +409,101 @@ func (lm *ListManager) GetHeadList() (*ListManager, error) {
 
 	return lm.llist.Head()
 }
+func (lm *ListManager) GetTailNum() (*ListManager, error) {
+	if lm.lnum == nil {
+		return nil, errutil.Newf("Cannot get tail number from non-number list")
+	}
+
+	newarray, err := lm.lnum.Tail()
+	if err != nil {
+		return nil, err
+	}
+
+	newlm := NewListManager(1)
+
+	for _, e := range newarray {
+		if err := newlm.Add(e); err != nil {
+			return nil, err
+		}
+	}
+
+	return newlm, nil
+}
+
+func (lm *ListManager) GetTailChar() (*ListManager, error) {
+	if lm.lchar == nil {
+		return nil, errutil.Newf("Cannot get tail char from non-char list")
+	}
+
+	newarray, err := lm.lchar.Tail()
+	if err != nil {
+		return nil, err
+	}
+	newlm := NewListManager(2)
+
+	for _, c := range newarray {
+		if err := newlm.Add(c); err != nil {
+			return nil, err
+		}
+	}
+	return newlm, nil
+}
+
+func (lm *ListManager) GetTailBool() (*ListManager, error) {
+	if lm.lbool == nil {
+		return nil, errutil.Newf("Cannot get tail bool from non-bool list")
+	}
+	newarray, err := lm.lbool.Tail()
+	if err != nil {
+		return nil, err
+	}
+	newlm := NewListManager(3)
+
+	for _, b := range newarray {
+		if err := newlm.Add(b); err != nil {
+			return nil, err
+		}
+	}
+	return newlm, nil
+}
+
+func (lm *ListManager) GetTailFunc() (*ListManager, error) {
+	if lm.lfunc == nil {
+		return nil, errutil.Newf("Cannot get tail func from non-func list")
+	}
+	newarray, err := lm.lfunc.Tail()
+	if err != nil {
+		return nil, err
+	}
+	newlm := NewListManager(4)
+
+	for _, f := range newarray {
+		if err := newlm.Add(f); err != nil {
+			return nil, err
+		}
+	}
+
+	return newlm, nil
+}
+
+func (lm *ListManager) GetTailList() (*ListManager, error) {
+	if lm.llist == nil {
+		return nil, errutil.Newf("Cannot get tail list from non-list list")
+	}
+	newarray, err := lm.llist.Tail()
+	if err != nil {
+		return nil, err
+	}
+	newlm := NewListManager(5)
+
+	for _, l := range newarray {
+		if err := newlm.Add(l); err != nil {
+			return nil, err
+		}
+	}
+
+	return newlm, nil
+}
 
 func (lm *ListManager) IsNum() bool {
 	return lm.lnum != nil
@@ -367,6 +523,84 @@ func (lm *ListManager) IsFunc() bool {
 
 func (lm *ListManager) IsList() bool {
 	return lm.llist != nil
+}
+
+func (lm *ListManager) Append(l2 *ListManager) (*ListManager, error) {
+	if lm.IsNum() {
+		if !l2.IsNum() {
+			return nil, errutil.Newf("Cannot append lists of different types")
+		}
+
+		newlist := lm.Copy()
+		for _, e := range l2.lnum.list {
+			if err := newlist.Add(e); err != nil {
+				return nil, err
+			}
+		}
+		return newlist, nil
+	} else if lm.IsChar() {
+		if !l2.IsChar() {
+			return nil, errutil.Newf("Cannot append lists of different types")
+		}
+		newlist := lm.Copy()
+		for _, e := range l2.lchar.list {
+			if err := newlist.Add(e); err != nil {
+				return nil, err
+			}
+		}
+		return newlist, nil
+	} else if lm.IsBool() {
+		if !l2.IsBool() {
+			return nil, errutil.Newf("Cannot append lists of different types")
+		}
+		newlist := lm.Copy()
+		for _, e := range l2.lbool.list {
+			if err := newlist.Add(e); err != nil {
+				return nil, err
+			}
+		}
+		return newlist, nil
+	} else if lm.IsFunc() {
+		if !l2.IsFunc() {
+			return nil, errutil.Newf("Cannot append lists of different types")
+		}
+		newlist := lm.Copy()
+		for _, e := range l2.lfunc.list {
+			if err := newlist.Add(e); err != nil {
+				return nil, err
+			}
+		}
+		return newlist, nil
+	} else if lm.IsList() {
+		if !l2.IsList() {
+			return nil, errutil.Newf("Cannot append lists of different types")
+		}
+		newlist := lm.Copy()
+		for _, e := range l2.llist.list {
+			if err := newlist.Add(e); err != nil {
+				return nil, err
+			}
+		}
+		return newlist, nil
+	}
+
+	return nil, errutil.Newf("Invalid list type")
+}
+
+func (lm *ListManager) Empty() (bool, error) {
+	if lm.IsNum() {
+		return len(lm.lnum.list) < 1, nil
+	} else if lm.IsChar() {
+		return len(lm.lchar.list) < 1, nil
+	} else if lm.IsBool() {
+		return len(lm.lbool.list) < 1, nil
+	} else if lm.IsFunc() {
+		return len(lm.lfunc.list) < 1, nil
+	} else if lm.IsList() {
+		return len(lm.llist.list) < 1, nil
+	}
+
+	return false, errutil.Newf("Invalid list type")
 }
 
 func NewListManager(t int) *ListManager {

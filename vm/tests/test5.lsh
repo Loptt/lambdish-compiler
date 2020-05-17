@@ -1,0 +1,16 @@
+func sumAux :: [num] x => num (
+     if(empty(x),
+        0,
+        +(head(x),sumAux(tail(x)))
+     )
+)
+
+func sumMat :: [[num]] x => num (
+    if(empty(x),
+        0,
+        +(sumAux(head(x)),sumMat(tail(x)))
+    )
+)
+
+
+sumMat([[1,2,3],[4,5,6],[7,8,9]])
