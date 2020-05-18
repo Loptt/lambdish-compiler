@@ -24,4 +24,4 @@ func getEven :: [num] l => [num] (
     )
 )
 
-getEven([1,2,3,4,5])
+fibonacci(37)

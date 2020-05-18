@@ -4,11 +4,21 @@ func toggleDivisionBy0 :: bool m => num (
         /(3,1)
     )
 )
+
 func toggleEmptyList :: bool m => num (
     if(m,
         head([num]),
-        head([1,2,3,4,5,6,6])
+        head([1,2,3,4,5,6,8])
     )
 )
 
-toggleEmptyList(false)
+func map :: [num] l, (num => num) f => [num] (
+    if (empty(l),
+        [0],
+        insert(f(head(l)), map(tail(l), f))
+    )
+)
+
+map([1, -2, 3.234, 4], (# num x => num (
+    +(x, 1)
+)))

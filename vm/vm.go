@@ -157,6 +157,12 @@ func (vm *VirtualMachine) LoadProgram(path string) error {
 func (vm *VirtualMachine) printOutput() {
 	if c, ok := vm.output.(rune); ok {
 		fmt.Printf("%c\n", c)
+	} else if f, ok := vm.output.(float64); ok {
+		if f == float64(int64(f)) {
+			fmt.Printf("%d\n", int64(f))
+		} else {
+			fmt.Printf("%f\n", f)
+		}
 	} else {
 		fmt.Printf("%v\n", vm.output)
 	}

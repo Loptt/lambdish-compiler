@@ -233,9 +233,17 @@ func (lm *ListManager) String() string {
 	if lm.lnum != nil {
 		for i, n := range lm.lnum.list {
 			if i != len(lm.lnum.list)-1 {
-				builder.WriteString(fmt.Sprintf("%f, ", n))
+				if n == float64(int64(n)) {
+					builder.WriteString(fmt.Sprintf("%d, ", int64(n)))
+				} else {
+					builder.WriteString(fmt.Sprintf("%f, ", n))
+				}
 			} else {
-				builder.WriteString(fmt.Sprintf("%f", n))
+				if n == float64(int64(n)) {
+					builder.WriteString(fmt.Sprintf("%d", int64(n)))
+				} else {
+					builder.WriteString(fmt.Sprintf("%f", n))
+				}
 			}
 		}
 	} else if lm.lchar != nil {
