@@ -1,6 +1,8 @@
 package ast
 
 import (
+	"fmt"
+
 	"github.com/Loptt/lambdish-compiler/dir"
 	"github.com/Loptt/lambdish-compiler/gocc/token"
 	"github.com/Loptt/lambdish-compiler/types"
@@ -368,4 +370,21 @@ func AppendEmptyConstant(start, t interface{}) (*ConstantList, error) {
 	typ.IncreaseList()
 
 	return &ConstantList{make([]Statement, 0), val, typ}, nil
+}
+
+func AppendStringConstant(str interface{}) (*ConstantList, error) {
+	val, ok := str.(*token.Token)
+	if !ok {
+		return nil, errutil.Newf("Invalid type for start. Expected token")
+	}
+
+	substr := val.Lit[1 : len(val.Lit)-1]
+
+	chars := make([]Statement, 0)
+
+	for _, c := range []byte(substr) {
+		chars = append(chars, &ConstantValue{types.NewDataLambdishType(types.Char, 0), fmt.Sprintf("'%c'", c), val})
+	}
+
+	return &ConstantList{[]Statement(chars), val, nil}, nil
 }

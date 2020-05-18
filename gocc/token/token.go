@@ -140,6 +140,7 @@ var TokMap = TokenMap{
 		"boolean",
 		"number",
 		"charac",
+		"string",
 	},
 
 	idMap: map[string]Type{
@@ -164,5 +165,6 @@ var TokMap = TokenMap{
 		"boolean":    18,
 		"number":     19,
 		"charac":     20,
+		"string":     21,
 	},
 }

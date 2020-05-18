@@ -344,10 +344,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Constant : "[" ConstantArgs "]"	<< ast.AppendConstant(X[0], X[1]) >>`,
+		String: `Constant : string	<< ast.AppendStringConstant(X[0]) >>`,
 		Id:         "Constant",
 		NTType:     12,
 		Index:      32,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.AppendStringConstant(X[0])
+		},
+	},
+	ProdTabEntry{
+		String: `Constant : "[" ConstantArgs "]"	<< ast.AppendConstant(X[0], X[1]) >>`,
+		Id:         "Constant",
+		NTType:     12,
+		Index:      33,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendConstant(X[0], X[1])
@@ -357,7 +367,7 @@ var productionsTable = ProdTab{
 		String: `Constant : "[" Type "]"	<< ast.AppendEmptyConstant(X[0], X[1]) >>`,
 		Id:         "Constant",
 		NTType:     12,
-		Index:      33,
+		Index:      34,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendEmptyConstant(X[0], X[1])
@@ -367,7 +377,7 @@ var productionsTable = ProdTab{
 		String: `ConstantArgs : Statement "," Args	<< ast.AppendStatementList(X[0],X[2]) >>`,
 		Id:         "ConstantArgs",
 		NTType:     13,
-		Index:      34,
+		Index:      35,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendStatementList(X[0],X[2])
@@ -377,7 +387,7 @@ var productionsTable = ProdTab{
 		String: `ConstantArgs : Statement	<< ast.NewStatementList(X[0]) >>`,
 		Id:         "ConstantArgs",
 		NTType:     13,
-		Index:      35,
+		Index:      36,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStatementList(X[0])

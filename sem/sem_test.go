@@ -4,6 +4,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
+	"github.com/davecgh/go-spew/spew"
 
 	//"github.com/davecgh/go-spew/spew"
 	"os"
@@ -58,7 +59,7 @@ func TestSemanticCheck(t *testing.T) {
 			t.Fatalf("Cannot cast to Program")
 		}
 
-		//spew.Dump(program)
+		spew.Dump(program)
 
 		_, err = SemanticCheck(program)
 		if err != nil {

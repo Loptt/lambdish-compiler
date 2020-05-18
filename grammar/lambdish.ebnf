@@ -15,7 +15,8 @@ operations : '+' | '-' | '*' | '/' | '%';
 relop : '<' | '>' | '!'; 
 
 number : ['-'] (_integer | _float);
-charac : '\'' (_alpha | _digit) '\'';
+charac : '\'' (_alpha | _digit | ' ') '\'';
+string : _string;
 boolean : _true | _false;
 id : _id;
 
@@ -89,6 +90,7 @@ Constant
     : boolean                       << ast.NewConstantBool($0) >>
     | number                        << ast.NewConstantNum($0) >>
     | charac                        << ast.NewConstantChar($0) >>
+    | string                        << ast.AppendStringConstant($0) >>
     | "[" ConstantArgs "]"          << ast.AppendConstant($0, $1) >>
     | "[" Type "]"                  << ast.AppendEmptyConstant($0, $1) >>
     ;

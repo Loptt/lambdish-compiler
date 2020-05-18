@@ -147,4 +147,4 @@ func balloon :: [char] l => num (
     balloonAux(l, buildMap(l))
 )
 
-balloon(['l','e','e','t','c','o','d','e'])
+balloon("balloonballoon")
