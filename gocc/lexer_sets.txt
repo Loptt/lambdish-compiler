@@ -15,7 +15,8 @@ S0{
 	number : ['-'] (_integer | • _float)
 	number : ['-'] (• _integer | _float)
 	number : [• '-'] (_integer | _float)
-	charac : • ''' (_alpha | _digit) '''
+	charac : • ''' (_alpha | _digit | ' ') '''
+	string : • _string
 	boolean : _true | • _false
 	boolean : • _true | _false
 	id : • _id
@@ -33,6 +34,7 @@ S0{
 	# : • '#'
 	_float : • _digit {_digit} '.' _digit {_digit}
 	_integer : • _digit {_digit}
+	_string : • '"' {(_digit | _alpha | ' ')} '"'
 	_false : • 'f' 'a' 'l' 's' 'e'
 	_true : • 't' 'r' 'u' 'e'
 	_id : • _alpha {(_digit | _alpha)}
@@ -46,36 +48,37 @@ Transitions:
 	['\r','\r'] -> S1
 	[' ',' '] -> S1
 	['!','!'] -> S2
-	['#','#'] -> S3
-	['%','%'] -> S4
-	[''','''] -> S5
-	['(','('] -> S6
-	[')',')'] -> S7
-	['*','*'] -> S4
-	['+','+'] -> S4
-	[',',','] -> S8
-	['-','-'] -> S9
-	['/','/'] -> S4
-	['0','9'] -> S10
-	[':',':'] -> S11
+	['"','"'] -> S3
+	['#','#'] -> S4
+	['%','%'] -> S5
+	[''','''] -> S6
+	['(','('] -> S7
+	[')',')'] -> S8
+	['*','*'] -> S5
+	['+','+'] -> S5
+	[',',','] -> S9
+	['-','-'] -> S10
+	['/','/'] -> S5
+	['0','9'] -> S11
+	[':',':'] -> S12
 	['<','<'] -> S2
-	['=','='] -> S12
+	['=','='] -> S13
 	['>','>'] -> S2
-	['A','Z'] -> S13
-	['[','['] -> S14
-	[']',']'] -> S15
-	['a','a'] -> S13
-	['b','b'] -> S16
-	['c','c'] -> S17
-	['d','e'] -> S13
-	['f','f'] -> S18
-	['g','m'] -> S13
-	['n','n'] -> S19
-	['o','s'] -> S13
-	['t','t'] -> S20
-	['u','z'] -> S13
+	['A','Z'] -> S14
+	['[','['] -> S15
+	[']',']'] -> S16
+	['a','a'] -> S14
+	['b','b'] -> S17
+	['c','c'] -> S18
+	['d','e'] -> S14
+	['f','f'] -> S19
+	['g','m'] -> S14
+	['n','n'] -> S20
+	['o','s'] -> S14
+	['t','t'] -> S21
+	['u','z'] -> S14
 Action: nil
-Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['!','!'], ['#','#'], ['%','%'], [''','''], ['(','('], [')',')'], ['*','*'], ['+','+'], [',',','], ['-','-'], ['/','/'], ['0','9'], [':',':'], ['<','<'], ['=','='], ['>','>'], ['A','Z'], ['[','['], [']',']'], ['a','a'], ['b','b'], ['c','c'], ['d','e'], ['f','f'], ['g','m'], ['n','n'], ['o','s'], ['t','t'], ['u','z']}
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['!','!'], ['"','"'], ['#','#'], ['%','%'], [''','''], ['(','('], [')',')'], ['*','*'], ['+','+'], [',',','], ['-','-'], ['/','/'], ['0','9'], [':',':'], ['<','<'], ['=','='], ['>','>'], ['A','Z'], ['[','['], [']',']'], ['a','a'], ['b','b'], ['c','c'], ['d','e'], ['f','f'], ['g','m'], ['n','n'], ['o','s'], ['t','t'], ['u','z']}
 
 S1{
 	!ws : (' ' | '\t' | '\n' | '\r') •
@@ -92,55 +95,76 @@ Action: Accept("relop")
 Symbols classes: {}
 
 S3{
+	_string : '"' {(_digit | _alpha | ' ')} • '"'
+	_string : '"' {(_digit | _alpha | • ' ')} '"'
+	_string : '"' {(_digit | • _alpha | ' ')} '"'
+	_string : '"' {(• _digit | _alpha | ' ')} '"'
+	string : • _string
+	_alpha :  'a'-'z' | •  'A'-'Z'
+	_alpha : •  'a'-'z' |  'A'-'Z'
+	_digit : •  '0'-'9'
+}
+Transitions:
+	[' ',' '] -> S3
+	['"','"'] -> S22
+	['0','9'] -> S23
+	['A','Z'] -> S24
+	['a','z'] -> S24
+Action: nil
+Symbols classes: {[' ',' '], ['"','"'], ['0','9'], ['A','Z'], ['a','z']}
+
+S4{
 	# : '#' •
 }
 Transitions:
 Action: Accept("#")
 Symbols classes: {}
 
-S4{
+S5{
 	operations : ('+' | '-' | '*' | '/' | '%') •
 }
 Transitions:
 Action: Accept("operations")
 Symbols classes: {}
 
-S5{
-	charac : ''' (_alpha | • _digit) '''
-	charac : ''' (• _alpha | _digit) '''
+S6{
+	charac : ''' (_alpha | _digit | • ' ') '''
+	charac : ''' (_alpha | • _digit | ' ') '''
+	charac : ''' (• _alpha | _digit | ' ') '''
 	_digit : •  '0'-'9'
 	_alpha :  'a'-'z' | •  'A'-'Z'
 	_alpha : •  'a'-'z' |  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S21
-	['A','Z'] -> S22
-	['a','z'] -> S22
+	[' ',' '] -> S25
+	['0','9'] -> S26
+	['A','Z'] -> S27
+	['a','z'] -> S27
 Action: nil
-Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
+Symbols classes: {[' ',' '], ['0','9'], ['A','Z'], ['a','z']}
 
-S6{
+S7{
 	( : '(' •
 }
 Transitions:
 Action: Accept("(")
 Symbols classes: {}
 
-S7{
+S8{
 	) : ')' •
 }
 Transitions:
 Action: Accept(")")
 Symbols classes: {}
 
-S8{
+S9{
 	, : ',' •
 }
 Transitions:
 Action: Accept(",")
 Symbols classes: {}
 
-S9{
+S10{
 	operations : ('+' | '-' | '*' | '/' | '%') •
 	number : ['-'] (_integer | • _float)
 	number : ['-'] (• _integer | _float)
@@ -149,11 +173,11 @@ S9{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S10
+	['0','9'] -> S11
 Action: Accept("operations")
 Symbols classes: {['0','9']}
 
-S10{
+S11{
 	_digit :  '0'-'9' •
 	_float : _digit {_digit} • '.' _digit {_digit}
 	_float : _digit {• _digit} '.' _digit {_digit}
@@ -165,28 +189,28 @@ S10{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['.','.'] -> S23
-	['0','9'] -> S10
+	['.','.'] -> S28
+	['0','9'] -> S11
 Action: Accept("number")
 Symbols classes: {['.','.'], ['0','9']}
 
-S11{
+S12{
 	:: : ':' • ':'
 }
 Transitions:
-	[':',':'] -> S24
+	[':',':'] -> S29
 Action: nil
 Symbols classes: {[':',':']}
 
-S12{
+S13{
 	=> : '=' • '>'
 }
 Transitions:
-	['>','>'] -> S25
+	['>','>'] -> S30
 Action: nil
 Symbols classes: {['>','>']}
 
-S13{
+S14{
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
 	_id : _alpha {(_digit | • _alpha)}
@@ -198,27 +222,27 @@ S13{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
-S14{
+S15{
 	[ : '[' •
 }
 Transitions:
 Action: Accept("[")
 Symbols classes: {}
 
-S15{
+S16{
 	] : ']' •
 }
 Transitions:
 Action: Accept("]")
 Symbols classes: {}
 
-S16{
+S17{
 	bool : 'b' • 'o' 'o' 'l'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -231,15 +255,15 @@ S16{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','n'] -> S13
-	['o','o'] -> S27
-	['p','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','n'] -> S14
+	['o','o'] -> S32
+	['p','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','n'], ['o','o'], ['p','z']}
 
-S17{
+S18{
 	char : 'c' • 'h' 'a' 'r'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -252,15 +276,15 @@ S17{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','g'] -> S13
-	['h','h'] -> S28
-	['i','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','g'] -> S14
+	['h','h'] -> S33
+	['i','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','g'], ['h','h'], ['i','z']}
 
-S18{
+S19{
 	func : 'f' • 'u' 'n' 'c'
 	_false : 'f' • 'a' 'l' 's' 'e'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
@@ -275,16 +299,16 @@ S18{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','a'] -> S29
-	['b','t'] -> S13
-	['u','u'] -> S30
-	['v','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','a'] -> S34
+	['b','t'] -> S14
+	['u','u'] -> S35
+	['v','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','a'], ['b','t'], ['u','u'], ['v','z']}
 
-S19{
+S20{
 	num : 'n' • 'u' 'm'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -297,15 +321,15 @@ S19{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','t'] -> S13
-	['u','u'] -> S31
-	['v','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','t'] -> S14
+	['u','u'] -> S36
+	['v','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','t'], ['u','u'], ['v','z']}
 
-S20{
+S21{
 	_true : 't' • 'r' 'u' 'e'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : • _true | _false
@@ -319,57 +343,113 @@ S20{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','q'] -> S13
-	['r','r'] -> S32
-	['s','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','q'] -> S14
+	['r','r'] -> S37
+	['s','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','q'], ['r','r'], ['s','z']}
 
-S21{
-	_digit :  '0'-'9' •
-	charac : ''' (_alpha | _digit) • '''
-}
-Transitions:
-	[''','''] -> S33
-Action: nil
-Symbols classes: {[''',''']}
-
 S22{
-	_alpha : ( 'a'-'z' |  'A'-'Z') •
-	charac : ''' (_alpha | _digit) • '''
+	_string : '"' {(_digit | _alpha | ' ')} '"' •
+	string : _string •
 }
 Transitions:
-	[''','''] -> S33
-Action: nil
-Symbols classes: {[''',''']}
+Action: Accept("string")
+Symbols classes: {}
 
 S23{
+	_digit :  '0'-'9' •
+	_string : '"' {(_digit | _alpha | ' ')} • '"'
+	_string : '"' {(_digit | _alpha | • ' ')} '"'
+	_string : '"' {(_digit | • _alpha | ' ')} '"'
+	_string : '"' {(• _digit | _alpha | ' ')} '"'
+	string : • _string
+	_alpha :  'a'-'z' | •  'A'-'Z'
+	_alpha : •  'a'-'z' |  'A'-'Z'
+	_digit : •  '0'-'9'
+}
+Transitions:
+	[' ',' '] -> S3
+	['"','"'] -> S22
+	['0','9'] -> S23
+	['A','Z'] -> S24
+	['a','z'] -> S24
+Action: nil
+Symbols classes: {[' ',' '], ['"','"'], ['0','9'], ['A','Z'], ['a','z']}
+
+S24{
+	_alpha : ( 'a'-'z' |  'A'-'Z') •
+	_string : '"' {(_digit | _alpha | ' ')} • '"'
+	_string : '"' {(_digit | _alpha | • ' ')} '"'
+	_string : '"' {(_digit | • _alpha | ' ')} '"'
+	_string : '"' {(• _digit | _alpha | ' ')} '"'
+	string : • _string
+	_alpha :  'a'-'z' | •  'A'-'Z'
+	_alpha : •  'a'-'z' |  'A'-'Z'
+	_digit : •  '0'-'9'
+}
+Transitions:
+	[' ',' '] -> S3
+	['"','"'] -> S22
+	['0','9'] -> S23
+	['A','Z'] -> S24
+	['a','z'] -> S24
+Action: nil
+Symbols classes: {[' ',' '], ['"','"'], ['0','9'], ['A','Z'], ['a','z']}
+
+S25{
+	charac : ''' (_alpha | _digit | ' ') • '''
+}
+Transitions:
+	[''','''] -> S38
+Action: nil
+Symbols classes: {[''',''']}
+
+S26{
+	_digit :  '0'-'9' •
+	charac : ''' (_alpha | _digit | ' ') • '''
+}
+Transitions:
+	[''','''] -> S38
+Action: nil
+Symbols classes: {[''',''']}
+
+S27{
+	_alpha : ( 'a'-'z' |  'A'-'Z') •
+	charac : ''' (_alpha | _digit | ' ') • '''
+}
+Transitions:
+	[''','''] -> S38
+Action: nil
+Symbols classes: {[''',''']}
+
+S28{
 	_float : _digit {_digit} '.' • _digit {_digit}
 	number : ['-'] (_integer | • _float)
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S34
+	['0','9'] -> S39
 Action: nil
 Symbols classes: {['0','9']}
 
-S24{
+S29{
 	:: : ':' ':' •
 }
 Transitions:
 Action: Accept("::")
 Symbols classes: {}
 
-S25{
+S30{
 	=> : '=' '>' •
 }
 Transitions:
 Action: Accept("=>")
 Symbols classes: {}
 
-S26{
+S31{
 	_digit :  '0'-'9' •
 	_id : _alpha {(_digit | _alpha)} •
 	_id : _alpha {(_digit | • _alpha)}
@@ -381,13 +461,13 @@ S26{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
-S27{
+S32{
 	bool : 'b' 'o' • 'o' 'l'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -400,15 +480,15 @@ S27{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','n'] -> S13
-	['o','o'] -> S35
-	['p','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','n'] -> S14
+	['o','o'] -> S40
+	['p','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','n'], ['o','o'], ['p','z']}
 
-S28{
+S33{
 	char : 'c' 'h' • 'a' 'r'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -421,14 +501,14 @@ S28{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','a'] -> S36
-	['b','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','a'] -> S41
+	['b','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','a'], ['b','z']}
 
-S29{
+S34{
 	_false : 'f' 'a' • 'l' 's' 'e'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : _true | • _false
@@ -442,15 +522,15 @@ S29{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','k'] -> S13
-	['l','l'] -> S37
-	['m','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','k'] -> S14
+	['l','l'] -> S42
+	['m','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','k'], ['l','l'], ['m','z']}
 
-S30{
+S35{
 	func : 'f' 'u' • 'n' 'c'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -463,15 +543,15 @@ S30{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','m'] -> S13
-	['n','n'] -> S38
-	['o','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','m'] -> S14
+	['n','n'] -> S43
+	['o','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','m'], ['n','n'], ['o','z']}
 
-S31{
+S36{
 	num : 'n' 'u' • 'm'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -484,15 +564,15 @@ S31{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','l'] -> S13
-	['m','m'] -> S39
-	['n','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','l'] -> S14
+	['m','m'] -> S44
+	['n','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','l'], ['m','m'], ['n','z']}
 
-S32{
+S37{
 	_true : 't' 'r' • 'u' 'e'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : • _true | _false
@@ -506,22 +586,22 @@ S32{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','t'] -> S13
-	['u','u'] -> S40
-	['v','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','t'] -> S14
+	['u','u'] -> S45
+	['v','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','t'], ['u','u'], ['v','z']}
 
-S33{
-	charac : ''' (_alpha | _digit) ''' •
+S38{
+	charac : ''' (_alpha | _digit | ' ') ''' •
 }
 Transitions:
 Action: Accept("charac")
 Symbols classes: {}
 
-S34{
+S39{
 	_digit :  '0'-'9' •
 	_float : _digit {_digit} '.' _digit {_digit} •
 	_float : _digit {_digit} '.' _digit {• _digit}
@@ -530,11 +610,11 @@ S34{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S34
+	['0','9'] -> S39
 Action: Accept("number")
 Symbols classes: {['0','9']}
 
-S35{
+S40{
 	bool : 'b' 'o' 'o' • 'l'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -547,15 +627,15 @@ S35{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','k'] -> S13
-	['l','l'] -> S41
-	['m','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','k'] -> S14
+	['l','l'] -> S46
+	['m','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','k'], ['l','l'], ['m','z']}
 
-S36{
+S41{
 	char : 'c' 'h' 'a' • 'r'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -568,15 +648,15 @@ S36{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','q'] -> S13
-	['r','r'] -> S42
-	['s','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','q'] -> S14
+	['r','r'] -> S47
+	['s','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','q'], ['r','r'], ['s','z']}
 
-S37{
+S42{
 	_false : 'f' 'a' 'l' • 's' 'e'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : _true | • _false
@@ -590,15 +670,15 @@ S37{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','r'] -> S13
-	['s','s'] -> S43
-	['t','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','r'] -> S14
+	['s','s'] -> S48
+	['t','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','r'], ['s','s'], ['t','z']}
 
-S38{
+S43{
 	func : 'f' 'u' 'n' • 'c'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -611,15 +691,15 @@ S38{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','b'] -> S13
-	['c','c'] -> S44
-	['d','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','b'] -> S14
+	['c','c'] -> S49
+	['d','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','b'], ['c','c'], ['d','z']}
 
-S39{
+S44{
 	num : 'n' 'u' 'm' •
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -632,13 +712,13 @@ S39{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("num")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
-S40{
+S45{
 	_true : 't' 'r' 'u' • 'e'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : • _true | _false
@@ -652,15 +732,15 @@ S40{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','d'] -> S13
-	['e','e'] -> S45
-	['f','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','d'] -> S14
+	['e','e'] -> S50
+	['f','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','d'], ['e','e'], ['f','z']}
 
-S41{
+S46{
 	bool : 'b' 'o' 'o' 'l' •
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -673,13 +753,13 @@ S41{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("bool")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
-S42{
+S47{
 	char : 'c' 'h' 'a' 'r' •
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -692,13 +772,13 @@ S42{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("char")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
-S43{
+S48{
 	_false : 'f' 'a' 'l' 's' • 'e'
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : _true | • _false
@@ -712,15 +792,15 @@ S43{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','d'] -> S13
-	['e','e'] -> S46
-	['f','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','d'] -> S14
+	['e','e'] -> S51
+	['f','z'] -> S14
 Action: Accept("id")
 Symbols classes: {['0','9'], ['A','Z'], ['a','d'], ['e','e'], ['f','z']}
 
-S44{
+S49{
 	func : 'f' 'u' 'n' 'c' •
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	_id : _alpha {(_digit | _alpha)} •
@@ -733,13 +813,13 @@ S44{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("func")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
-S45{
+S50{
 	_true : 't' 'r' 'u' 'e' •
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : (_true | _false) •
@@ -753,13 +833,13 @@ S45{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("boolean")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 
-S46{
+S51{
 	_false : 'f' 'a' 'l' 's' 'e' •
 	_alpha : ( 'a'-'z' |  'A'-'Z') •
 	boolean : (_true | _false) •
@@ -773,9 +853,9 @@ S46{
 	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S26
-	['A','Z'] -> S13
-	['a','z'] -> S13
+	['0','9'] -> S31
+	['A','Z'] -> S14
+	['a','z'] -> S14
 Action: Accept("boolean")
 Symbols classes: {['0','9'], ['A','Z'], ['a','z']}
 

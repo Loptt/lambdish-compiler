@@ -8,6 +8,7 @@ S': {
 	number
 	operations
 	relop
+	string
 }
 Program: {
 	(
@@ -19,6 +20,7 @@ Program: {
 	number
 	operations
 	relop
+	string
 }
 Functions: {
 	empty
@@ -64,6 +66,7 @@ Statement: {
 	number
 	operations
 	relop
+	string
 }
 FunctionCall: {
 	(
@@ -74,6 +77,7 @@ FunctionCall: {
 	number
 	operations
 	relop
+	string
 }
 Lambda: {
 	(
@@ -88,12 +92,14 @@ Args: {
 	number
 	operations
 	relop
+	string
 }
 Constant: {
 	[
 	boolean
 	charac
 	number
+	string
 }
 ConstantArgs: {
 	(
@@ -104,4 +110,5 @@ ConstantArgs: {
 	number
 	operations
 	relop
+	string
 }
