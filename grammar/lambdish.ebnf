@@ -8,6 +8,8 @@ _string : '"' {(_digit | _alpha | ' ')} '"';
 _true : 't' 'r' 'u' 'e';
 _false : 'f' 'a' 'l' 's' 'e';
 
+!comment : '/' '/' { . } '\n';
+
 !ws : ' ' | '\t' | '\n' | '\r';
 
 operations : '+' | '-' | '*' | '/' | '%';
