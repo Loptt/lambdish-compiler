@@ -147,4 +147,5 @@ func balloon :: [char] l => num (
     balloonAux(l, buildMap(l))
 )
 
-balloon("balloonballoon")
+// main entry point
+balloon("balloonballoo")
