@@ -1,0 +1,6 @@
+func length :: [num] l => num (
+    if (empty(l),
+        0,
+        +(1, length(tail(l)))
+    )
+)

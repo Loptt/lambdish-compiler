@@ -1,0 +1,62 @@
+func length :: [num] l => num (
+    if (empty(l),
+        0,
+        +(1, length(tail(l)))
+    )
+)
+
+func take :: num n, [num] l => [num] (
+    if (empty(l),
+        l,
+        if (or(equal(n, 0), <(n, 0)),
+            [num],
+            insert(head(l), take(-(n, 1), tail(l)))
+        )
+    )
+)
+
+func drop :: num n, [num] l => [num] (
+    if (or(equal(n, 0), <(n, 0)),
+        l,
+        drop(-(n, 1), tail(l))
+    )
+)
+
+
+func mergeSortAux :: [num] xl, [num] yl => [num] (
+    if (empty(yl),
+        xl,
+        if (empty(xl),
+            yl,
+            if (<(head(xl), head(yl)),
+                insert(
+                    head(xl),
+                    mergeSortAux(tail(xl), yl)
+                ),
+                insert(
+                    head(yl),
+                    mergeSortAux(xl, tail(yl))
+                )
+            )
+        )
+    )
+)
+
+func mergeSort :: [num] l => [num] (
+    if (empty(l),
+        [num],
+        if (equal(length(l), 1),
+            [head(l)],
+            mergeSortAux(
+                mergeSort(
+                    take(/(length(l), 2), l)
+                ),
+                mergeSort(
+                    drop(/(length(l), 2), l)
+                )
+            )
+        )
+    )
+)
+
+mergeSort([5,3,2,3,1])
