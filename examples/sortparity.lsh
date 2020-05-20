@@ -1,0 +1,27 @@
+// Leetcode problem: https://leetcode.com/problems/sort-array-by-parity/
+
+func filter :: [num] l, (num => bool) f => [num] (
+    if (empty(l),
+        [num],
+        if (f(head(l)),
+            insert(
+                head(l),
+                filter(tail(l), f)
+            ),
+            filter(tail(l), f)
+        )
+    )
+)
+
+func sortParity :: [num] l => [num] (
+    append(
+        filter(l, (# num x => bool (
+            equal(%(x, 2), 0)
+        ))),
+        filter(l, (# num x => bool (
+            equal(%(x, 2), 1)
+        ))),
+    )
+)
+
+sortParity([3,1,2,4])
