@@ -158,3 +158,4 @@ func oddMatrix :: num n, num m, [[num]] indexes => num (
 )
 
 oddMatrix( 2, 3, [[0,1], [1,1]]) // output should be 6
+// oddMatrix( 2, 2, [[1,1], [0,0]]) // output should be 0
