@@ -1,0 +1,160 @@
+// Leetcode problem: https://leetcode.com/problems/cells-with-odd-values-in-a-matrix/
+
+func filter :: [num] l, (num => bool) f => [num] (
+    if (empty(l),
+        [num],
+        if (f(head(l)),
+            insert(
+                head(l),
+                filter(tail(l), f)
+            ),
+            filter(tail(l), f)
+        )
+    )
+)
+
+func map :: [num] l, (num => num) f => [num] (
+    if (empty(l),
+        [num],
+        insert(
+            f(head(l)),
+            map(tail(l), f)
+        )
+    )
+)
+
+func getHeads :: [[num]] matrix => [num] (
+    if (empty(matrix),
+        [num],
+        insert(
+            head(head(matrix)),
+            getHeads(tail(matrix))
+        )
+    )
+)
+
+func getTails :: [[num]] matrix => [[num]] (
+    if (empty(matrix),
+        [[num]],
+        insert(
+            tail(head(matrix)),
+            getTails(tail(matrix))
+        )
+    )
+)
+
+func mapRowMat :: [num] l, [[num]] m, (num, [num] => [num]) f => [[num]] (
+    if (or(empty(l), empty(m)),
+        [[num]],
+        insert(
+            f(head(l), head(m)),
+            mapRowMat(tail(l), tail(m), f)
+        )
+    )
+)
+
+func rows :: [[num]] matrix => num (
+    if (empty(matrix),
+        0,
+        +(1, rows(tail(matrix)))
+    )
+)
+
+func length :: [num] row => num (
+    if (empty(row),
+        0,
+        +(1, length(tail(row)))
+    )
+)
+
+func getZeroRow :: num x => [num] (
+    if (equal(x, 0),
+        [num],
+        insert(
+            0,
+            getZeroRow(-(x, 1))
+        )
+    )
+)
+
+func getZeroMatrix :: num x, num y => [[num]] (
+    if (equal(x, 0),
+        [[num]],
+        insert(
+            getZeroRow(y),
+            getZeroMatrix(-(x,1), y)
+        )
+    )
+)
+
+func applyCol :: num index, [[num]] matrix => [[num]] (
+    if (equal(index, 0),
+        mapRowMat(
+            map(getHeads(matrix), (# num x => num (+(x,1)))),
+            getTails(matrix), 
+            (# num h, [num] r => [num] (
+                insert(h, r)
+            ))
+        ),
+        mapRowMat(
+            getHeads(matrix), 
+            applyCol(-(index, 1), getTails(matrix)), 
+            (# num h, [num] r => [num] (
+                insert(h, r)
+            ))
+        )
+    )
+)
+
+func applyRow :: num index, [[num]] matrix => [[num]] (
+    if (equal(index, 0),
+        insert(
+            map(head(matrix), (# num x => num (+(x,1)))),
+            tail(matrix)
+        ),
+        insert(
+            head(matrix),
+            applyRow(-(index, 1), tail(matrix))
+        )
+    )
+)
+
+func applyIncrement :: [num] index, [[num]] matrix => [[num]] (
+    applyCol(
+        head(tail(index)),
+        applyRow(
+            head(index),
+            matrix
+        )
+    )
+)
+
+func applyIncrements :: [[num]] indexes, [[num]] matrix => [[num]] (
+    if (empty(indexes),
+        matrix,
+        applyIncrements(tail(indexes), applyIncrement(head(indexes), matrix))
+    )
+)
+
+func countOdd :: [[num]] matrix => num (
+    if (empty(matrix),
+        0,
+        +(
+            length(
+                filter(
+                    head(matrix), 
+                    (# num x => bool (
+                        equal(%(x, 2), 1)
+                    ))
+                )
+            ),
+            countOdd(tail(matrix))    
+        )
+    )
+)
+
+func oddMatrix :: num n, num m, [[num]] indexes => num (
+    countOdd(applyIncrements(indexes, getZeroMatrix(n, m)))
+)
+
+oddMatrix( 2, 3, [[0,1], [1,1]]) // output should be 6

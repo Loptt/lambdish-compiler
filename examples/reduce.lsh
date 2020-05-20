@@ -1,0 +1,16 @@
+func reduce :: [num] l, num x, (num, num => num) f => num (
+    if (empty(l),
+        x,
+        f(
+            head(l), 
+            reduce(tail(l), x, f)
+        )
+    )
+)
+
+reduce(
+    [1,2,3,4,5], 0,
+    (# num x, num y => num (
+        +(x, y)
+    )
+))

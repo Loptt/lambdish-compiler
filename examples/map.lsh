@@ -1,0 +1,11 @@
+func map :: [num] l, (num => num) f => [num] (
+    if (empty(l),
+        [num],
+        insert(
+            f(head(l)),
+            map(tail(l), f)
+        )
+    )
+)
+
+map([1,2,3,4], (# num x => num (/(x, 2))))

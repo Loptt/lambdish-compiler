@@ -1,0 +1,29 @@
+// An example of applying a list of functions to a list of numbers
+
+func mapFunc :: [num] ls, [(num => num)] fs => [num] (
+    if (empty(ls),
+        [num],
+        if (empty(fs),
+            ls,
+            insert(
+                head(fs)(head(ls)),
+                mapFunc(tail(ls), tail(fs))
+            )
+        )
+    )
+)
+
+mapFunc(
+    [1,2,3],
+    [
+        (# num x => num (
+            +(x, 2)
+        )),
+        (# num x => num (
+            -(x, 2)
+        )),
+        (# num x => num (
+            *(x, 2)
+        )),
+    ]
+)

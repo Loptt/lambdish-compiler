@@ -1,0 +1,153 @@
+// Leetcode problem: https://leetcode.com/problems/maximum-number-of-balloons/
+
+func mapCharToNum :: char c => num (
+    if (equal(c, 'a'), 0,
+    if (equal(c, 'b'), 1,
+    if (equal(c, 'c'), 2,
+    if (equal(c, 'd'), 3,
+    if (equal(c, 'e'), 4,
+    if (equal(c, 'f'), 5,
+    if (equal(c, 'g'), 6,
+    if (equal(c, 'h'), 7,
+    if (equal(c, 'i'), 8,
+    if (equal(c, 'j'), 9,
+    if (equal(c, 'k'), 10,
+    if (equal(c, 'l'), 11,
+    if (equal(c, 'm'), 12,
+    if (equal(c, 'n'), 13,
+    if (equal(c, 'o'), 14,
+    if (equal(c, 'p'), 15,
+    if (equal(c, 'q'), 16,
+    if (equal(c, 'r'), 17,
+    if (equal(c, 's'), 18,
+    if (equal(c, 't'), 19,
+    if (equal(c, 'u'), 20,
+    if (equal(c, 'v'), 21,
+    if (equal(c, 'w'), 22,
+    if (equal(c, 'x'), 23,
+    if (equal(c, 'y'), 24,
+    if (equal(c, 'z'), 25, 26
+    ))))))))))))))))))))))))))
+)
+
+func length :: [num] l => num (
+    if (empty(l), 0, +(1, length(tail(l))))
+)
+
+func emptyMap :: => [num] (
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+)
+
+func addMap :: char c, [num] map => [num] (
+    if (empty(map),
+        [num],
+        if(
+            equal(length(map), -(26, mapCharToNum(c))),
+            insert(
+                +(1, head(map)),
+                addMap(c, tail(map))
+            ),
+            insert(
+                head(map),
+                addMap(c, tail(map))
+            ),
+        )
+    )
+) 
+
+func buildMap :: [char] l => [num] (
+    if (empty(l),
+        emptyMap(),
+        addMap(
+            head(l), 
+            buildMap(tail(l))
+        )
+    )
+)
+
+func validateBalloon :: [num] map => bool (
+    if (empty(map),
+        true,
+        if(
+            equal(length(map), -(26, mapCharToNum('b'))),
+            and(
+                <(0, head(map)),
+                validateBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('a'))),
+            and(
+                <(0, head(map)),
+                validateBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('l'))),
+            and(
+                <(1, head(map)),
+                validateBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('o'))),
+            and(
+                <(1, head(map)),
+                validateBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('n'))),
+            and(
+                <(0, head(map)),
+                validateBalloon(tail(map))
+            ),
+            validateBalloon(tail(map))
+        )))))
+    )
+)
+
+func consumeBalloon :: [num] map => [num] (
+    if (empty(map),
+        [num],
+        if(
+            equal(length(map), -(26, mapCharToNum('b'))),
+            insert(
+                -(head(map), 1), consumeBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('a'))),
+            insert(
+                -(head(map), 1), consumeBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('l'))),
+            insert(
+                -(head(map), 2), consumeBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('o'))),
+            insert(
+                -(head(map),  2), consumeBalloon(tail(map))
+            ),
+        if (
+            equal(length(map), -(26, mapCharToNum('n'))),
+            insert(
+                -(head(map), 1), consumeBalloon(tail(map))
+            ),
+            insert(
+                head(map), consumeBalloon(tail(map))
+            )
+        )))))
+    )
+)
+
+func balloonAux :: [char] l, [num] map => num (
+    if(!(validateBalloon(map)),
+        0,
+        +(1, balloonAux(l, consumeBalloon(map)))
+    )
+)
+
+func balloon :: [char] l => num (
+    balloonAux(l, buildMap(l))
+)
+
+// main entry point
+balloon("balloonballoo")

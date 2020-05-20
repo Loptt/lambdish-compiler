@@ -14,7 +14,7 @@ import (
 func TestGenerateAddressesProgram(t *testing.T) {
 	p := parser.NewParser()
 	tests := []string{
-		"tests/test5.lsh",
+		"tests/test7_fake.lsh",
 	}
 
 	for _, test := range tests {

@@ -1,11 +1,11 @@
 // Leetcode problem: https://leetcode.com/problems/cells-with-odd-values-in-a-matrix/
 
-func map :: [num] l, (num => num) f1 => [num] (
+func map :: [num] l, (num => num) f => [num] (
     if (empty(l),
         [num],
         insert(
-            f1(head(l)),
-            map(tail(l), f1)
+            f(head(l)),
+            map(tail(l), f)
         )
     )
 )
@@ -20,12 +20,12 @@ func getHeads :: [[num]] matrix => [num] (
     )
 )
 
-func mapRowMat :: [num] l, [[num]] m, (num, [num] => [num]) f2 => [[num]] (
+func mapRowMat :: [num] l, [[num]] m, (num, [num] => [num]) f => [[num]] (
     if (or(empty(l), empty(m)),
         [[num]],
         insert(
-            f2(head(l), head(m)),
-            mapRowMat(tail(l), tail(m), f2)
+            f(head(l), head(m)),
+            mapRowMat(tail(l), tail(m), f)
         )
     )
 )

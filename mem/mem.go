@@ -331,6 +331,7 @@ func (vm *VirtualMemory) ResetLocal() {
 	vm.localnumcount = 0
 	vm.localboolcount = 0
 	vm.localcharcount = 0
+	vm.localfunctioncount = 0
 	vm.locallistcount = 0
 }
 
@@ -338,6 +339,7 @@ func (vm *VirtualMemory) ResetTemp() {
 	vm.tempnumcount = 0
 	vm.tempboolcount = 0
 	vm.tempcharcount = 0
+	vm.tempfunctioncount = 0
 	vm.templistcount = 0
 }
 

@@ -24,7 +24,7 @@ func TestLoadProgram(t *testing.T) {
 
 func TestRunProgram(t *testing.T) {
 	tests := []string{
-		"tests/failtest.obj",
+		"tests/oddmatrix.obj",
 	}
 
 	for _, test := range tests {
