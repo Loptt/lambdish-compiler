@@ -24,4 +24,5 @@ func sortParity :: [num] l => [num] (
     )
 )
 
+
 sortParity([3,1,2,4])
