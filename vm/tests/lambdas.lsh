@@ -1,0 +1,28 @@
+func filter :: [num] l, (num => bool) f => [num] (
+    if (empty(l),
+        [num],
+        if (f(head(l)),
+            insert(
+                head(l),
+                filter(tail(l), f)
+            ),
+            filter(tail(l), f)
+        )
+    )
+)
+
+func map :: [num] l, (num => num) f => [num] (
+    if (empty(l),
+        [num],
+        insert(
+            f(head(l)),
+            map(tail(l), f)
+        )
+    )
+)
+
+//map([1,2,3,4], (# num x => num (/(x, 2))))
+
+//filter([1,2,3,4,5,6], (# num x => bool (
+//    equal(x, 7)
+//)))
