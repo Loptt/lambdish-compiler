@@ -1,4 +1,4 @@
-func toggleDivisionBy :: bool m => num (
+func toggleDivisionByZero :: bool m => num (
     if(m,
         /(3,0),
         /(3,1)
@@ -19,6 +19,11 @@ func map :: [num] l, (num => num) f => [num] (
     )
 )
 
-map([1, -2, 3.234, 4], (# num x => num (
-    +(x, 1)
-)))
+//toggleEmptyList(false)
+//toggleEmptyList(true)
+//toggleDivisionByZero(true)
+//toggleDivisionByZero(true)
+//map([1, -2, 3.234, 4], (# num x => num (
+//    +(x, 1)
+//)))
+
