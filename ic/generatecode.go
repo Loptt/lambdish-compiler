@@ -483,6 +483,16 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
 	args := fcall.Args()
 
+	typ, err := sem.GetTypeStatement(args[1], fes, ctx.funcdir, ctx.semcube)
+	if err != nil {
+		return err
+	}
+
+	resaddr, err := ctx.vm.GetNextTemp(typ)
+	if err != nil {
+		return err
+	}
+
 	caddr, err := getArgumentAddress(args[0], fes, ctx)
 	if err != nil {
 		return err
@@ -496,8 +506,11 @@ func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *Generatio
 		return err
 	}
 
+	ctx.gen.Generate(quad.Assign, laddr, mem.Address(-1), resaddr)
+
 	fjump := ctx.gen.GetFromJumpStack()
-	ctx.gen.Generate(quad.Ret, laddr, mem.Address(-1), mem.Address(-1))
+	ctx.gen.PushToJumpStack(mem.Address(ctx.gen.ICounter()))
+	ctx.gen.Generate(quad.Goto, laddr, mem.Address(-1), mem.Address(-1))
 	ctx.gen.FillJumpQuadruple(fjump, mem.Address(ctx.gen.ICounter()))
 
 	raddr, err := getArgumentAddress(args[2], fes, ctx)
@@ -505,7 +518,12 @@ func generateIf(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, ctx *Generatio
 		return err
 	}
 
-	ctx.gen.PushToAddrStack(raddr)
+	ctx.gen.Generate(quad.Assign, raddr, mem.Address(-1), resaddr)
+
+	vjump := ctx.gen.GetFromJumpStack()
+	ctx.gen.FillJumpQuadruple(vjump, mem.Address(ctx.gen.ICounter()))
+
+	ctx.gen.PushToAddrStack(resaddr)
 
 	return nil
 }

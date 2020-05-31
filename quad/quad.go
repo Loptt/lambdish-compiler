@@ -37,6 +37,7 @@ const (
 	GeLst
 	PaLst
 	Print
+	Assign
 	Invalid
 )
 
@@ -96,6 +97,8 @@ func (o Operation) String() string {
 		return "PaLst"
 	case Print:
 		return "Print"
+	case Assign:
+		return "Assign"
 	}
 
 	return ""
@@ -196,6 +199,8 @@ func StringToOperation(s string) Operation {
 		return PaLst
 	case "Print":
 		return Print
+	case "Assign":
+		return Assign
 	}
 
 	return Invalid

@@ -9,5 +9,5 @@ func getFunc :: char x => (num => [num]) (
 func getEven :: [num] l, char x => [num] (
     getFunc('c')(23)
 )
-
+<
 getEven([1,3,4,5], 'c')

@@ -19,7 +19,7 @@ func map :: [num] l, (num => num) f => [num] (
     )
 )
 
-//toggleEmptyList(false)
+toggleEmptyList(false)
 //toggleEmptyList(true)
 //toggleDivisionByZero(true)
 //toggleDivisionByZero(true)

@@ -759,6 +759,19 @@ func (vm *VirtualMachine) operationRet(lop, rop, r mem.Address) error {
 	return nil
 }
 
+func (vm *VirtualMachine) operationAssign(lop, rop, r mem.Address) error {
+	lopv, err := vm.mm.GetValue(lop)
+	if err != nil {
+		return err
+	}
+
+	if err := vm.mm.SetValue(lopv, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (vm *VirtualMachine) operationGoto(lop, rop, r mem.Address) error {
 	if r < 0 {
 		return errutil.Newf("Invalid instruction address")

@@ -292,6 +292,11 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 		if err := vm.operationRet(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err
 		}
+	case quad.Assign:
+		if err := vm.operationAssign(q.Lop(), q.Rop(), q.R()); err != nil {
+			return err
+		}
+		vm.ip++
 	case quad.Goto:
 		if err := vm.operationGoto(q.Lop(), q.Rop(), q.R()); err != nil {
 			return err

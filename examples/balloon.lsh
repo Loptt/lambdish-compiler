@@ -150,4 +150,4 @@ func balloon :: [char] l => num (
 )
 
 // main entry point
-balloon("balloonballoo")
+balloon("balloonballoon")
