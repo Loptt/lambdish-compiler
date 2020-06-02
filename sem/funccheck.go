@@ -30,11 +30,11 @@ func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) er
 	params := make([]*types.LambdishType, 0)
 
 	if funcdir.Exists(id) {
-		return errutil.Newf("%+v: Redeclaration of function %s", function.Token(), id)
+		return errutil.NewNoPosf("%+v: Redeclaration of function %s", function.Token(), id)
 	}
 
 	if idIsReserved(id) {
-		return errutil.Newf("%+v: Cannot declare a function with reserved keyword %s", function.Token(), id)
+		return errutil.NewNoPosf("%+v: Cannot declare a function with reserved keyword %s", function.Token(), id)
 	}
 
 	for _, p := range function.Params() {
@@ -45,13 +45,13 @@ func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) er
 	}
 
 	if kw, ok := checkVarDirReserved(vardir); !ok {
-		return errutil.Newf("%+v: Cannot declare variable with reserved keyword %s", function.Token(), kw)
+		return errutil.NewNoPosf("%+v: Cannot declare variable with reserved keyword %s", function.Token(), kw)
 	}
 
 	fe := dir.NewFuncEntry(id, t, params, vardir)
 
 	if ok := funcdir.Add(fe); !ok {
-		return errutil.Newf("%+v: Invalid Function. This Function already exists.", function.Token())
+		return errutil.NewNoPosf("%+v: Invalid Function. This Function already exists.", function.Token())
 	}
 
 	if err := buildFuncDirStatement(function.Statement(), fe); err != nil {
@@ -71,7 +71,7 @@ func buildFuncDirCall(fcall *ast.FunctionCall, funcdir *dir.FuncDirectory) error
 	}
 
 	if ok := funcdir.Add(fe); !ok {
-		return errutil.Newf("%+v: Cannot initialize main function call", fcall.Token())
+		return errutil.NewNoPosf("%+v: Cannot initialize main function call", fcall.Token())
 	}
 
 	return nil
@@ -80,7 +80,7 @@ func buildFuncDirCall(fcall *ast.FunctionCall, funcdir *dir.FuncDirectory) error
 //buildVarDirFunction
 func buildVarDirFunction(ve *dir.VarEntry, vardir *dir.VarDirectory) error {
 	if ok := vardir.Add(ve); !ok {
-		return errutil.Newf("%+v: Invalid parameter. This parameter has already been declared.", ve.Token())
+		return errutil.NewNoPosf("%+v: Invalid parameter. This parameter has already been declared.", ve.Token())
 	}
 	return nil
 }
@@ -90,11 +90,11 @@ func buildFuncDirStatement(statement ast.Statement, fe *dir.FuncEntry) error {
 	if lambda, ok := statement.(*ast.Lambda); ok {
 		vardir, ok := lambda.CreateVarDir()
 		if !ok {
-			return errutil.Newf("%+v: Multiple parameter declaration in lambda", lambda.Token())
+			return errutil.NewNoPosf("%+v: Multiple parameter declaration in lambda", lambda.Token())
 		}
 
 		if kw, ok := checkVarDirReserved(vardir); !ok {
-			return errutil.Newf("%+v: Cannot declare variable with reserved keyword %s", lambda.Token(), kw)
+			return errutil.NewNoPosf("%+v: Cannot declare variable with reserved keyword %s", lambda.Token(), kw)
 		}
 
 		lambdaEntry := fe.AddLambda(lambda.Retval(), lambda.Params(), vardir)
@@ -129,5 +129,5 @@ func buildFuncDirStatement(statement ast.Statement, fe *dir.FuncEntry) error {
 		return nil
 	}
 
-	return errutil.Newf("Statement cannot be casted to any valid form.")
+	return errutil.NewNoPosf("Statement cannot be casted to any valid form.")
 }

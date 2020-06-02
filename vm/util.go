@@ -36,7 +36,7 @@ func readFile(path string) ([]byte, error) {
 func getNum(v interface{}) (float64, error) {
 	num, ok := v.(float64)
 	if !ok {
-		return 0, errutil.Newf("Cannot convert current value to num")
+		return 0, errutil.NewNoPosf("Cannot convert current value to num")
 	}
 
 	return num, nil
@@ -45,12 +45,12 @@ func getNum(v interface{}) (float64, error) {
 func getNums(v1, v2 interface{}) (float64, float64, error) {
 	num1, ok := v1.(float64)
 	if !ok {
-		return 0, 0, errutil.Newf("Cannot convert current value to num")
+		return 0, 0, errutil.NewNoPosf("Cannot convert current value to num")
 	}
 
 	num2, ok := v2.(float64)
 	if !ok {
-		return 0, 0, errutil.Newf("Cannot convert current value to num")
+		return 0, 0, errutil.NewNoPosf("Cannot convert current value to num")
 	}
 
 	return num1, num2, nil
@@ -59,7 +59,7 @@ func getNums(v1, v2 interface{}) (float64, float64, error) {
 func getChar(v interface{}) (rune, error) {
 	char, ok := v.(rune)
 	if !ok {
-		return 0, errutil.Newf("Cannot convert current value to char")
+		return 0, errutil.NewNoPosf("Cannot convert current value to char")
 	}
 
 	return char, nil
@@ -68,12 +68,12 @@ func getChar(v interface{}) (rune, error) {
 func getChars(v1, v2 interface{}) (rune, rune, error) {
 	char1, ok := v1.(rune)
 	if !ok {
-		return 0, 0, errutil.Newf("Cannot convert current value to char")
+		return 0, 0, errutil.NewNoPosf("Cannot convert current value to char")
 	}
 
 	char2, ok := v2.(rune)
 	if !ok {
-		return 0, 0, errutil.Newf("Cannot convert current value to char")
+		return 0, 0, errutil.NewNoPosf("Cannot convert current value to char")
 	}
 
 	return char1, char2, nil
@@ -82,7 +82,7 @@ func getChars(v1, v2 interface{}) (rune, rune, error) {
 func getBool(v interface{}) (bool, error) {
 	boo, ok := v.(bool)
 	if !ok {
-		return false, errutil.Newf("Cannot convert current value to bool")
+		return false, errutil.NewNoPosf("Cannot convert current value to bool")
 	}
 
 	return boo, nil
@@ -91,12 +91,12 @@ func getBool(v interface{}) (bool, error) {
 func getBools(v1, v2 interface{}) (bool, bool, error) {
 	bool1, ok := v1.(bool)
 	if !ok {
-		return false, false, errutil.Newf("Cannot convert current value to bool")
+		return false, false, errutil.NewNoPosf("Cannot convert current value to bool")
 	}
 
 	bool2, ok := v2.(bool)
 	if !ok {
-		return false, false, errutil.Newf("Cannot convert current value to bool")
+		return false, false, errutil.NewNoPosf("Cannot convert current value to bool")
 	}
 
 	return bool1, bool2, nil
@@ -105,7 +105,7 @@ func getBools(v1, v2 interface{}) (bool, bool, error) {
 func getInt(v interface{}) (int, error) {
 	in, ok := v.(int)
 	if !ok {
-		return 0, errutil.Newf("Cannot convert current value to address")
+		return 0, errutil.NewNoPosf("Cannot convert current value to address")
 	}
 
 	return in, nil
@@ -114,7 +114,7 @@ func getInt(v interface{}) (int, error) {
 func getListManager(v interface{}) (*list.ListManager, error) {
 	in, ok := v.(*list.ListManager)
 	if !ok {
-		return nil, errutil.Newf("Cannot convert current value to list manager")
+		return nil, errutil.NewNoPosf("Cannot convert current value to list manager")
 	}
 
 	return in, nil

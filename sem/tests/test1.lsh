@@ -1,1 +1,9 @@
-head("hola")
+func hola :: num x => num (
+    2
+)
+
+func hola :: num x => num (
+    2
+)
+
+hola(2)

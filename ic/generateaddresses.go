@@ -100,7 +100,7 @@ func generateAddressesStatement(statement ast.Statement, ctx *GenerationContext)
 		return nil
 	}
 
-	return errutil.Newf("Cannot cast statement to valid form")
+	return errutil.NewNoPosf("Cannot cast statement to valid form")
 }
 
 func generateAddressesConstantValue(cv *ast.ConstantValue, ctx *GenerationContext) error {

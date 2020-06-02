@@ -174,26 +174,26 @@ func isOperationFromSemanticCube(s string) bool {
 
 func checkAndGetIfType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
 	if len(args) != 3 {
-		return nil, errutil.Newf("Arguments for if must be exactly 3")
+		return nil, errutil.NewNoPosf("Arguments for if must be exactly 3")
 	}
 	if args[0].Basic() != types.Bool {
-		return nil, errutil.Newf("The first argument for if must be of type bool, got %s", args[0])
+		return nil, errutil.NewNoPosf("The first argument for if must be of type bool, got %s", args[0])
 	}
 	if !args[1].Equal(args[2]) {
-		return nil, errutil.Newf("The second and third arguments for if must be of the same type. Got %s and %s", args[1], args[2])
+		return nil, errutil.NewNoPosf("The second and third arguments for if must be of the same type. Got %s and %s", args[1], args[2])
 	}
 	return args[1], nil
 }
 
 func checkAndGetAppendType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
 	if len(args) != 2 {
-		return nil, errutil.Newf("Arguments for append must be exactly 2")
+		return nil, errutil.NewNoPosf("Arguments for append must be exactly 2")
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("Arguments for append must be a list")
+		return nil, errutil.NewNoPosf("Arguments for append must be a list")
 	}
 	if !args[0].Equal(args[1]) {
-		return nil, errutil.Newf("Arguments for append must be lists of the same type")
+		return nil, errutil.NewNoPosf("Arguments for append must be lists of the same type")
 	}
 
 	return args[0], nil
@@ -201,10 +201,10 @@ func checkAndGetAppendType(id string, args []*types.LambdishType) (*types.Lambdi
 
 func checkAndGetEmptyType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
 	if len(args) != 1 {
-		return nil, errutil.Newf("Arguments for empty must be exactly 1")
+		return nil, errutil.NewNoPosf("Arguments for empty must be exactly 1")
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("Arguments for empty must be a list")
+		return nil, errutil.NewNoPosf("Arguments for empty must be a list")
 	}
 
 	return types.NewDataLambdishType(types.Bool, 0), nil
@@ -212,10 +212,10 @@ func checkAndGetEmptyType(id string, args []*types.LambdishType) (*types.Lambdis
 
 func checkAndGetHeadType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
 	if len(args) != 1 {
-		return nil, errutil.Newf("Arguments for head must be exactly 1")
+		return nil, errutil.NewNoPosf("Arguments for head must be exactly 1")
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("Arguments for head must be a list")
+		return nil, errutil.NewNoPosf("Arguments for head must be a list")
 	}
 
 	t := *args[0]
@@ -225,10 +225,10 @@ func checkAndGetHeadType(id string, args []*types.LambdishType) (*types.Lambdish
 
 func checkAndGetTailType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
 	if len(args) != 1 {
-		return nil, errutil.Newf("Arguments for tail must be exactly 1")
+		return nil, errutil.NewNoPosf("Arguments for tail must be exactly 1")
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("Arguments for tail must be a list")
+		return nil, errutil.NewNoPosf("Arguments for tail must be a list")
 	}
 
 	return args[0], nil
@@ -236,17 +236,17 @@ func checkAndGetTailType(id string, args []*types.LambdishType) (*types.Lambdish
 
 func checkAndGetInsertType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
 	if len(args) != 2 {
-		return nil, errutil.Newf("Arguments for insert must be exactly 2")
+		return nil, errutil.NewNoPosf("Arguments for insert must be exactly 2")
 	}
 	if args[1].List() < 1 {
-		return nil, errutil.Newf("Second argument for insert must be a list")
+		return nil, errutil.NewNoPosf("Second argument for insert must be a list")
 	}
 	t1 := *args[0]
 	t2 := &t1
 	t2.IncreaseList()
 
 	if !t2.Equal(args[1]) {
-		return nil, errutil.Newf("Second argument for insert must be a list of the first argument %s %s", t2, args[1])
+		return nil, errutil.NewNoPosf("Second argument for insert must be a list of the first argument %s %s", t2, args[1])
 	}
 
 	return args[1], nil
@@ -276,5 +276,5 @@ func GetBuiltInType(id string, args []*types.LambdishType) (*types.LambdishType,
 		return types.NewDataLambdishType(types.Bool, 0), nil
 	}
 
-	return nil, errutil.Newf("Cannot get built in type")
+	return nil, errutil.NewNoPosf("Cannot get built in type")
 }
