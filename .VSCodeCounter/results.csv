@@ -1,56 +1,116 @@
-"filename", "language", "Go", "comment", "blank", "total"
-"/mnt/b/Development/GitHub/lambdish-compiler/ast/ast.go", "Go", 290, 0, 69, 359
-"/mnt/b/Development/GitHub/lambdish-compiler/ast/astx.go", "Go", 278, 0, 75, 353
-"/mnt/b/Development/GitHub/lambdish-compiler/ast/astx_test.go", "Go", 6, 0, 2, 8
-"/mnt/b/Development/GitHub/lambdish-compiler/cmd/clamb/clamb.go", "Go", 73, 0, 24, 97
-"/mnt/b/Development/GitHub/lambdish-compiler/cmd/rlamb/rlamb.go", "Go", 33, 0, 11, 44
-"/mnt/b/Development/GitHub/lambdish-compiler/dir/festack.go", "Go", 36, 0, 9, 45
-"/mnt/b/Development/GitHub/lambdish-compiler/dir/funcdir.go", "Go", 107, 0, 28, 135
-"/mnt/b/Development/GitHub/lambdish-compiler/dir/funcdir_test.go", "Go", 780, 0, 7, 787
-"/mnt/b/Development/GitHub/lambdish-compiler/dir/vardir.go", "Go", 60, 0, 20, 80
-"/mnt/b/Development/GitHub/lambdish-compiler/dir/vardir_test.go", "Go", 290, 0, 9, 299
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/errors/errors.go", "Go", 49, 0, 8, 57
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/lexer/acttab.go", "Go", 204, 0, 8, 212
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/lexer/lexer.go", "Go", 157, 0, 17, 174
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/lexer/transitiontable.go", "Go", 600, 0, 4, 604
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/action.go", "Go", 42, 0, 10, 52
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/actiontable.go", "Go", 5419, 0, 4, 5423
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/gototable.go", "Go", 3129, 0, 5, 3134
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/parser.go", "Go", 184, 0, 33, 217
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/parser/productionstable.go", "Go", 352, 0, 5, 357
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/token/token.go", "Go", 146, 0, 23, 169
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/util/litconv.go", "Go", 97, 0, 12, 109
-"/mnt/b/Development/GitHub/lambdish-compiler/gocc/util/rune.go", "Go", 36, 0, 4, 40
-"/mnt/b/Development/GitHub/lambdish-compiler/grammar/grammar_test.go", "Go", 44, 0, 14, 58
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/addressstack.go", "Go", 63, 0, 17, 80
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/generateaddresses.go", "Go", 97, 0, 20, 117
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/generateaddresses_test.go", "Go", 41, 0, 10, 51
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/generatecode.go", "Go", 468, 0, 116, 584
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/generator.go", "Go", 133, 0, 34, 167
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/ic.go", "Go", 47, 0, 11, 58
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/ic_test.go", "Go", 58, 0, 17, 75
-"/mnt/b/Development/GitHub/lambdish-compiler/ic/util.go", "Go", 20, 0, 5, 25
-"/mnt/b/Development/GitHub/lambdish-compiler/integration/integration_test.go", "Go", 65, 0, 19, 84
-"/mnt/b/Development/GitHub/lambdish-compiler/mem/mem.go", "Go", 334, 0, 42, 376
-"/mnt/b/Development/GitHub/lambdish-compiler/mem/util.go", "Go", 5, 0, 2, 7
-"/mnt/b/Development/GitHub/lambdish-compiler/quad/quad.go", "Go", 231, 0, 22, 253
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/funccheck.go", "Go", 109, 0, 25, 134
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/funccheck_test.go", "Go", 36, 0, 10, 46
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/funcutil.go", "Go", 15, 0, 5, 20
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/scopecheck.go", "Go", 99, 0, 18, 117
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/scopecheck_test.go", "Go", 41, 0, 11, 52
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/scopeutil.go", "Go", 23, 0, 6, 29
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/sem.go", "Go", 45, 0, 8, 53
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/sem_test.go", "Go", 53, 0, 14, 67
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/semanticcube.go", "Go", 230, 0, 34, 264
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/typecheck.go", "Go", 100, 0, 25, 125
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/typecheck_test.go", "Go", 45, 0, 13, 58
-"/mnt/b/Development/GitHub/lambdish-compiler/sem/typeutil.go", "Go", 167, 0, 30, 197
-"/mnt/b/Development/GitHub/lambdish-compiler/types/types.go", "Go", 127, 0, 25, 152
-"/mnt/b/Development/GitHub/lambdish-compiler/types/types_test.go", "Go", 172, 0, 8, 180
-"/mnt/b/Development/GitHub/lambdish-compiler/vm/mem.go", "Go", 282, 0, 22, 304
-"/mnt/b/Development/GitHub/lambdish-compiler/vm/operations.go", "Go", 81, 0, 27, 108
-"/mnt/b/Development/GitHub/lambdish-compiler/vm/util.go", "Go", 51, 0, 17, 68
-"/mnt/b/Development/GitHub/lambdish-compiler/vm/vm.go", "Go", 166, 0, 39, 205
-"/mnt/b/Development/GitHub/lambdish-compiler/vm/vm_test.go", "Go", 35, 0, 11, 46
-"Total", "-", 15851, 0, 1064, 16915
+"filename", "language", "Markdown", "XML", "Go", "Shell Script", "EBNF", "Lambdish", "comment", "blank", "total"
+"/Users/vsapiens/Documents/lambdish-compiler/README.md", "Markdown", 5, 0, 0, 0, 0, 0, 0, 2, 7
+"/Users/vsapiens/Documents/lambdish-compiler/ast/ast.go", "Go", 0, 0, 231, 0, 0, 0, 58, 69, 358
+"/Users/vsapiens/Documents/lambdish-compiler/ast/astx.go", "Go", 0, 0, 279, 0, 0, 0, 27, 85, 391
+"/Users/vsapiens/Documents/lambdish-compiler/cmd/clamb/clamb.go", "Go", 0, 0, 73, 0, 0, 0, 0, 24, 97
+"/Users/vsapiens/Documents/lambdish-compiler/cmd/rlamb/rlamb.go", "Go", 0, 0, 33, 0, 0, 0, 0, 11, 44
+"/Users/vsapiens/Documents/lambdish-compiler/cmd/tests/test4.lsh", "Lambdish", 0, 0, 0, 0, 0, 11, 0, 1, 12
+"/Users/vsapiens/Documents/lambdish-compiler/dir/festack.go", "Go", 0, 0, 30, 0, 0, 0, 6, 9, 45
+"/Users/vsapiens/Documents/lambdish-compiler/dir/funcdir.go", "Go", 0, 0, 94, 0, 0, 0, 14, 28, 136
+"/Users/vsapiens/Documents/lambdish-compiler/dir/funcdir_test.go", "Go", 0, 0, 780, 0, 0, 0, 0, 7, 787
+"/Users/vsapiens/Documents/lambdish-compiler/dir/vardir.go", "Go", 0, 0, 64, 0, 0, 0, 0, 22, 86
+"/Users/vsapiens/Documents/lambdish-compiler/dir/vardir_test.go", "Go", 0, 0, 290, 0, 0, 0, 0, 10, 300
+"/Users/vsapiens/Documents/lambdish-compiler/examples/balloon.lsh", "Lambdish", 0, 0, 0, 0, 0, 141, 2, 10, 153
+"/Users/vsapiens/Documents/lambdish-compiler/examples/filter.lsh", "Lambdish", 0, 0, 0, 0, 0, 15, 0, 1, 16
+"/Users/vsapiens/Documents/lambdish-compiler/examples/length.lsh", "Lambdish", 0, 0, 0, 0, 0, 6, 0, 0, 6
+"/Users/vsapiens/Documents/lambdish-compiler/examples/map.lsh", "Lambdish", 0, 0, 0, 0, 0, 10, 0, 1, 11
+"/Users/vsapiens/Documents/lambdish-compiler/examples/maplist.lsh", "Lambdish", 0, 0, 0, 0, 0, 26, 1, 2, 29
+"/Users/vsapiens/Documents/lambdish-compiler/examples/mergesort.lsh", "Lambdish", 0, 0, 0, 0, 0, 56, 1, 7, 64
+"/Users/vsapiens/Documents/lambdish-compiler/examples/oddmatrix.lsh", "Lambdish", 0, 0, 0, 0, 0, 143, 2, 17, 162
+"/Users/vsapiens/Documents/lambdish-compiler/examples/reduce.lsh", "Lambdish", 0, 0, 0, 0, 0, 15, 0, 1, 16
+"/Users/vsapiens/Documents/lambdish-compiler/examples/reverse.lsh", "Lambdish", 0, 0, 0, 0, 0, 10, 0, 1, 11
+"/Users/vsapiens/Documents/lambdish-compiler/examples/sortparity.lsh", "Lambdish", 0, 0, 0, 0, 0, 23, 1, 4, 28
+"/Users/vsapiens/Documents/lambdish-compiler/examples/test_algorithms.lsh", "Lambdish", 0, 0, 0, 0, 0, 99, 12, 11, 122
+"/Users/vsapiens/Documents/lambdish-compiler/examples/test_error.lsh", "Lambdish", 0, 0, 0, 0, 0, 19, 6, 5, 30
+"/Users/vsapiens/Documents/lambdish-compiler/examples/test_lambdas.lsh", "Lambdish", 0, 0, 0, 0, 0, 41, 5, 5, 51
+"/Users/vsapiens/Documents/lambdish-compiler/examples/test_matrix.lsh", "Lambdish", 0, 0, 0, 0, 0, 46, 5, 5, 56
+"/Users/vsapiens/Documents/lambdish-compiler/go.mod", "XML", 0, 6, 0, 0, 0, 0, 0, 3, 9
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/compilegocc.sh", "Shell Script", 0, 0, 0, 1, 0, 0, 1, 1, 3
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/errors/errors.go", "Go", 0, 0, 48, 0, 0, 0, 1, 8, 57
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/lexer/acttab.go", "Go", 0, 0, 235, 0, 0, 0, 1, 8, 244
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/lexer/lexer.go", "Go", 0, 0, 96, 0, 0, 0, 65, 17, 178
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/lexer/transitiontable.go", "Go", 0, 0, 628, 0, 0, 0, 61, 4, 693
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/parser/action.go", "Go", 0, 0, 41, 0, 0, 0, 1, 10, 52
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/parser/actiontable.go", "Go", 0, 0, 6139, 0, 0, 0, 1, 4, 6144
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/parser/gototable.go", "Go", 0, 0, 3640, 0, 0, 0, 1, 5, 3646
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/parser/parser.go", "Go", 0, 0, 180, 0, 0, 0, 4, 33, 217
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/parser/productionstable.go", "Go", 0, 0, 390, 0, 0, 0, 2, 5, 397
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/token/token.go", "Go", 0, 0, 133, 0, 0, 0, 15, 23, 171
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/util/litconv.go", "Go", 0, 0, 85, 0, 0, 0, 12, 12, 109
+"/Users/vsapiens/Documents/lambdish-compiler/gocc/util/rune.go", "Go", 0, 0, 35, 0, 0, 0, 1, 4, 40
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/grammar_test.go", "Go", 0, 0, 44, 0, 0, 0, 0, 14, 58
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/lambdish.ebnf", "EBNF", 0, 0, 0, 0, 83, 0, 0, 20, 103
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/tests/test1.lsh", "Lambdish", 0, 0, 0, 0, 0, 3, 0, 2, 5
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/tests/test2.lsh", "Lambdish", 0, 0, 0, 0, 0, 13, 0, 2, 15
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/tests/test3.lsh", "Lambdish", 0, 0, 0, 0, 0, 13, 0, 2, 15
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/tests/test4.lsh", "Lambdish", 0, 0, 0, 0, 0, 12, 0, 1, 13
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/tests/test5.lsh", "Lambdish", 0, 0, 0, 0, 0, 7, 0, 2, 9
+"/Users/vsapiens/Documents/lambdish-compiler/grammar/tests/test6.lsh", "Lambdish", 0, 0, 0, 0, 0, 11, 0, 3, 14
+"/Users/vsapiens/Documents/lambdish-compiler/ic/addressstack.go", "Go", 0, 0, 54, 0, 0, 0, 9, 17, 80
+"/Users/vsapiens/Documents/lambdish-compiler/ic/generateaddresses.go", "Go", 0, 0, 104, 0, 0, 0, 7, 25, 136
+"/Users/vsapiens/Documents/lambdish-compiler/ic/generateaddresses_test.go", "Go", 0, 0, 39, 0, 0, 0, 2, 10, 51
+"/Users/vsapiens/Documents/lambdish-compiler/ic/generatecode.go", "Go", 0, 0, 493, 0, 0, 0, 41, 135, 669
+"/Users/vsapiens/Documents/lambdish-compiler/ic/generator.go", "Go", 0, 0, 117, 0, 0, 0, 20, 35, 172
+"/Users/vsapiens/Documents/lambdish-compiler/ic/ic.go", "Go", 0, 0, 35, 0, 0, 0, 12, 11, 58
+"/Users/vsapiens/Documents/lambdish-compiler/ic/ic_test.go", "Go", 0, 0, 58, 0, 0, 0, 0, 17, 75
+"/Users/vsapiens/Documents/lambdish-compiler/ic/tests/test1.lsh", "Lambdish", 0, 0, 0, 0, 0, 11, 0, 2, 13
+"/Users/vsapiens/Documents/lambdish-compiler/ic/tests/test2.lsh", "Lambdish", 0, 0, 0, 0, 0, 15, 0, 2, 17
+"/Users/vsapiens/Documents/lambdish-compiler/ic/tests/test3.lsh", "Lambdish", 0, 0, 0, 0, 0, 16, 0, 5, 21
+"/Users/vsapiens/Documents/lambdish-compiler/ic/tests/test4.lsh", "Lambdish", 0, 0, 0, 0, 0, 11, 0, 1, 12
+"/Users/vsapiens/Documents/lambdish-compiler/ic/tests/test5.lsh", "Lambdish", 0, 0, 0, 0, 0, 9, 0, 1, 10
+"/Users/vsapiens/Documents/lambdish-compiler/ic/tests/test6.lsh", "Lambdish", 0, 0, 0, 0, 0, 9, 0, 1, 10
+"/Users/vsapiens/Documents/lambdish-compiler/ic/tests/test7_fake.lsh", "Lambdish", 0, 0, 0, 0, 0, 94, 1, 11, 106
+"/Users/vsapiens/Documents/lambdish-compiler/ic/util.go", "Go", 0, 0, 43, 0, 0, 0, 0, 11, 54
+"/Users/vsapiens/Documents/lambdish-compiler/integration/integration_test.go", "Go", 0, 0, 65, 0, 0, 0, 0, 19, 84
+"/Users/vsapiens/Documents/lambdish-compiler/integration/test1.lsh", "Lambdish", 0, 0, 0, 0, 0, 9, 0, 1, 10
+"/Users/vsapiens/Documents/lambdish-compiler/integration/test2.lsh", "Lambdish", 0, 0, 0, 0, 0, 20, 0, 2, 22
+"/Users/vsapiens/Documents/lambdish-compiler/integration/test3.lsh", "Lambdish", 0, 0, 0, 0, 0, 23, 0, 3, 26
+"/Users/vsapiens/Documents/lambdish-compiler/mem/mem.go", "Go", 0, 0, 290, 0, 0, 0, 46, 42, 378
+"/Users/vsapiens/Documents/lambdish-compiler/mem/util.go", "Go", 0, 0, 5, 0, 0, 0, 0, 2, 7
+"/Users/vsapiens/Documents/lambdish-compiler/quad/quad.go", "Go", 0, 0, 229, 0, 0, 0, 7, 22, 258
+"/Users/vsapiens/Documents/lambdish-compiler/sem/funccheck.go", "Go", 0, 0, 104, 0, 0, 0, 5, 25, 134
+"/Users/vsapiens/Documents/lambdish-compiler/sem/funccheck_test.go", "Go", 0, 0, 36, 0, 0, 0, 0, 10, 46
+"/Users/vsapiens/Documents/lambdish-compiler/sem/funcutil.go", "Go", 0, 0, 15, 0, 0, 0, 0, 5, 20
+"/Users/vsapiens/Documents/lambdish-compiler/sem/scopecheck.go", "Go", 0, 0, 88, 0, 0, 0, 11, 18, 117
+"/Users/vsapiens/Documents/lambdish-compiler/sem/scopecheck_test.go", "Go", 0, 0, 39, 0, 0, 0, 2, 11, 52
+"/Users/vsapiens/Documents/lambdish-compiler/sem/scopeutil.go", "Go", 0, 0, 19, 0, 0, 0, 4, 6, 29
+"/Users/vsapiens/Documents/lambdish-compiler/sem/sem.go", "Go", 0, 0, 19, 0, 0, 0, 25, 7, 51
+"/Users/vsapiens/Documents/lambdish-compiler/sem/sem_test.go", "Go", 0, 0, 53, 0, 0, 0, 2, 16, 71
+"/Users/vsapiens/Documents/lambdish-compiler/sem/semanticcube.go", "Go", 0, 0, 240, 0, 0, 0, 7, 34, 281
+"/Users/vsapiens/Documents/lambdish-compiler/sem/tests/test1.lsh", "Lambdish", 0, 0, 0, 0, 0, 1, 0, 0, 1
+"/Users/vsapiens/Documents/lambdish-compiler/sem/tests/test2.lsh", "Lambdish", 0, 0, 0, 0, 0, 7, 0, 1, 8
+"/Users/vsapiens/Documents/lambdish-compiler/sem/tests/test3.lsh", "Lambdish", 0, 0, 0, 0, 0, 13, 0, 2, 15
+"/Users/vsapiens/Documents/lambdish-compiler/sem/tests/test4.lsh", "Lambdish", 0, 0, 0, 0, 0, 11, 0, 1, 12
+"/Users/vsapiens/Documents/lambdish-compiler/sem/tests/test5.lsh", "Lambdish", 0, 0, 0, 0, 0, 9, 0, 2, 11
+"/Users/vsapiens/Documents/lambdish-compiler/sem/tests/test6.lsh", "Lambdish", 0, 0, 0, 0, 0, 11, 0, 3, 14
+"/Users/vsapiens/Documents/lambdish-compiler/sem/tests/test7_fake.lsh", "Lambdish", 0, 0, 0, 0, 0, 23, 0, 3, 26
+"/Users/vsapiens/Documents/lambdish-compiler/sem/typecheck.go", "Go", 0, 0, 94, 0, 0, 0, 6, 25, 125
+"/Users/vsapiens/Documents/lambdish-compiler/sem/typecheck_test.go", "Go", 0, 0, 43, 0, 0, 0, 2, 13, 58
+"/Users/vsapiens/Documents/lambdish-compiler/sem/typeutil.go", "Go", 0, 0, 153, 0, 0, 0, 25, 33, 211
+"/Users/vsapiens/Documents/lambdish-compiler/types/types.go", "Go", 0, 0, 81, 0, 0, 0, 46, 25, 152
+"/Users/vsapiens/Documents/lambdish-compiler/types/types_test.go", "Go", 0, 0, 172, 0, 0, 0, 0, 8, 180
+"/Users/vsapiens/Documents/lambdish-compiler/vm/ar/activationrecord.go", "Go", 0, 0, 246, 0, 0, 0, 0, 64, 310
+"/Users/vsapiens/Documents/lambdish-compiler/vm/ar/arstack.go", "Go", 0, 0, 30, 0, 0, 0, 4, 9, 43
+"/Users/vsapiens/Documents/lambdish-compiler/vm/list/list.go", "Go", 0, 0, 527, 0, 0, 0, 0, 103, 630
+"/Users/vsapiens/Documents/lambdish-compiler/vm/list/liststack.go", "Go", 0, 0, 30, 0, 0, 0, 4, 9, 43
+"/Users/vsapiens/Documents/lambdish-compiler/vm/mem.go", "Go", 0, 0, 258, 0, 0, 0, 21, 21, 300
+"/Users/vsapiens/Documents/lambdish-compiler/vm/operations.go", "Go", 0, 0, 642, 0, 0, 0, 23, 163, 828
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/balloon.lsh", "Lambdish", 0, 0, 0, 0, 0, 141, 1, 9, 151
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/failtest.lsh", "Lambdish", 0, 0, 0, 0, 0, 1, 0, 0, 1
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/filter.lsh", "Lambdish", 0, 0, 0, 0, 0, 15, 0, 1, 16
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/lambdas.lsh", "Lambdish", 0, 0, 0, 0, 0, 21, 4, 3, 28
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/map.lsh", "Lambdish", 0, 0, 0, 0, 0, 10, 0, 1, 11
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/mergesort.lsh", "Lambdish", 0, 0, 0, 0, 0, 56, 0, 6, 62
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/oddmatrix.lsh", "Lambdish", 0, 0, 0, 0, 0, 94, 1, 11, 106
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/reverse.lsh", "Lambdish", 0, 0, 0, 0, 0, 10, 0, 1, 11
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/test1.lsh", "Lambdish", 0, 0, 0, 0, 0, 10, 0, 2, 12
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/test2.lsh", "Lambdish", 0, 0, 0, 0, 0, 28, 0, 2, 30
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/test3.lsh", "Lambdish", 0, 0, 0, 0, 0, 20, 0, 6, 26
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/test4.lsh", "Lambdish", 0, 0, 0, 0, 0, 25, 0, 3, 28
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/test5.lsh", "Lambdish", 0, 0, 0, 0, 0, 13, 0, 3, 16
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/test6.lsh", "Lambdish", 0, 0, 0, 0, 0, 25, 0, 2, 27
+"/Users/vsapiens/Documents/lambdish-compiler/vm/tests/test7.lsh", "Lambdish", 0, 0, 0, 0, 0, 21, 0, 3, 24
+"/Users/vsapiens/Documents/lambdish-compiler/vm/util.go", "Go", 0, 0, 184, 0, 0, 0, 2, 49, 235
+"/Users/vsapiens/Documents/lambdish-compiler/vm/vm.go", "Go", 0, 0, 291, 0, 0, 0, 7, 42, 340
+"/Users/vsapiens/Documents/lambdish-compiler/vm/vm_test.go", "Go", 0, 0, 34, 0, 0, 0, 1, 11, 46
+"Total", "-", 5, 6, 18498, 1, 83, 1502, 654, 1668, 22417
