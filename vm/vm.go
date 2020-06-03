@@ -173,6 +173,8 @@ func (vm *VirtualMachine) printOutput() {
 	}
 }
 
+// executeNextInstruction indexes the next quadruple with the instruction pointer and
+// proceeds to execute that instruction
 func (vm *VirtualMachine) executeNextInstruction() error {
 	q := vm.quads[vm.ip]
 
@@ -319,6 +321,7 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 	return nil
 }
 
+// Run starts executing the instructions in the virtual machine
 func (vm *VirtualMachine) Run() error {
 	if len(vm.quads) < 1 {
 		return errutil.NewNoPosf("No instructions to execute")
