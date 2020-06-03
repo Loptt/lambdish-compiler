@@ -175,26 +175,27 @@ func isOperationFromSemanticCube(s string) bool {
 
 func checkAndGetIfType(id string, args []*types.LambdishType, tok *token.Token) (*types.LambdishType, error) {
 	if len(args) != 3 {
-		return nil, errutil.Newf("%+v: Arguments for if must be exactly 3", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for if must be exactly 3", tok.String())
 	}
 	if args[0].Basic() != types.Bool {
-		return nil, errutil.Newf("%+v: The first argument for if must be of type bool, got %s", tok.String(), args[0])
+		return nil, errutil.NewNoPosf("%+v: The first argument for if must be of type bool, got %s", tok.String(), args[0])
 	}
 	if !args[1].Equal(args[2]) {
-		return nil, errutil.Newf("%+v: The second and third arguments for if must be of the same type. Got %s and %s", tok.String(), args[1], args[2])
+		return nil, errutil.NewNoPosf("%+v: The second and third arguments for if must be of the same type. Got %s and %s", tok.String(), args[1], args[2])
 	}
 	return args[1], nil
 }
 
 func checkAndGetAppendType(id string, args []*types.LambdishType, tok *token.Token) (*types.LambdishType, error) {
 	if len(args) != 2 {
-		return nil, errutil.Newf("%+v: Arguments for append must be exactly 2", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for append must be exactly 2", tok.String())
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("%+v: Arguments for append must be a list", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for append must be a list", tok.String())
 	}
 	if !args[0].Equal(args[1]) {
-		return nil, errutil.Newf("%+v: Arguments for append must be lists of the same type", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for append must be lists of the same type", tok.String())
+
 	}
 
 	return args[0], nil
@@ -202,10 +203,10 @@ func checkAndGetAppendType(id string, args []*types.LambdishType, tok *token.Tok
 
 func checkAndGetEmptyType(id string, args []*types.LambdishType, tok *token.Token) (*types.LambdishType, error) {
 	if len(args) != 1 {
-		return nil, errutil.Newf("%+v: Arguments for empty must be exactly 1", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for empty must be exactly 1", tok.String())
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("%+v: Arguments for empty must be a list", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for empty must be a list", tok.String())
 	}
 
 	return types.NewDataLambdishType(types.Bool, 0), nil
@@ -213,10 +214,10 @@ func checkAndGetEmptyType(id string, args []*types.LambdishType, tok *token.Toke
 
 func checkAndGetHeadType(id string, args []*types.LambdishType, tok *token.Token) (*types.LambdishType, error) {
 	if len(args) != 1 {
-		return nil, errutil.Newf("%+v: Arguments for head must be exactly 1", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for head must be exactly 1", tok.String())
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("%+v: Arguments for head must be a list", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for head must be a list", tok.String())
 	}
 
 	t := *args[0]
@@ -226,10 +227,10 @@ func checkAndGetHeadType(id string, args []*types.LambdishType, tok *token.Token
 
 func checkAndGetTailType(id string, args []*types.LambdishType, tok *token.Token) (*types.LambdishType, error) {
 	if len(args) != 1 {
-		return nil, errutil.Newf("%+v: Arguments for tail must be exactly 1", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for tail must be exactly 1", tok.String())
 	}
 	if args[0].List() < 1 {
-		return nil, errutil.Newf("%+v: Arguments for tail must be a list", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for tail must be a list", tok.String())
 	}
 
 	return args[0], nil
@@ -237,17 +238,17 @@ func checkAndGetTailType(id string, args []*types.LambdishType, tok *token.Token
 
 func checkAndGetInsertType(id string, args []*types.LambdishType, tok *token.Token) (*types.LambdishType, error) {
 	if len(args) != 2 {
-		return nil, errutil.Newf("%+v: Arguments for insert must be exactly 2", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Arguments for insert must be exactly 2", tok.String())
 	}
 	if args[1].List() < 1 {
-		return nil, errutil.Newf("%+v: Second argument for insert must be a list", tok.String())
+		return nil, errutil.NewNoPosf("%+v: Second argument for insert must be a list", tok.String())
 	}
 	t1 := *args[0]
 	t2 := &t1
 	t2.IncreaseList()
 
 	if !t2.Equal(args[1]) {
-		return nil, errutil.Newf("%+v: Second argument for insert must be a list of the first argument %s %s", tok.String(), t2, args[1])
+		return nil, errutil.NewNoPosf("%+v: Second argument for insert must be a list of the first argument %s %s", tok.String(), t2, args[1])
 	}
 
 	return args[1], nil
@@ -277,5 +278,5 @@ func GetBuiltInType(id string, args []*types.LambdishType, tok *token.Token) (*t
 		return types.NewDataLambdishType(types.Bool, 0), nil
 	}
 
-	return nil, errutil.Newf("Cannot get built in type")
+	return nil, errutil.NewNoPosf("Cannot get built in type")
 }

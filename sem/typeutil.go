@@ -22,7 +22,7 @@ func getIDTypeFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (*types.Lambdis
 		fescpy.Pop()
 	}
 
-	return nil, errutil.Newf("Id %s not declared in this scope", id.String())
+	return nil, errutil.NewNoPosf("Id %s not declared in this scope", id.String())
 }
 
 // IsReservedFunction ...
@@ -51,7 +51,7 @@ func getReservedFunctionType(id string, args []*types.LambdishType, tok *token.T
 		return checkAndGetInsertType(id, args, tok)
 	}
 
-	return nil, errutil.Newf("Cannot find reserved function")
+	return nil, errutil.NewNoPosf("Cannot find reserved function")
 }
 
 // getTypeFunctionCall
@@ -76,7 +76,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			// If the type returned is not a function, then we cannot call the function and we
 			// return an error
 			if !t.Function() {
-				return nil, errutil.Newf("%+v: Cannot call %s as a function in this scope", fcall.Token(), id)
+				return nil, errutil.NewNoPosf("%+v: Cannot call %s as a function in this scope", fcall.Token(), id)
 			}
 
 			// Otherwise we return the return type of this function type
@@ -98,13 +98,13 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 			if basic, ok := semcube.Get(key); ok {
 				return types.NewDataLambdishType(basic, 0), nil
 			}
-			return nil, errutil.Newf("%+v: Cannot perform operation %s on arguments %+v", fcall.Token(), id.String(), argTypes)
+			return nil, errutil.NewNoPosf("%+v: Cannot perform operation %s on arguments %+v", fcall.Token(), id.String(), argTypes)
 
 			// If it is not an operation, we must check if it is a reserverd function
 		} else if IsReservedFunction(id.String()) {
 			return getReservedFunctionType(id.String(), argTypes, id.Token())
 		} else {
-			return nil, errutil.Newf("%+v: Function %s not declared on local or global scope", fcall.Token(), id)
+			return nil, errutil.NewNoPosf("%+v: Function %s not declared on local or global scope", fcall.Token(), id)
 		}
 
 	}
@@ -113,7 +113,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 		return nil, err
 	}
 	if !t.Function() {
-		return nil, errutil.Newf("%+v: Cannot call as a function in this scope", fcall.Token())
+		return nil, errutil.NewNoPosf("%+v: Cannot call as a function in this scope", fcall.Token())
 	}
 
 	if err := argumentsMatchParameters(fcall, argTypes, t.Params(), fes, funcdir, semcube); err != nil {
@@ -147,7 +147,7 @@ func GetTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 	// If any type is different then we send an error
 	for _, t := range ts {
 		if !t.Equal(&listType) {
-			return nil, errutil.Newf("%+v: Cannot create list of multiple types", cl.Token())
+			return nil, errutil.NewNoPosf("%+v: Cannot create list of multiple types", cl.Token())
 		}
 	}
 
@@ -165,7 +165,7 @@ func GetTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir 
 		} else if fe := funcdir.Get(id.String()); fe != nil {
 			return convertFuncEntryToLambdishType(fe), nil
 		}
-		return nil, errutil.Newf("%+v: Id %s not declared in local or global scope", id.Token(), id.String())
+		return nil, errutil.NewNoPosf("%+v: Id %s not declared in local or global scope", id.Token(), id.String())
 	} else if fcall, ok := statement.(*ast.FunctionCall); ok {
 		return getTypeFunctionCall(fcall, fes, funcdir, semcube)
 	} else if cv, ok := statement.(*ast.ConstantValue); ok {
@@ -175,17 +175,17 @@ func GetTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir 
 	} else if l, ok := statement.(*ast.Lambda); ok {
 		return types.NewFuncLambdishType(l.Retval(), l.Params(), 0), nil
 	}
-	return nil, errutil.Newf("Statement cannot be casted to any valid form")
+	return nil, errutil.NewNoPosf("Statement cannot be casted to any valid form")
 }
 
 func argumentsMatchParameters(fcall *ast.FunctionCall, args []*types.LambdishType, params []*types.LambdishType, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	if len(args) != len(params) {
-		return errutil.Newf("%+v: function expects %d arguments, got %d", fcall.Token(), len(params), len(args))
+		return errutil.NewNoPosf("%+v: function expects %d arguments, got %d", fcall.Token(), len(params), len(args))
 	}
 
 	for i, p := range params {
 		if !(p.Equal(args[i])) {
-			return errutil.Newf("%+v: Function call arguments do not match its parameters", fcall.Token())
+			return errutil.NewNoPosf("%+v: Function call arguments do not match its parameters", fcall.Token())
 		}
 	}
 

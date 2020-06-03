@@ -72,7 +72,7 @@ func generateCodeStatement(statement ast.Statement, fes *dir.FuncEntryStack, ctx
 		return generateCodeConstantValue(cv, fes, ctx)
 	}
 
-	return errutil.Newf("Statement cannot be casted to any valid form")
+	return errutil.NewNoPosf("Statement cannot be casted to any valid form")
 }
 
 func generateCodeID(id *ast.Id, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
@@ -85,7 +85,7 @@ func generateCodeID(id *ast.Id, fes *dir.FuncEntryStack, ctx *GenerationContext)
 		return nil
 	}
 
-	return errutil.Newf("%+v: Cannot find id %s in local or global scope", id.Token(), id.String())
+	return errutil.NewNoPosf("%+v: Cannot find id %s in local or global scope", id.Token(), id.String())
 }
 
 func generateCodeConstantValue(cv *ast.ConstantValue, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
@@ -146,7 +146,7 @@ func generateCodeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, 
 				return nil
 			}
 
-			return errutil.Newf("%+v: Cannot find id in funcdir or funcentry stack", id.Token())
+			return errutil.NewNoPosf("%+v: Cannot find id in funcdir or funcentry stack", id.Token())
 		}
 	} else if l, ok := fcall.Statement().(*ast.Lambda); ok {
 		if err := generateCodeLambda(l, fes, ctx); err != nil {
@@ -292,7 +292,7 @@ func generateArithmeticalOperators(id string, fcall *ast.FunctionCall, fes *dir.
 	//Receive
 	op := quad.GetOperation(id)
 	if op == quad.Invalid {
-		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
+		return errutil.NewNoPosf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 	}
 
 	laddr, err := getArgumentAddress(lop, fes, ctx)
@@ -318,7 +318,7 @@ func generateArithmeticalOperators(id string, fcall *ast.FunctionCall, fes *dir.
 
 	t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
 	if !ok {
-		return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
+		return errutil.NewNoPosf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
 	}
 
 	nextTemp, err := ctx.vm.GetNextTemp(types.NewDataLambdishType(t, 0))
@@ -345,7 +345,7 @@ func generateRelationalOperators(id string, fcall *ast.FunctionCall, fes *dir.Fu
 	//Receive
 	op := quad.GetOperation(id)
 	if op == quad.Invalid {
-		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
+		return errutil.NewNoPosf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 	}
 
 	laddr, err := getArgumentAddress(lop, fes, ctx)
@@ -371,7 +371,7 @@ func generateRelationalOperators(id string, fcall *ast.FunctionCall, fes *dir.Fu
 
 	t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
 	if !ok {
-		return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
+		return errutil.NewNoPosf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
 	}
 
 	// Get the address of the next available temp to store the result of the operation
@@ -396,7 +396,7 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 		//Receive
 		op := quad.GetOperation(id)
 		if op == quad.Invalid {
-			return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
+			return errutil.NewNoPosf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 		}
 
 		laddr, err := getArgumentAddress(lop, fes, ctx)
@@ -413,7 +413,7 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 
 		t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
 		if !ok {
-			return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s", fcall.Token(), id, lopt)
+			return errutil.NewNoPosf("%+v: Cannot use arithmetic operator %s with arguments %s", fcall.Token(), id, lopt)
 		}
 
 		// Get the address of the next available temp to store the result of the operation
@@ -437,7 +437,7 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 	//Receive
 	op := quad.GetOperation(id)
 	if op == quad.Invalid {
-		return errutil.Newf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
+		return errutil.NewNoPosf("%+v: Cannot generate for arithmetical operator %s", fcall.Token(), id)
 	}
 
 	laddr, err := getArgumentAddress(lop, fes, ctx)
@@ -463,7 +463,7 @@ func generateLogicalOperators(id string, fcall *ast.FunctionCall, fes *dir.FuncE
 
 	t, ok := ctx.semcube.Get(sem.GetSemanticCubeKey(op.String(), params))
 	if !ok {
-		return errutil.Newf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
+		return errutil.NewNoPosf("%+v: Cannot use arithmetic operator %s with arguments %s, %s", fcall.Token(), id, lopt, ropt)
 	}
 
 	// Get the address of the next available temp to store the result of the operation
@@ -637,13 +637,13 @@ func getArgumentAddress(s ast.Statement, fes *dir.FuncEntryStack, ctx *Generatio
 			if isOnTopOfFuncStack(id, fes) {
 				return addr, nil
 			}
-			return mem.Address(-1), errutil.Newf("%+v: id %s not declared in this local scope", s.Token(), id.String())
+			return mem.Address(-1), errutil.NewNoPosf("%+v: id %s not declared in this local scope", s.Token(), id.String())
 		}
 		if ctx.funcdir.Exists(id.String()) {
 			ctx.gen.AddPendingFuncAddr(ctx.gen.ICounter(), id.String())
 			return mem.Address(-1), nil
 		}
-		return mem.Address(-1), errutil.Newf("%+v: id %s not found in this scope", s.Token(), id.String())
+		return mem.Address(-1), errutil.NewNoPosf("%+v: id %s not found in this scope", s.Token(), id.String())
 
 	} else if fcall, ok := s.(*ast.FunctionCall); ok {
 		if err := generateCodeFunctionCall(fcall, fes, ctx); err != nil {

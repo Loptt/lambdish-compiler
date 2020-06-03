@@ -121,7 +121,7 @@ func (vm *VirtualMachine) operationDiv(lop, rop, r mem.Address) error {
 	}
 
 	if f2 == 0 {
-		return errutil.Newf("Arithmethic exception, division by 0")
+		return errutil.NewNoPosf("Arithmethic exception, division by 0")
 	}
 
 	result := f1 / f2
@@ -155,7 +155,7 @@ func (vm *VirtualMachine) operationMod(lop, rop, r mem.Address) error {
 	}
 
 	if f2 == 0 {
-		return errutil.Newf("Arithmethic exception, division by 0")
+		return errutil.NewNoPosf("Arithmethic exception, division by 0")
 	}
 
 	result := math.Mod(f1, f2)
@@ -338,7 +338,7 @@ func (vm *VirtualMachine) operationEqual(lop, rop, r mem.Address) error {
 		return nil
 	}
 
-	return errutil.Newf("Cannot perform equal operation on given types")
+	return errutil.NewNoPosf("Cannot perform equal operation on given types")
 }
 
 func (vm *VirtualMachine) operationHead(lop, rop, r mem.Address) error {
@@ -393,7 +393,7 @@ func (vm *VirtualMachine) operationHead(lop, rop, r mem.Address) error {
 			return err
 		}
 	} else {
-		return errutil.Newf("Invalid list type")
+		return errutil.NewNoPosf("Invalid list type")
 	}
 
 	return nil
@@ -451,7 +451,7 @@ func (vm *VirtualMachine) operationTail(lop, rop, r mem.Address) error {
 			return err
 		}
 	} else {
-		return errutil.Newf("Invalid list type")
+		return errutil.NewNoPosf("Invalid list type")
 	}
 
 	return nil
@@ -692,7 +692,7 @@ func (vm *VirtualMachine) operationCall(lop, rop, r mem.Address) error {
 	jump = funcloc
 
 	if jump < 0 {
-		return errutil.Newf("Invalid instruction address")
+		return errutil.NewNoPosf("Invalid instruction address")
 	}
 
 	// And finally we set the current ip to the new location
@@ -750,7 +750,7 @@ func (vm *VirtualMachine) operationRet(lop, rop, r mem.Address) error {
 			return err
 		}
 	} else {
-		return errutil.Newf("Cannot get valid form for value")
+		return errutil.NewNoPosf("Cannot get valid form for value")
 	}
 
 	// We update the ip with the saved value
@@ -774,7 +774,7 @@ func (vm *VirtualMachine) operationAssign(lop, rop, r mem.Address) error {
 
 func (vm *VirtualMachine) operationGoto(lop, rop, r mem.Address) error {
 	if r < 0 {
-		return errutil.Newf("Invalid instruction address")
+		return errutil.NewNoPosf("Invalid instruction address")
 	}
 
 	vm.ip = int(r)

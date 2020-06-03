@@ -27,7 +27,7 @@ func scopeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube
 func scopeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	fe := funcdir.Get(function.Key())
 	if fe == nil {
-		return errutil.Newf("%+v: Function entry %+v not found in FuncDirectory", function.Token(), fe)
+		return errutil.NewNoPosf("%+v: Function entry %+v not found in FuncDirectory", function.Token(), fe)
 	}
 
 	fes := dir.NewFuncEntryStack()
@@ -56,7 +56,7 @@ func scopeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcd
 		return nil
 	}
 
-	return errutil.Newf("Statement cannot be casted to any valid form")
+	return errutil.NewNoPosf("Statement cannot be casted to any valid form")
 }
 
 //scopeCheckID
@@ -70,7 +70,7 @@ func scopeCheckID(id *ast.Id, fes *dir.FuncEntryStack, funcdir *dir.FuncDirector
 	if IsReservedFunction(id.String()) {
 		return nil
 	}
-	return errutil.Newf("%+v: Id %s not declared in this scope", id.Token(), id.String())
+	return errutil.NewNoPosf("%+v: Id %s not declared in this scope", id.Token(), id.String())
 }
 
 //scopeCheckFunctionCall
@@ -102,7 +102,7 @@ func scopeCheckLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, funcdir *dir.
 
 		return nil
 	}
-	return errutil.Newf("%+v: Lambda not in lambda list of top of FuncEntry stack", lambda.Token())
+	return errutil.NewNoPosf("%+v: Lambda not in lambda list of top of FuncEntry stack", lambda.Token())
 }
 
 //scopeCheckConstantList

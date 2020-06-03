@@ -86,7 +86,7 @@ func main() {
 
 	err := compile(file)
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
+		fmt.Printf("Compilation %v\n", err)
 		return
 	}
 

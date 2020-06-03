@@ -25,7 +25,7 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 
 	switch {
 	case baseaddr < mem.NumOffset: // Error
-		return errutil.Newf("Address out of scope")
+		return errutil.NewNoPosf("Address out of scope")
 	case baseaddr < mem.CharOffset: // Number
 		if n, ok := v.(float64); ok {
 			typebaseaddr := int(baseaddr - mem.NumOffset)
@@ -42,7 +42,7 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 			}
 			return nil
 		}
-		return errutil.Newf("Cannot set non-number in number address range")
+		return errutil.NewNoPosf("Cannot set non-number in number address range")
 	case baseaddr < mem.BoolOffset: // Character
 		if c, ok := v.(rune); ok {
 			typebaseaddr := int(baseaddr - mem.CharOffset)
@@ -59,7 +59,7 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 			}
 			return nil
 		}
-		return errutil.Newf("Cannot set non-char in char address range")
+		return errutil.NewNoPosf("Cannot set non-char in char address range")
 	case baseaddr < mem.FunctionOffset: // Boolean
 		if b, ok := v.(bool); ok {
 			typebaseaddr := int(baseaddr - mem.BoolOffset)
@@ -76,7 +76,7 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 			}
 			return nil
 		}
-		return errutil.Newf("Cannot set non-boolean in boolean address range")
+		return errutil.NewNoPosf("Cannot set non-boolean in boolean address range")
 	case baseaddr < mem.ListOffset: //Function
 		if a, ok := v.(int); ok {
 			typebaseaddr := int(baseaddr - mem.FunctionOffset)
@@ -93,7 +93,7 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 			}
 			return nil
 		}
-		return errutil.Newf("Cannot set non-function in function address range %+v, %T base: %d", v, v, baseaddr)
+		return errutil.NewNoPosf("Cannot set non-function in function address range %+v, %T base: %d", v, v, baseaddr)
 	case baseaddr < mem.ListOffset+1000: //List
 		if a, ok := v.(*list.ListManager); ok {
 			typebaseaddr := int(baseaddr - mem.ListOffset)
@@ -110,9 +110,9 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 			}
 			return nil
 		}
-		return errutil.Newf("Cannot set non-list in list address range")
+		return errutil.NewNoPosf("Cannot set non-list in list address range")
 	default: // Error
-		return errutil.Newf("Address out of scope")
+		return errutil.NewNoPosf("Address out of scope")
 	}
 
 }
@@ -122,39 +122,39 @@ func (ms *MemorySegment) GetValue(addr mem.Address) (interface{}, error) {
 
 	switch {
 	case baseaddr < mem.NumOffset: // Error
-		return nil, errutil.Newf("Address out of scope")
+		return nil, errutil.NewNoPosf("Address out of scope")
 	case baseaddr < mem.CharOffset: // Number
 		typebaseaddr := int(baseaddr - mem.NumOffset)
 		if len(ms.num) <= typebaseaddr {
-			return nil, errutil.Newf("%s: Referencing address %d out of scope of %d", ms.name, typebaseaddr, len(ms.num))
+			return nil, errutil.NewNoPosf("%s: Referencing address %d out of scope of %d", ms.name, typebaseaddr, len(ms.num))
 		}
 		return ms.num[typebaseaddr], nil
 	case baseaddr < mem.BoolOffset: // Character
 		typebaseaddr := int(baseaddr - mem.CharOffset)
 		if len(ms.char) <= typebaseaddr {
-			return nil, errutil.Newf("Referencing address out of scope")
+			return nil, errutil.NewNoPosf("Referencing address out of scope")
 		}
 		return ms.char[typebaseaddr], nil
 	case baseaddr < mem.FunctionOffset: // Boolean
 		typebaseaddr := int(baseaddr - mem.BoolOffset)
 		if len(ms.booleans) <= typebaseaddr {
-			return nil, errutil.Newf("Referencing address out of scope")
+			return nil, errutil.NewNoPosf("Referencing address out of scope")
 		}
 		return ms.booleans[typebaseaddr], nil
 	case baseaddr < mem.ListOffset: //Function
 		typebaseaddr := int(baseaddr - mem.FunctionOffset)
 		if len(ms.function) <= typebaseaddr {
-			return nil, errutil.Newf("Referencing address out of scope")
+			return nil, errutil.NewNoPosf("Referencing address out of scope")
 		}
 		return ms.function[typebaseaddr], nil
 	case baseaddr < mem.ListOffset+1000: //List
 		typebaseaddr := int(baseaddr - mem.ListOffset)
 		if len(ms.list) <= typebaseaddr {
-			return nil, errutil.Newf("Referencing address out of scope")
+			return nil, errutil.NewNoPosf("Referencing address out of scope")
 		}
 		return ms.list[typebaseaddr], nil
 	default: // Error
-		return nil, errutil.Newf("Address out of scope")
+		return nil, errutil.NewNoPosf("Address out of scope")
 	}
 
 }
@@ -219,7 +219,7 @@ func NewMemory() *Memory {
 func (m *Memory) GetValue(addr mem.Address) (interface{}, error) {
 	switch {
 	case addr < mem.Globalstart: // Error
-		return false, errutil.Newf("Address out of scope")
+		return false, errutil.NewNoPosf("Address out of scope")
 	case addr < mem.Localstart: // Global
 		return int(addr), nil
 	case addr < mem.Tempstart: // Local
@@ -247,14 +247,14 @@ func (m *Memory) GetValue(addr mem.Address) (interface{}, error) {
 		}
 		return v, nil
 	default: // Error
-		return nil, errutil.Newf("Address out of scope")
+		return nil, errutil.NewNoPosf("Address out of scope")
 	}
 }
 
 func (m *Memory) SetValue(v interface{}, addr mem.Address) error {
 	switch {
 	case addr < mem.Globalstart: // Error
-		return errutil.Newf("Address out of scope")
+		return errutil.NewNoPosf("Address out of scope")
 	case addr < mem.Localstart: // Global
 		if err := m.memglobal.SetValue(v, addr); err != nil {
 			return err
@@ -281,7 +281,7 @@ func (m *Memory) SetValue(v interface{}, addr mem.Address) error {
 		}
 		return nil
 	default: // Error
-		return errutil.Newf("Address out of scope")
+		return errutil.NewNoPosf("Address out of scope")
 	}
 }
 

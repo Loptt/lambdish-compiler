@@ -32,7 +32,7 @@ func mapRowMat :: [num] l, [[num]] m, (num, [num] => [num]) f2 => [[num]] (
 
 func rows :: [[num]] matrix => num (
     if (empty(matrix),
-        0,
+        'c',
         +(1, rows(tail(matrix)))
     )
 )

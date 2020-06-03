@@ -17,6 +17,10 @@ var TransTab = TransitionTable{
 			return 1
 		case r == 10: // ['\n','\n']
 			return 1
+		case r == 11: // ['\v','\v']
+			return 1
+		case r == 12: // ['\f','\f']
+			return 1
 		case r == 13: // ['\r','\r']
 			return 1
 		case r == 32: // [' ',' ']

@@ -37,7 +37,7 @@ func getFunctionTypeFromFuncStack(id *ast.Id, fes *dir.FuncEntryStack) (*types.L
 		fescpy.Pop()
 	}
 
-	return nil, errutil.Newf("%+v: Cannot find function in Function Entry stack", id.Token())
+	return nil, errutil.NewNoPosf("%+v: Cannot find function in Function Entry stack", id.Token())
 }
 
 func getIntOfType(t *types.LambdishType) (int, error) {

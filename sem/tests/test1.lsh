@@ -1,1 +1,9 @@
-insert([2], [[1,2,4]])
+func hola :: num x => num (
+    2
+)
+
+func hola :: num x => num (
+    2
+)
+
+hola(2)

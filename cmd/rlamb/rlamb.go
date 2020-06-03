@@ -37,7 +37,7 @@ func main() {
 
 	err := run(file)
 	if err != nil {
-		fmt.Printf("Runtime error: %v\n", err)
+		fmt.Printf("Runtime %v\n", err)
 		return
 	}
 }

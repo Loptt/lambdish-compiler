@@ -112,7 +112,7 @@ func (vm *VirtualMachine) loadConstants(lines []string) error {
 				return err
 			}
 		default:
-			return errutil.Newf("Cannot set non-constant value")
+			return errutil.NewNoPosf("Cannot set non-constant value")
 		}
 	}
 
@@ -316,7 +316,7 @@ func (vm *VirtualMachine) executeNextInstruction() error {
 
 func (vm *VirtualMachine) Run() error {
 	if len(vm.quads) < 1 {
-		return errutil.Newf("No instructions to execute")
+		return errutil.NewNoPosf("No instructions to execute")
 	}
 
 	// Push the main activation record

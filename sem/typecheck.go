@@ -28,7 +28,7 @@ func typeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semcu
 
 	fe := funcdir.Get(function.Key())
 	if fe == nil {
-		return errutil.Newf("%+v: Cannot get function %s from Func Directory", function.Token(), function.Id())
+		return errutil.NewNoPosf("%+v: Cannot get function %s from Func Directory", function.Token(), function.Id())
 	}
 
 	rv := fe.ReturnVal()
@@ -41,7 +41,7 @@ func typeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semcu
 	}
 
 	if !rv.Equal(statementType) {
-		return errutil.Newf("%+v: Statement type does not match return type in function %s", function.Token(), function.Id())
+		return errutil.NewNoPosf("%+v: Statement type does not match return type in function %s", function.Token(), function.Id())
 	}
 
 	if err := typeCheckStatement(function.Statement(), fes, funcdir, semcube); err != nil {
@@ -66,7 +66,7 @@ func typeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdi
 		return nil
 	}
 
-	return errutil.Newf("Statement cannot be casted to any valid form")
+	return errutil.NewNoPosf("Statement cannot be casted to any valid form")
 }
 
 //typeCheckFunctionCall
@@ -95,7 +95,7 @@ func typeCheckLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, funcdir *dir.F
 		}
 
 		if !(t.Equal(lambdaEntry.ReturnVal())) {
-			return errutil.Newf("%+v: Return type of lambda statement does not match lambda definition", lambda.Token())
+			return errutil.NewNoPosf("%+v: Return type of lambda statement does not match lambda definition", lambda.Token())
 		}
 
 		if err := typeCheckStatement(lambda.Statement(), fes, funcdir, semcube); err != nil {
@@ -106,7 +106,7 @@ func typeCheckLambda(lambda *ast.Lambda, fes *dir.FuncEntryStack, funcdir *dir.F
 
 		return nil
 	}
-	return errutil.Newf("%+v: Lambda could not be found in the func entry stack.", lambda.Token())
+	return errutil.NewNoPosf("%+v: Lambda could not be found in the func entry stack.", lambda.Token())
 }
 
 //typeCheckConstantList
