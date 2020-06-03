@@ -39,6 +39,7 @@ func (s *FuncEntryStack) Push(val *FuncEntry) {
 	s.head = newHead
 }
 
+//NewFuncEntryStack Creation of the func entry stack
 func NewFuncEntryStack() *FuncEntryStack {
 	return &FuncEntryStack{nil}
 }

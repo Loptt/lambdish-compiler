@@ -1,0 +1,19 @@
+func filter :: [num] list, (num => bool) f => [num] (
+    if (empty(list), 
+        [num],
+        if (f(head(list)),
+            insert(
+                head(list),
+                filter(tail(list), f)
+            ),
+            filter(tail(list), f)
+        )
+    )
+)
+
+filter(
+    [1,2,3,4,5], 
+    (# num x => bool (
+        or(>(x, 3), equal(x, 3))
+    ))
+)

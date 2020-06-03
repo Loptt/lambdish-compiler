@@ -6,7 +6,7 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-//typeCheckProgram: of the program
+//typeCheckProgram starts the type checking in the whole program
 func typeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	for _, f := range program.Functions() {
 		if err := typeCheckFunction(f, funcdir, semcube); err != nil {
@@ -23,7 +23,7 @@ func typeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube 
 	return nil
 }
 
-//typeCheckFunction: Verifies
+//typeCheckFunction verifies its statement is of the same type of the return type of the function
 func typeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 
 	fe := funcdir.Get(function.Key())
@@ -52,7 +52,7 @@ func typeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semcu
 	return nil
 }
 
-//typeCheckStatement
+//typeCheckStatement performs the type checking depending on the type of the statement
 func typeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	if _, ok := statement.(*ast.Id); ok {
 		return nil

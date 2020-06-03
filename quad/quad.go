@@ -6,7 +6,7 @@ import (
 	"github.com/Loptt/lambdish-compiler/mem"
 )
 
-// Operation ...
+// Operation The operation or instruction of the system is a number
 type Operation int
 
 const (
@@ -212,7 +212,11 @@ Exceptions:
 – Operators like param: no arg2, no result
 – (Un)conditional jumps: target label is the result
 */
-
+/*
+	Structure: Defines the main structure of code generation
+	It contains the operation, 2 operands that holds the addresses and the third one
+	is usually the result of the operation.
+*/
 type Quadruple struct {
 	op Operation
 	a1 mem.Address
@@ -248,10 +252,12 @@ func (q *Quadruple) R() mem.Address {
 	return q.r
 }
 
+//String is used in the creation of the file object that has the quadruples
 func (q Quadruple) String() string {
 	return fmt.Sprintf("%s %s %s %s", q.op, q.a1, q.a2, q.r)
 }
 
+//NewQuadruple Creates new quadruple with the addresses given and the number of operation
 func NewQuadruple(op Operation, a1, a2, r mem.Address) *Quadruple {
 	return &Quadruple{op, a1, a2, r}
 }

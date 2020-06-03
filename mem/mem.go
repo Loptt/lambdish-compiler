@@ -7,22 +7,27 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
+//Type of the address of the memory is an int
 type Address int
 
+//Constants that mark the start of the context
 const Globalstart = 0
 const Localstart = 5000
 const Tempstart = 10000
 const Constantstart = 15000
 const Scopestart = 20000
 
+//Constants that set the offset of the segment
 const NumOffset = 0
 const CharOffset = 1000
 const BoolOffset = 2000
 const FunctionOffset = 3000
 const ListOffset = 4000
 
+//Constant that defines de size of the segment
 const segmentsize = 1000
 
+//String If the address is not in range or not useful it must be set to -1 to be declared invalid
 func (a Address) String() string {
 	if a < 0 {
 		return "-1"
@@ -63,7 +68,7 @@ func (a Address) String() string {
 23000-23999 Functions
 24000-24999 Lists
 */
-
+//Struct that defines what the Virtual memory containts
 type VirtualMemory struct {
 	globalnumcount      int
 	globalcharcount     int
@@ -131,6 +136,7 @@ func NewVirtualMemory() *VirtualMemory {
 	}
 }
 
+//GetNextLocal Receives the type and determines the next local variable available in the scope to assign it
 func (vm *VirtualMemory) GetNextLocal(t *types.LambdishType) (Address, error) {
 	switch t.String() {
 	// Num
@@ -180,6 +186,7 @@ func (vm *VirtualMemory) GetNextLocal(t *types.LambdishType) (Address, error) {
 	return Address(-1), errutil.NewNoPosf("Error: variable type not identified.")
 }
 
+//GetNextTemp Receives the type and determines the next temp variable available in the scope to assign it
 func (vm *VirtualMemory) GetNextTemp(t *types.LambdishType) (Address, error) {
 	switch t.String() {
 	// Num
@@ -229,6 +236,7 @@ func (vm *VirtualMemory) GetNextTemp(t *types.LambdishType) (Address, error) {
 	return Address(-1), errutil.NewNoPosf("Error: variable type not identified.")
 }
 
+//getNextConstant Receives the type and determines the next constant variable available in the scope to assign it
 func (vm *VirtualMemory) getNextConstant(t *types.LambdishType) (Address, error) {
 	switch t.String() {
 	// Num
@@ -364,6 +372,7 @@ func (vm *VirtualMemory) AddConstant(c string, t *types.LambdishType) (Address, 
 	return Address(nextAddr), nil
 }
 
+//GetConstantAddress gets the address of the constant from the map of constants
 func (vm *VirtualMemory) GetConstantAddress(c string) Address {
 	a, ok := vm.constantmap[c]
 	if !ok {
@@ -372,6 +381,7 @@ func (vm *VirtualMemory) GetConstantAddress(c string) Address {
 
 	return Address(a)
 }
+
 func (vm *VirtualMemory) GetConstantMap() map[string]int {
 	return vm.constantmap
 }

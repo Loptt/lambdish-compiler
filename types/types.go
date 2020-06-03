@@ -140,12 +140,12 @@ func (lt *LambdishType) Equal(lt2 *LambdishType) bool {
 	return lt.String() == lt2.String()
 }
 
-// NewDataLambdishType
+// NewDataLambdishType Declares a new,basic Lambdish type
 func NewDataLambdishType(b BasicType, list int) *LambdishType {
 	return &LambdishType{b, nil, nil, false, list}
 }
 
-// NewDataLambdishType
+// NewDataLambdishType Declares a new lambdish type as a function
 func NewFuncLambdishType(retval *LambdishType, params []*LambdishType, list int) *LambdishType {
 	return &LambdishType{Null, retval, params, true, list}
 }

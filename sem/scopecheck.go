@@ -6,7 +6,7 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-//scopeCheckProgram
+//scopeCheckProgram starts the scope checking for the whole program
 func scopeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	for _, f := range program.Functions() {
 		if err := scopeCheckFunction(f, funcdir, semcube); err != nil {
@@ -23,7 +23,7 @@ func scopeCheckProgram(program *ast.Program, funcdir *dir.FuncDirectory, semcube
 	return nil
 }
 
-//scopeCheckFunction
+//scopeCheckFunction verifies the function is added to the func directory and the checks its statement
 func scopeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	fe := funcdir.Get(function.Key())
 	if fe == nil {
@@ -42,7 +42,7 @@ func scopeCheckFunction(function *ast.Function, funcdir *dir.FuncDirectory, semc
 	return nil
 }
 
-//scopeCheckStatement
+//scopeCheckStatement calls the corresponding function to check the statement depending on the type
 func scopeCheckStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	if id, ok := statement.(*ast.Id); ok {
 		return scopeCheckID(id, fes, funcdir)

@@ -225,6 +225,7 @@ type ListManager struct {
 	llist *ListList
 }
 
+//String List Manager representation in the virtual machine output
 func (lm *ListManager) String() string {
 	var builder strings.Builder
 
@@ -295,6 +296,7 @@ func (lm *ListManager) Copy() *ListManager {
 	}
 }
 
+//Add Implementation of add as a built in function
 func (lm *ListManager) Add(n interface{}) error {
 	if f, ok := n.(float64); ok {
 		if lm.lnum == nil {
@@ -533,6 +535,7 @@ func (lm *ListManager) IsList() bool {
 	return lm.llist != nil
 }
 
+//Append Impleementation of the append built in function
 func (lm *ListManager) Append(l2 *ListManager) (*ListManager, error) {
 	if lm.IsNum() {
 		if !l2.IsNum() {

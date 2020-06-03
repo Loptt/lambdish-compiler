@@ -13,10 +13,12 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
+//usage The correct use of the clamb command
 func usage() {
 	fmt.Printf("Usage: clamb <lambdish source file>\n")
 }
 
+//readFile Reads the argument which is the file and maps it to a buffer to read the .lsh file
 func readFile(path string) ([]byte, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -41,6 +43,7 @@ func readFile(path string) ([]byte, error) {
 	return buffer, nil
 }
 
+//compile Function that compiles the program calling the new parser, lexer, ast, semantic check, code gen and generate the .obj file
 func compile(file string) error {
 	p := parser.NewParser()
 	input, err := readFile(file)

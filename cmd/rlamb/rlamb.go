@@ -7,10 +7,12 @@ import (
 	"github.com/Loptt/lambdish-compiler/vm"
 )
 
+//usage The correct use of the rlamb command
 func usage() {
 	fmt.Printf("Usage: rlamb <lambdish object file>\n")
 }
 
+//run Function that initializes the new Virtual Machine and loads the program file and prints the output of the program
 func run(file string) error {
 	machine := vm.NewVirtualMachine()
 

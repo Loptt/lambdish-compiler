@@ -17,6 +17,19 @@ func getTails :: [[num]] matrix => [[num]] (
     )
 )
 
+func length :: [num] l => num (
+    if (empty(l),
+        0,
+        +(1, length(tail(l)))
+    )
+)
+
+func lengthM :: [[num]] l => num (
+    if (empty(l),
+        0,
+        +(1, lengthM(tail(l)))
+    )
+)
 
 func transpose :: [[num]] matrix => [[num]] (
     if (empty(head(matrix)),
@@ -76,18 +89,50 @@ func multiplyAux :: [[num]] ma, [[num]] mb => [[num]] (
     )
 )
 
+func uniformityAux :: [[num]] matrix, num l => bool (
+    if (empty(matrix),
+        true,
+        and(
+            equal(
+                length(head(matrix)),
+                l
+            ),
+            uniformityAux(tail(matrix), l)
+        )
+    )
+)
+
+func validateUniformity :: [[num]] matrix => bool (
+    uniformityAux(matrix, length(head(matrix)))
+)
+
+func validateMatrices :: [[num]] ma, [[num]] mb => bool (
+    and(
+        and(
+            validateUniformity(ma),
+            validateUniformity(mb)
+        ),
+        // This equal validates that the columns of the first matrix are equal to the rows of the second matrix
+        equal(
+            length(head(ma)),
+            lengthM(mb)
+        )
+    )
+)
+
 func multiplyMatrix :: [[num]] ma, [[num]] mb => [[num]] (
-    multiplyAux(ma, transpose(mb))
+    if (!(validateMatrices(ma, mb)),
+        [[num]],
+        multiplyAux(ma, transpose(mb))
+    )
 )
 
 multiplyMatrix([
-    [1,2,3],
-    [2,3,4],
-    [5,6,7]
+    [1,2,3]
 ],
 [
-    [2,4,6],
-    [3,5,7],
-    [8,9,10]
+    [1,2,3,4],
+    [4,5,7,5],
+    [4,5,6,6]
 ]
 )

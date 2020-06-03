@@ -37,6 +37,7 @@ func (s *ListStack) Push(val *ListManager) {
 	s.head = newHead
 }
 
+//NewListStack Implementation of the lists stack
 func NewListStack() *ListStack {
 	return &ListStack{nil}
 }

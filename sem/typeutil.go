@@ -157,7 +157,7 @@ func GetTypeConstantList(cl *ast.ConstantList, fes *dir.FuncEntryStack, funcdir 
 	return &listType, nil
 }
 
-//GetTypeStatement
+// GetTypeStatement takes a statement interface and tries to find its type by any means possible
 func GetTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) (*types.LambdishType, error) {
 	if id, ok := statement.(*ast.Id); ok {
 		if t, err := getIDTypeFromFuncStack(id, fes); err == nil {
@@ -178,6 +178,7 @@ func GetTypeStatement(statement ast.Statement, fes *dir.FuncEntryStack, funcdir 
 	return nil, errutil.NewNoPosf("Statement cannot be casted to any valid form")
 }
 
+// argumentsMatchParameters takes a list of arguments and a list of parameters and verifies if they match in type, position, and length
 func argumentsMatchParameters(fcall *ast.FunctionCall, args []*types.LambdishType, params []*types.LambdishType, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) error {
 	if len(args) != len(params) {
 		return errutil.NewNoPosf("%+v: function expects %d arguments, got %d", fcall.Token(), len(params), len(args))
@@ -192,6 +193,7 @@ func argumentsMatchParameters(fcall *ast.FunctionCall, args []*types.LambdishTyp
 	return nil
 }
 
+// GetTypesFromArgs takes a list of arguments and returns a list of LambdishType structs
 func GetTypesFromArgs(args []ast.Statement, fes *dir.FuncEntryStack, funcdir *dir.FuncDirectory, semcube *SemanticCube) ([]*types.LambdishType, error) {
 	ts := make([]*types.LambdishType, 0)
 

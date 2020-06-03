@@ -10,10 +10,13 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
+// generateCodeProgram starts the code generation for the whole program
 func generateCodeProgram(program *ast.Program, ctx *GenerationContext) error {
 
+	// This statement adds the initial goto to the pending jumps
 	ctx.gen.AddPendingFuncAddr(ctx.gen.ICounter(), "main")
 
+	// The first instruction we generate jumps the execution
 	ctx.gen.Generate(quad.Goto, mem.Address(-1), mem.Address(-1), mem.Address(-1))
 
 	for _, function := range program.Functions() {
@@ -37,6 +40,8 @@ func generateCodeProgram(program *ast.Program, ctx *GenerationContext) error {
 	return nil
 }
 
+// generateCodeFunction takes a function node and generate its corresponding quadruples.
+// Function nodes always end with a RET quad
 func generateCodeFunction(function *ast.Function, ctx *GenerationContext) error {
 
 	ctx.vm.ResetTemp()
@@ -59,6 +64,7 @@ func generateCodeFunction(function *ast.Function, ctx *GenerationContext) error 
 	return nil
 }
 
+// generateCodeStatemet checks the type of the statement and calls the specific function to generate the code
 func generateCodeStatement(statement ast.Statement, fes *dir.FuncEntryStack, ctx *GenerationContext) error {
 	if id, ok := statement.(*ast.Id); ok {
 		return generateCodeID(id, fes, ctx)

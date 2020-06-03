@@ -53,18 +53,18 @@ func (g *Generator) Quadruples() []*quad.Quadruple {
 	return g.quads
 }
 
-// Generate ...
+// Generate creates a new quadruple with the given parameters
 func (g *Generator) Generate(op quad.Operation, a1, a2, r mem.Address) {
 	g.quads = append(g.quads, quad.NewQuadruple(op, a1, a2, r))
 	g.icounter++
 }
 
-//PushToAddrStack  ...
+//PushToAddrStack adds an address to the address stack
 func (g *Generator) PushToAddrStack(a mem.Address) {
 	g.addrStack.Push(a)
 }
 
-//GetFromAddrStack ...
+//GetFromAddrStack pops and returns the top address of the stack
 func (g *Generator) GetFromAddrStack() mem.Address {
 	val := g.addrStack.Top()
 	g.addrStack.Pop()

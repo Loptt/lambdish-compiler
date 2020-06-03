@@ -9,7 +9,7 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-//MemorySegment ...
+//MemorySegment represent a single segment in the Memory struct
 type MemorySegment struct {
 	num      []float64
 	char     []rune
@@ -20,6 +20,8 @@ type MemorySegment struct {
 	name     string
 }
 
+// SetValue takes a value and an address and finds the corresponding position to that address and
+// tries to save the given value
 func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 	baseaddr := addr - ms.base
 
@@ -117,6 +119,7 @@ func (ms *MemorySegment) SetValue(v interface{}, addr mem.Address) error {
 
 }
 
+// GetValue takes and address and tries to retreive the corresponding value in that position
 func (ms *MemorySegment) GetValue(addr mem.Address) (interface{}, error) {
 	baseaddr := addr - ms.base
 
@@ -198,6 +201,8 @@ func NewMemorySegment(base int, name string) *MemorySegment {
 	}
 }
 
+// Memory represents the virtual memory for the virtual machine
+// it contains one MemorySegment for each segment
 type Memory struct {
 	memglobal   *MemorySegment
 	memlocal    *MemorySegment
@@ -216,6 +221,7 @@ func NewMemory() *Memory {
 	}
 }
 
+// Get value takes an address and tries to retrieve the saved value by consulting its memory segments
 func (m *Memory) GetValue(addr mem.Address) (interface{}, error) {
 	switch {
 	case addr < mem.Globalstart: // Error
@@ -251,6 +257,8 @@ func (m *Memory) GetValue(addr mem.Address) (interface{}, error) {
 	}
 }
 
+// SetValue takes a value and an address and then consults its segments to
+// try to save the value
 func (m *Memory) SetValue(v interface{}, addr mem.Address) error {
 	switch {
 	case addr < mem.Globalstart: // Error

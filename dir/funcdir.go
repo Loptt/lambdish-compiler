@@ -126,10 +126,12 @@ func (fd *FuncDirectory) Exists(key string) bool {
 	return ok
 }
 
+//NewFuncDirectory initializes a new empty function directoru
 func NewFuncDirectory() *FuncDirectory {
 	return &FuncDirectory{make(map[string]*FuncEntry)}
 }
 
+//MainFuncEntry Initialization of the function directory with the initial parameters of the main program
 func MainFuncEntry() *FuncEntry {
 	return &FuncEntry{"main", types.NewDataLambdishType(types.Num, 0), make([]*types.LambdishType, 0), NewVarDirectory(), make([]*FuncEntry, 0), mem.Address(-1), 0}
 }

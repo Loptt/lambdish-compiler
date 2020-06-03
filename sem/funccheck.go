@@ -7,7 +7,7 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-//buildFuncDirProgram: Receives the program and the function directory
+//buildFuncDirProgram receives the program and the function directory to start building the funcdir
 func buildFuncDirProgram(program *ast.Program, funcdir *dir.FuncDirectory) error {
 	for _, f := range program.Functions() {
 		if err := buildFuncDirFunction(f, funcdir); err != nil {
@@ -22,7 +22,7 @@ func buildFuncDirProgram(program *ast.Program, funcdir *dir.FuncDirectory) error
 	return nil
 }
 
-//buildFuncDirFunction:
+//buildFuncDirFunction creates a new FuncEntry for the function and adds it to the directory
 func buildFuncDirFunction(function *ast.Function, funcdir *dir.FuncDirectory) error {
 	id := function.Id()
 	t := function.Type()

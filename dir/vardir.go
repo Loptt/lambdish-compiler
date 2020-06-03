@@ -48,10 +48,12 @@ func (e *VarEntry) String() string {
 	return fmt.Sprintf("%s", e.id)
 }
 
+//NewVarEntry Initialization of one entry of the variable with its attributes
 func NewVarEntry(id string, t *types.LambdishType, tok *token.Token, pos int) *VarEntry {
 	return &VarEntry{id, t, tok, 0, pos}
 }
 
+//Add Add a varentry to the directory variables using the toString function as key
 func (vd *VarDirectory) Add(e *VarEntry) bool {
 
 	_, ok := vd.table[e.String()]
@@ -80,6 +82,7 @@ func (vd *VarDirectory) Table() map[string]*VarEntry {
 	return vd.table
 }
 
+//NewVarDirectory New directory of variables that stores the var entry
 func NewVarDirectory() *VarDirectory {
 	return &VarDirectory{make(map[string]*VarEntry)}
 }

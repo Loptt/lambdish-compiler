@@ -1,13 +1,10 @@
-func apply :: num x, (num => (bool => char) ) f => (num => char) (
-    (# num x, (char => bool) g => bool (
-        g(x)
-    ))
+func map :: [num] l, (num => num) f => [num] (
+    if (empty(l),
+        [0],
+        insert(f(head(l)), map(tail(l), f))
+    )
 )
 
-func test :: char c, char c2 => num (
-    (# num x => num (
-        apply(x)
-    )) 
-)
-
-map([])
+map([1, -2, 3.234, 4], (# num x => num (
+    +(x, 1)
+)))

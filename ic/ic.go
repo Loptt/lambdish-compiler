@@ -36,7 +36,8 @@ func (ctx *GenerationContext) VM() *mem.VirtualMemory {
 	return ctx.vm
 }
 
-//GenerateIntermediateCode ...
+//GenerateIntermediateCode calls the two main code generation functions, first the function to generate addresses and then the
+// function to generate the code itself
 func GenerateIntermediateCode(program *ast.Program, funcdir *dir.FuncDirectory) (*Generator, *mem.VirtualMemory, error) {
 	ctx := &GenerationContext{funcdir, sem.NewSemanticCube(), NewGenerator(), mem.NewVirtualMemory()}
 

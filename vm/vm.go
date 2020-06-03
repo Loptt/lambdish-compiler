@@ -12,7 +12,8 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-//VirtualMachine ...
+// VirtualMachine contains the necesary attributes of a virtual machine to execute sequential code,
+// manage memory, and call submodules
 type VirtualMachine struct {
 	ip           int
 	quads        []*quad.Quadruple
@@ -23,6 +24,7 @@ type VirtualMachine struct {
 	output       interface{}
 }
 
+// String represents the vm in a strctured format so that it can be easily debugged
 func (vm *VirtualMachine) String() string {
 	var builder strings.Builder
 
@@ -41,6 +43,7 @@ func (vm *VirtualMachine) String() string {
 	return builder.String()
 }
 
+// loadInstructions takes an array on strings and converts them to the corresponding quadruples
 func (vm *VirtualMachine) loadInstructions(lines []string) error {
 	var (
 		op  quad.Operation
@@ -77,6 +80,7 @@ func (vm *VirtualMachine) loadInstructions(lines []string) error {
 	return nil
 }
 
+// loadConstants takes an array of strings and converts them to the corresponding constants in memory
 func (vm *VirtualMachine) loadConstants(lines []string) error {
 	for _, l := range lines {
 		fields := strings.Fields(l)
@@ -119,6 +123,7 @@ func (vm *VirtualMachine) loadConstants(lines []string) error {
 	return nil
 }
 
+// LoadProgram takes a path to a file and parses its contents to quadruples and constants
 func (vm *VirtualMachine) LoadProgram(path string) error {
 	input, err := readFile(path)
 	if err != nil {

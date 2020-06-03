@@ -1,13 +1,13 @@
 package main
 
 import (
+	"os"
+	"testing"
+
 	"github.com/Loptt/lambdish-compiler/gocc/lexer"
 	"github.com/Loptt/lambdish-compiler/gocc/parser"
-	"testing"
 	"github.com/davecgh/go-spew/spew"
-	"os"
 )
-
 
 func readFile(path string) ([]byte, error) {
 	file, err := os.Open(path)
@@ -33,9 +33,10 @@ func readFile(path string) ([]byte, error) {
 	return buffer, nil
 }
 
+//TestGrammar Function that tests the grammar from the lexer and parser
 func TestGrammar(t *testing.T) {
 	p := parser.NewParser()
-	tests := []string {
+	tests := []string{
 		"tests/test6.lsh",
 	}
 
@@ -43,16 +44,16 @@ func TestGrammar(t *testing.T) {
 		input, err := readFile(test)
 
 		if err != nil {
-			t.Fatalf("Error reading file %s", test);
+			t.Fatalf("Error reading file %s", test)
 		}
 
-		s := lexer.NewLexer(input);
-		program, errtest := p.Parse(s);
+		s := lexer.NewLexer(input)
+		program, errtest := p.Parse(s)
 
 		spew.Dump(program)
 
 		if errtest != nil {
-			t.Errorf("%s: %v", test, errtest);
+			t.Errorf("%s: %v", test, errtest)
 		}
 	}
 }

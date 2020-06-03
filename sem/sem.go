@@ -5,7 +5,8 @@ import (
 	"github.com/Loptt/lambdish-compiler/dir"
 )
 
-// SemanticCheck Construcción
+// SemanticCheck calls the 3 main functions that perform the semantic analysis and
+// reports any errors
 func SemanticCheck(program *ast.Program) (*dir.FuncDirectory, error) {
 	funcdir := dir.NewFuncDirectory()
 	semcube := NewSemanticCube()

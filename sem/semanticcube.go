@@ -105,12 +105,12 @@ func GetOperation(s string) Operation {
 	return Add
 }
 
-// SemanticCube ...
+// SemanticCube represents the semantic cube as a map of a key to its result type
 type SemanticCube struct {
 	operations map[string]types.BasicType
 }
 
-// NewSemanticCube ...
+// NewSemanticCube creates a new semantic cube struct
 func NewSemanticCube() *SemanticCube {
 
 	return &SemanticCube{
@@ -135,6 +135,7 @@ func NewSemanticCube() *SemanticCube {
 	}
 }
 
+// Get takes a key a checks if it exists in the semantic cube. If it does, it returns the result type
 func (c *SemanticCube) Get(key string) (types.BasicType, bool) {
 	typ, ok := c.operations[key]
 	if !ok {

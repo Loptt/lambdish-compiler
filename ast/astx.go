@@ -9,7 +9,7 @@ import (
 	"github.com/mewkiz/pkg/errutil"
 )
 
-// NewProgram
+// NewProgram creates a new Program node which acts as the root of the tree
 func NewProgram(functions, call interface{}) (*Program, error) {
 	fs, ok := functions.([]*Function)
 	if !ok {
@@ -49,7 +49,7 @@ func AppendFunctionList(function, list interface{}) ([]*Function, error) {
 	return append([]*Function{f}, flist...), nil
 }
 
-// NewFunction
+// NewFunction creates a new Function node which acts as the children of the tree
 func NewFunction(id, params, typ, statement interface{}) (*Function, error) {
 	i, ok := id.(*token.Token)
 	if !ok {
@@ -108,7 +108,7 @@ func AppendStatementList(statement, list interface{}) ([]Statement, error) {
 	return nil, errutil.NewNoPosf("Invalid type for statement. Expected Statement interface got %v", statement)
 }
 
-// NewStatement
+// NewStatement creates a new Statement node which acts as the children of the function, which is the body of the function
 func NewStatement(value interface{}) (Statement, error) {
 	// Check if the value is an id and cast it fist to a token
 	if t, ok := value.(*token.Token); ok {
@@ -246,7 +246,7 @@ func AppendFuncTypeList(typ, list interface{}) ([]*types.LambdishType, error) {
 	return append([]*types.LambdishType{t}, l...), nil
 }
 
-// NewFunctionCall
+// NewFunctionCall creates a new FunctionCall node which acts as the children of the program or function, which is the function call
 func NewFunctionCall(id, args interface{}) (*FunctionCall, error) {
 	i, ok := id.(Statement)
 	if !ok {
@@ -278,7 +278,7 @@ func NewFunctionReservedCall(id, args interface{}) (*FunctionCall, error) {
 	return &FunctionCall{&idstruct, a}, nil
 }
 
-// NewLambda
+// NewLambda creates a new NewLambda node which acts as a child of a Function Node, which is the lambda declaration
 func NewLambda(tok, params, retval, statement interface{}) (*Lambda, error) {
 	tk, ok := tok.(*token.Token)
 	if !ok {
