@@ -3,6 +3,7 @@ package sem
 import (
 	"github.com/Loptt/lambdish-compiler/ast"
 	"github.com/Loptt/lambdish-compiler/dir"
+	"github.com/Loptt/lambdish-compiler/gocc/token"
 	"github.com/Loptt/lambdish-compiler/types"
 	"github.com/mewkiz/pkg/errutil"
 )
@@ -34,20 +35,20 @@ func IsReservedFunction(s string) bool {
 	return false
 }
 
-func getReservedFunctionType(id string, args []*types.LambdishType) (*types.LambdishType, error) {
+func getReservedFunctionType(id string, args []*types.LambdishType, tok *token.Token) (*types.LambdishType, error) {
 	switch id {
 	case "if":
-		return checkAndGetIfType(id, args)
+		return checkAndGetIfType(id, args, tok)
 	case "append":
-		return checkAndGetAppendType(id, args)
+		return checkAndGetAppendType(id, args, tok)
 	case "empty":
-		return checkAndGetEmptyType(id, args)
+		return checkAndGetEmptyType(id, args, tok)
 	case "head":
-		return checkAndGetHeadType(id, args)
+		return checkAndGetHeadType(id, args, tok)
 	case "tail":
-		return checkAndGetTailType(id, args)
+		return checkAndGetTailType(id, args, tok)
 	case "insert":
-		return checkAndGetInsertType(id, args)
+		return checkAndGetInsertType(id, args, tok)
 	}
 
 	return nil, errutil.NewNoPosf("Cannot find reserved function")
@@ -101,7 +102,7 @@ func getTypeFunctionCall(fcall *ast.FunctionCall, fes *dir.FuncEntryStack, funcd
 
 			// If it is not an operation, we must check if it is a reserverd function
 		} else if IsReservedFunction(id.String()) {
-			return getReservedFunctionType(id.String(), argTypes)
+			return getReservedFunctionType(id.String(), argTypes, id.Token())
 		} else {
 			return nil, errutil.NewNoPosf("%+v: Function %s not declared on local or global scope", fcall.Token(), id)
 		}

@@ -1,0 +1,11 @@
+func andOperator :: bool x, bool y => bool (
+    and(x,y)
+)
+func orOperator :: bool x, bool y => bool (
+    or(x,y)
+)
+func notOperator :: bool x => bool (
+    !(x)
+)
+
+notOperator(true)

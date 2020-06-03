@@ -1,0 +1,24 @@
+func insertElement :: num x, [num] y => [num] (
+    insert(x,y)
+)
+//insertElement(1,[2,3])
+
+func appendLists :: [num] x, [num] y => [num] (
+    append(x,y)
+)
+
+func getFirstElement :: [num] x => num (
+    head(x)
+)
+func getRestofTheList :: [num] x => [num] (
+    tail(x)
+)
+
+func isEmpty :: [num] x => bool (
+    empty(x)
+)
+
+
+//>[1,2,3]
+//appendLists(1,[2,3])
+isEmpty([num])

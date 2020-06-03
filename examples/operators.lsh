@@ -1,0 +1,17 @@
+func sum :: num x, num y => num (
+    +(x,y)
+)
+func sub :: num x, num y => num (
+    -(x,y)
+)
+func division :: num x, num y => num (
+    /(x,y)
+)
+func multiplication :: num x, num y => num (
+    *(x,y)
+)
+func modulus :: num x, num y => num (
+    %(x,y)
+)
+
+sum(2,2)

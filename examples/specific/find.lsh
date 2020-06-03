@@ -1,0 +1,26 @@
+func contains :: [num] l, num x => bool (
+    if (empty(l),
+        false,
+        or(
+            equal(head(l), x),
+            contains(tail(l), x)    
+        )
+    )
+)
+
+func findAux :: [num] l, num x, num acc => num (
+    if (empty(l),
+        -1,
+        if (equal(head(l), x),
+            acc,
+            findAux(tail(l), x, +(1, acc))
+        )
+    )   
+)
+
+func find :: [num] l, num x => num (
+    findAux(l, x, 0) 
+)
+
+//find([1,2,3,4,5], 1)
+contains([1,3,4,5,6,7], -7)

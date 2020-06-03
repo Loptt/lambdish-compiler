@@ -542,7 +542,7 @@ func generateBuiltInOneArg(id string, fcall *ast.FunctionCall, fes *dir.FuncEntr
 		return err
 	}
 
-	t, err := sem.GetBuiltInType(id, argtypes)
+	t, err := sem.GetBuiltInType(id, argtypes, fcall.Token())
 	if err != nil {
 		return err
 	}
@@ -578,7 +578,7 @@ func generateBuiltInTwoArgs(id string, fcall *ast.FunctionCall, fes *dir.FuncEnt
 		return err
 	}
 
-	t, err := sem.GetBuiltInType(id, argtypes)
+	t, err := sem.GetBuiltInType(id, argtypes, fcall.Token())
 	if err != nil {
 		return err
 	}

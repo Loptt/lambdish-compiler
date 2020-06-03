@@ -1,0 +1,11 @@
+func greaterThan :: num x, num y => bool (
+    <(x,y)
+)
+func lessThan :: num x, num y => bool (
+    >(x,y)
+)
+func equalOperator :: char x, char y => bool (
+    equal(x,y)
+)
+
+equal('c','c')

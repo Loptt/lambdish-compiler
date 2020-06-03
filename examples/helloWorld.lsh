@@ -1,0 +1,8 @@
+func helloWorld :: bool isHello => [char] (
+    if(isHello,
+        "HelloWorld",
+        [char]
+ )
+)
+
+helloWorld(true)
