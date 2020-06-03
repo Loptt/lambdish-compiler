@@ -1,0 +1,93 @@
+func getHeads :: [[num]] matrix => [num] (
+    if (empty(matrix),
+        [num],
+        insert(
+            head(head(matrix)), 
+            getHeads(tail(matrix))
+        )
+    )
+)
+
+func getTails :: [[num]] matrix => [[num]] (
+    if (empty(matrix),
+        [[num]],
+        insert(
+            tail(head(matrix)), getTails(tail(matrix))
+        )
+    )
+)
+
+
+func transpose :: [[num]] matrix => [[num]] (
+    if (empty(head(matrix)),
+        [[num]],
+        insert(
+            getHeads(matrix),
+            transpose(getTails(matrix))
+        )
+    )
+)
+
+func map :: [num] rowa, [num] rowb, (num, num => num) f => [num] (
+    if (or(empty(rowa), empty(rowb)),
+        [num],
+        insert(
+            f(head(rowa), head(rowb)), 
+            map(tail(rowa), tail(rowb), f)
+        )   
+    )
+)
+
+func reduce :: [num] l, num x, (num, num => num) f => num (
+    if (empty(l),
+        x,
+        f(
+            head(l), 
+            reduce(tail(l), x, f)
+        )
+    )
+)
+
+func multiplyRow :: [num] row, [[num]] matrix => [num] (
+    if (empty(matrix),
+        [num],
+        insert(
+            reduce(
+                map(row, head(matrix), (# num x, num y => num (
+                    *(x, y)
+                ))),
+                0,
+                (# num x, num y => num (
+                    +(x, y)
+                ))
+            ),
+            multiplyRow(row, tail(matrix))
+        )
+    )
+)
+
+func multiplyAux :: [[num]] ma, [[num]] mb => [[num]] (
+    if (empty(ma),
+        [[num]],
+        insert(
+            multiplyRow(head(ma), mb),
+            multiplyAux(tail(ma), mb)
+        )
+    )
+)
+
+func multiplyMatrix :: [[num]] ma, [[num]] mb => [[num]] (
+    multiplyAux(ma, transpose(mb))
+)
+
+multiplyMatrix([
+    [1,2,3],
+    [2,3,4],
+    [5,6,7]
+],
+[
+    [2,4,6],
+    [3,5,7],
+    [8,9,10]
+]
+)
