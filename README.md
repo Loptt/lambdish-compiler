@@ -1,6 +1,50 @@
 # Lambdish Compiler
 Lambdish is a compiled functional programming language inspired on other functional languages such as Racket and Haskell. It's main purpose is to provide a simple experiece of functional programming, while keeping complexity at a minimal. Thus, it is meant to be an introduction to the functional world for programmers of other paradigms.
 
+## Usage
+This section describes how to compile and run your own lambdish programs.
+
+### Prerequisites
+You must have Go installed and configured in your system. For a guide on how to do this please follow this [guide](https://golang.org/doc/install).
+
+### Get the compiler
+Download the compiler to your computer by cloning this repository.
+```sh
+$ git clone https://github.com/Loptt/lambdish-compiler.git
+```
+
+### Install the commands
+Change into the newly cloned directory.
+```sh
+$ cd lambdish-compiler
+```
+
+Install the compiler command.
+```sh
+$ go install github.com/Loptt/lambdish-compiler/cmd/clamb
+```
+
+Install the execution command.
+```sh
+$ go install github.com/Loptt/lambdish-compiler/cmd/rlamb
+```
+
+`clamb` takes a lambdish source file (`lsh`) and transforms it into object code (`obj`).
+`rlamb` then takes an object code, executes it and prints its output.
+
+### Compile lambdish
+Run the following command to compile a lambdish source file.
+```sh
+$ clamb test.lsh
+```
+This will generate test.obj upon successful compilation.
+
+### Run lambdish
+Run the following command to execute a lambdish obj file and see the output.
+```
+$ rlamb test.obj
+```
+
 ## Features
 Below are some of the main characteristics of the language.
 * Statically typed: Lambdish is a statically typed language and thus types are well defined and checked at compile time. 
@@ -16,7 +60,50 @@ Below are some of the main characteristics of the language.
 * Lambda functions: Complete support for anonymous functions and higher order functions.
 * Single output: In a Lambdish file, functions are declared first, and at the end a single function call can be made at the end of the file. The return value of that function is printed to standard output when the program is executed.
 
-### Operations
+## Usage
+This section describes how to compile and run your own lambdish programs.
+
+### Prerequisites
+You must have Go installed and configured in your system. For a guide on how to do this please follow this [guide](https://golang.org/doc/install).
+
+### Get the compiler
+Download the compiler to your computer by cloning this repository.
+```sh
+$ git clone https://github.com/Loptt/lambdish-compiler.git
+```
+
+### Install the commands
+Change into the newly cloned directory.
+```sh
+$ cd lambdish-compiler
+```
+
+Install the compiler command.
+```sh
+$ go install github.com/Loptt/lambdish-compiler/cmd/clamb
+```
+
+Install the execution command.
+```sh
+$ go install github.com/Loptt/lambdish-compiler/cmd/rlamb
+```
+
+`clamb` takes a lambdish source file (`lsh`) and transforms it into object code (`obj`).
+`rlamb` then takes an object code, executes it and prints its output.
+
+### Compile lambdish
+Run the following command to compile a lambdish source file.
+```sh
+$ clamb test.lsh
+```
+This will generate test.obj upon successful compilation.
+
+### Run lambdish
+Run the following command to execute a lambdish obj file and see the output.
+```
+$ rlamb test.obj
+```
+## Operations
 * `+` Add
 * `-` Subtract
 * `*` Multiply
@@ -192,7 +279,7 @@ func mergeSort :: [num] l => [num] (
 mergeSort([5,3,2,3,1])
 ```
 
-More examples can be found in the `examples` directory.
+More examples can be found in the [examples](https://github.com/Loptt/lambdish-compiler/blob/master/examples) directory.
 
 ## Main Contributors:
 * [Carlos Estrada](https://github.com/Loptt)
