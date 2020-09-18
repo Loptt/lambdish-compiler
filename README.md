@@ -46,8 +46,9 @@ Below are some of the main characteristics of the language.
 ### Lambdas
 A lambda function is declared with the following syntax.
 ```
-(# TYPE1 x => TYPE2 (BODY))
+(# TYPEN x => TYPE2 (BODY))
 ```
+Where TYPEN represents the types for the parameters of the functions (which can be more than 1, separated by commas) and TYPE2 represents the return value of the lambda function. For an example of a lambda function, check the filter example below.
 
 ## Examples
 A program that sums two numbers.
