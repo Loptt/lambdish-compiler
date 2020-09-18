@@ -195,5 +195,5 @@ mergeSort([5,3,2,3,1])
 More examples can be found in the `examples` directory.
 
 ## Main Contributors:
-* Carlos Estrada
-* Erick González
+* [Carlos Estrada](https://github.com/Loptt)
+* [Erick González](https://github.com/vsapiens)
