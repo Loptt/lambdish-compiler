@@ -51,7 +51,7 @@ Below are some of the main characteristics of the language.
 * Strongly typed: Operation type checking at compile time, and inmutability allows for easier programming.
 * Native operations: Lambdish provides a set of built in operations (functions) to provide arithmetic, relational, and logical operations, if-else operations, and other native operations.
 * Simple data types:
-  * Numbe (num): Any numberic value wether integer or float, positive or negative.
+  * Number (num): Any numeric value wether integer or float, positive or negative.
   * Character (char): Any alphanumeric element.
   * Boolean (bool): Classic boolean value, true or false.
 * More complex data types: 
@@ -60,49 +60,6 @@ Below are some of the main characteristics of the language.
 * Lambda functions: Complete support for anonymous functions and higher order functions.
 * Single output: In a Lambdish file, functions are declared first, and at the end a single function call can be made at the end of the file. The return value of that function is printed to standard output when the program is executed.
 
-## Usage
-This section describes how to compile and run your own lambdish programs.
-
-### Prerequisites
-You must have Go installed and configured in your system. For a guide on how to do this please follow this [guide](https://golang.org/doc/install).
-
-### Get the compiler
-Download the compiler to your computer by cloning this repository.
-```sh
-$ git clone https://github.com/Loptt/lambdish-compiler.git
-```
-
-### Install the commands
-Change into the newly cloned directory.
-```sh
-$ cd lambdish-compiler
-```
-
-Install the compiler command.
-```sh
-$ go install github.com/Loptt/lambdish-compiler/cmd/clamb
-```
-
-Install the execution command.
-```sh
-$ go install github.com/Loptt/lambdish-compiler/cmd/rlamb
-```
-
-`clamb` takes a lambdish source file (`lsh`) and transforms it into object code (`obj`).
-`rlamb` then takes an object code, executes it and prints its output.
-
-### Compile lambdish
-Run the following command to compile a lambdish source file.
-```sh
-$ clamb test.lsh
-```
-This will generate test.obj upon successful compilation.
-
-### Run lambdish
-Run the following command to execute a lambdish obj file and see the output.
-```
-$ rlamb test.obj
-```
 ## Operations
 * `+` Add
 * `-` Subtract
