@@ -94,7 +94,7 @@ A lambda function is declared with the following syntax.
 ```
 Where TYPEN represents the types for the parameters of the functions (which can be more than 1, separated by commas) and TYPE2 represents the return value of the lambda function. For an example of a lambda function, check the filter example below.
 
-For a more details in the Lambdish syntax, you can consult the grammer definition for the language in [grammar/lambdish.ebnf](https://github.com/Loptt/lambdish-compiler/blob/master/grammar/lambdish.ebnf), which describes the grammar in EBNF syntax, as well as the tokens.
+For a more details in the Lambdish syntax, you can consult the grammar definition for the language in [grammar/lambdish.ebnf](https://github.com/Loptt/lambdish-compiler/blob/master/grammar/lambdish.ebnf), which describes the grammar in EBNF syntax, as well as the tokens.
 
 ## Examples
 A program that sums two numbers.
