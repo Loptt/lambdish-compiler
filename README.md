@@ -238,6 +238,10 @@ mergeSort([5,3,2,3,1])
 
 More examples can be found in the [examples](https://github.com/Loptt/lambdish-compiler/blob/master/examples) directory.
 
+## Video Tutorial
+
+Small video tutorial in spanish of a sample program can be found [here](https://drive.google.com/file/d/1Hr8IU5pF8xBGNyOdQBs8KrM68Zn82JsP/view?usp=sharing) (English version coming soon).
+
 ## Main Contributors:
 * [Carlos Estrada](https://github.com/Loptt)
 * [Erick González](https://github.com/vsapiens)
