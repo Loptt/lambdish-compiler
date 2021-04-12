@@ -47,6 +47,7 @@ $ rlamb test.obj
 
 ## Features
 Below are some of the main characteristics of the language.
+* Single output: In a Lambdish file, functions are declared first, and at the end a single function call can be made at the end of the file. The return value of that function is printed to standard output when the program is executed.
 * Statically typed: Lambdish is a statically typed language and thus types are well defined and checked at compile time. 
 * Strongly typed: Operation type checking at compile time, and inmutability allows for easier programming.
 * Native operations: Lambdish provides a set of built in operations (functions) to provide arithmetic, relational, and logical operations, if-else operations, and other native operations.
@@ -58,7 +59,6 @@ Below are some of the main characteristics of the language.
   * Lists: Lambdish supports lists of any of the forementioned types, as well as list types. Thus, allowing for nested lists of any level.
   * Functions: As a functional programming language, functions can be used as data types. The specific type of a function is defined by it's parameters and return type.
 * Lambda functions: Complete support for anonymous functions and higher order functions.
-* Single output: In a Lambdish file, functions are declared first, and at the end a single function call can be made at the end of the file. The return value of that function is printed to standard output when the program is executed.
 
 ## Operations
 * `+` Add
