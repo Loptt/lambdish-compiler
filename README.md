@@ -8,11 +8,11 @@ This section describes how to run your own lambdish programs.
 You must have Go installed and configured in your system. For a guide on how to do this please follow this [guide](https://golang.org/doc/install).
 
 ### Configure your PATH and GOPATH
-The GOPATH is the directory where Go installs binaries by default. Add this to your regular PATH variable to access Go installed binaries from anywhere. First check the value of your $GOPATH by running the following command
+The GOPATH is the directory where Go installs binaries by default. Add this to your regular PATH variable to access Go installed binaries from anywhere. First check the value of your GOPATH by running the following command.
 ```sh
 $ go env
 ```
-Look for the line containing GOPATH, and the value to the right is what we are looking for. In linux systems, this path is usually under $HOME/go/bin. Now, to add this value to your PATH, in linux systems you can modify the $HOME/.profile file and add a line at the end like the following.
+Look for the line containing GOPATH, and the value to the right is what we are looking for. In linux systems, this path is usually something like $HOME/go/bin. Now, to add this value to your PATH, in linux systems you can modify the $HOME/.profile file and add a line at the end like the following.
 ```sh
 $ export PATH=$PATH:$HOME/go/bin
 ```
