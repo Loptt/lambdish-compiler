@@ -2,26 +2,16 @@
 Lambdish is a compiled functional programming language inspired on other functional languages such as Racket and Haskell. It's main purpose is to provide a simple experiece of functional programming, while keeping complexity at a minimal. Thus, it is meant to be an introduction to the functional world for programmers of other paradigms.
 
 ## Usage
-This section describes how to compile and run your own lambdish programs.
+This section describes how to run your own lambdish programs.
 
 ### Prerequisites
 You must have Go installed and configured in your system. For a guide on how to do this please follow this [guide](https://golang.org/doc/install).
 
-### Get the compiler
-Download the compiler to your computer by cloning this repository.
-```sh
-$ git clone https://github.com/Loptt/lambdish-compiler.git
-```
-
 ### Install the commands
-Change into the newly cloned directory.
-```sh
-$ cd lambdish-compiler
-```
 
 Install the compiler command.
 ```sh
-$ go install github.com/Loptt/lambdish-compiler/cmd/clamb
+$ go get github.com/Loptt/lambdish-compiler/cmd/clamb
 ```
 
 Install the execution command.
