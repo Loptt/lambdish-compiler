@@ -16,7 +16,7 @@ $ go get github.com/Loptt/lambdish-compiler/cmd/clamb
 
 Install the execution command.
 ```sh
-$ go install github.com/Loptt/lambdish-compiler/cmd/rlamb
+$ go get github.com/Loptt/lambdish-compiler/cmd/rlamb
 ```
 
 `clamb` takes a lambdish source file (`lsh`) and transforms it into object code (`obj`).
