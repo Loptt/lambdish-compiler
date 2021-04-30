@@ -49,9 +49,7 @@ func TestGrammar(t *testing.T) {
 
 		s := lexer.NewLexer(input)
 		program, errtest := p.Parse(s)
-
 		spew.Dump(program)
-
 		if errtest != nil {
 			t.Errorf("%s: %v", test, errtest)
 		}

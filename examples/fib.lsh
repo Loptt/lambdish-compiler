@@ -1,0 +1,3 @@
+func fib :: (num,num => num) f => num  (
+    f
+)
